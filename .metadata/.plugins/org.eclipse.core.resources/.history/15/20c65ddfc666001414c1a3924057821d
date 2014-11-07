@@ -1,0 +1,31 @@
+package se.qxx.fiatlux.server;
+
+import com.google.protobuf.RpcCallback;
+import com.google.protobuf.RpcController;
+
+import se.qxx.fiatlux.domain.FiatluxComm.Empty;
+import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
+import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
+
+public class FiatLuxServer extends FiatLuxService {
+
+	private static FiatLuxServerConnectin instance;
+	
+	@Override
+	public void list(RpcController controller, Empty request,
+			RpcCallback<ListOfDevices> done) {
+		
+		
+	}
+	
+	public static void main(String args[]) {
+		FiatLuxServerConnectin.initialize();
+		
+	}
+
+	private static void initialize() {
+		instance = new FiatLuxServerConnectin();
+		instance.start();
+	}
+
+}

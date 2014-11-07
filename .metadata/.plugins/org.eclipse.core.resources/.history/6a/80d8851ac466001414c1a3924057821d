@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    
+    <include file="../global_properties.xml" />
+    
+    <property name="build.dir" value="${fiatlux.domain.dir}/build" />
+    <property name="classes.dir" value="${build.dir}/classes" />
+    <property name="jar.file" value="se.qxx.fiatlux.domain.temp.jar" />
+
+    <target name="clean">
+    	<delete dir="${build.dir}" />
+    	<mkdir dir="${build.dir}" />
+    </target>
+    
+	<target name="protoc">
+	    <echo message="Running Proto compiler... srcDir: ${fiatlux.domain.src.dir}" />
+	    <exec executable="${fiatlux.protoc.comm}" dir="${fiatlux.domain.src.dir}" failonerror="true"f>
+	        <arg value="--java_out=." />
+	        <arg value="FiatluxComm.proto" />
+	    </exec>
+	</target>
+    
+    <target name="build" depends="protoc,clean">
+		<mkdir dir="${classes.dir}" />
+		<javac 
+		    srcdir="${fiatlux.domain.src.dir}" 
+		    destdir="${classes.dir}" 
+		    classpathref="fiatlux	.classpath" 
+		    includeantruntime="true" 
+		    debug="true"
+	    />
+
+    </target>
+    
+    
+</project>

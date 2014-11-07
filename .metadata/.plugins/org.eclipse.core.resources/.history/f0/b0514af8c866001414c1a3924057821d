@@ -1,0 +1,28 @@
+package se.qxx.fiatlux.server;
+
+import org.apache.commons.lang3.StringUtils;
+
+public class Arguments {
+	public boolean success = false;
+	public int port = 2151;
+	private Arguments _instance 
+	private Arguments() {
+		
+	}
+	
+	public static Arguments checkArguments(String commandargs[]) {
+		Arguments args = new Arguments();
+		
+		if (commandargs.length > 0) {
+			args.success = false;
+		}
+		else if (!StringUtils.isNumeric(commandargs[0])) {
+			args.success = false;
+		}
+		else {
+			args.port = Integer.parseInt(commandargs[0]);
+		}
+		
+		return args;
+	}
+}

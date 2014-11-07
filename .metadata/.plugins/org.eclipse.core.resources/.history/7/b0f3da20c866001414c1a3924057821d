@@ -1,0 +1,19 @@
+package se.qxx.fiatlux.server;
+
+import org.apache.commons.lang3.StringUtils;
+
+public class Arguments {
+	public boolean success = false;
+	public int port
+	public static Arguments checkArguments(String args[]) {
+		if (args.length > 0) {
+			printHelp();
+		}
+		else if (!StringUtils.isNumeric(args[0])) {
+			printHelp();
+		}
+		else {
+			
+		}
+	}
+}

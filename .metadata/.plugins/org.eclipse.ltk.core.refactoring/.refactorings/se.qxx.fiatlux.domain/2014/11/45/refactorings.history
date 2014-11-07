@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;se.qxx.fiatlux.domain/src/FiatluxComm&apos; to &apos;FiatluxComm.proto&apos;" description="Rename resource &apos;FiatluxComm&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/FiatluxComm" name="FiatluxComm.proto" stamp="1415393442261" updateReferences="true"/>
+</session>
