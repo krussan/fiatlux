@@ -1,0 +1,47 @@
+package se.qxx.fiatlux.server;
+
+import org.apache.commons.lang3.StringUtils;
+
+public class FiatLuxServer {
+	int port = 2151;
+	TcpListener _listener;
+	
+	public static void main(String commandargs[]) {
+		Arguments.initialize(commandargs);
+		
+		if (Arguments.get().isSuccess()) {
+			FiatLuxServer s = new FiatLuxServer();
+			s.initialize();
+		}
+		else {
+			printHelp();
+		}
+		
+		
+		
+	}
+	
+	private void initialize() {
+		setupListening();
+		
+	}
+
+
+
+	private void setupListening() {
+		try {
+			_listener = new TcpListener();
+			Thread t = new Thread(_listener);
+			t.start();
+		}
+		catch (Exception e) {
+			
+		}
+	}
+
+
+
+	public static void printHelp() {
+		System.out.println("HELP!");
+	}
+}

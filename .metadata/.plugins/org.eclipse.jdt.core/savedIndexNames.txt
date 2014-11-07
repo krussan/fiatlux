@@ -1,0 +1,7 @@
+INDEX VERSION 1.126+/home/ubuntu/workspace/fiatlux/trunk/.metadata/.plugins/org.eclipse.jdt.core
+249029078.index
+3596301109.index
+1806678831.index
+2982737891.index
+2395293739.index
+4078119467.index

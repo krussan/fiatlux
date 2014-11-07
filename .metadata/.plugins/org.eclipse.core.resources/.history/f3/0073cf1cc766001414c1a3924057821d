@@ -1,0 +1,7 @@
+package se.qxx.fiatlux.server;
+
+public class FiatLuxServer {
+	public static void main(String args[]) {
+		
+	}
+}

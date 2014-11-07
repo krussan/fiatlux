@@ -1,0 +1,26 @@
+package se.qxx.fiatlux.server;
+
+import org.apache.commons.lang3.StringUtils;
+
+public class FiatLuxServer {
+	public static void main(String args[]) {
+		checkArguments(args);
+		
+		setupListening();
+		
+	}
+	
+	public static void checkArguments(String args[]) {
+		if (args.length > 0) {
+			printHelp();
+		}
+		else if (!StringUtils.isNumeric(args[0])) {
+			printHelp();
+		}
+		if ()
+	}
+	
+	public static void printHelp() {
+		System.out.println("HELP!");
+	}
+}

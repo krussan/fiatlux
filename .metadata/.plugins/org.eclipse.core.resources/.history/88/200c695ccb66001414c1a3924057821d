@@ -1,0 +1,37 @@
+package se.qxx.fiatlux.server;
+
+import com.google.protobuf.RpcCallback;
+import com.google.protobuf.RpcController;
+import com.sun.jna.Native;
+
+import se.qxx.fiatlux.domain.FiatluxComm.Device;
+import se.qxx.fiatlux.domain.FiatluxComm.Empty;
+import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
+import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
+import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevicesOrBuilder;
+
+public class FiatLuxServerConnection extends FiatLuxService {
+	static TellstickLibrary lib;
+	
+	@Override
+	public void list(RpcController controller, Empty request,
+			RpcCallback<ListOfDevices> done) {
+		
+		initLib();
+		ListOfDevicesOrBuilder list = ListOfDevices.newBuilder();
+		
+		System.out.println("LIST DEVICES");
+
+		int nrOfDevices = lib.tdGetNumberOfDevices();
+		for (int i=1;i<=nrOfDevices;i++) {
+			String name = lib.tdGetName(i);
+			list.getDeviceList().add(Device.newBuilder().setDeviceID(i).setName(name).build());
+		}
+
+	}
+	
+	private void initLib() {
+		if (lib == null)
+			lib = (TellstickLibrary)Native.loadLibrary("libtelldus-core.so.2", TellstickLibrary.class);		
+	}
+}
