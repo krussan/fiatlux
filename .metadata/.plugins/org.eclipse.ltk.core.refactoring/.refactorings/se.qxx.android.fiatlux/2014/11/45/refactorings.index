@@ -1,1 +1,5 @@
 1415401311561	Delete element
+1415478751439	Encapsulate field 'initialized'
+1415478762153	Encapsulate field 'devices'
+1415478917357	Extract method 'assertInitialized'
+1415479087016	Encapsulate field 'context'

@@ -21,16 +21,18 @@ public class FiatLuxMainActivity extends Activity {
 			
 		initListView();
 
-		_jukeboxMovieLayoutAdapter = new MovieLayoutAdapter(this);
-		v.setAdapter(_jukeboxMovieLayoutAdapter);
-
-		Model.get().addEventListener(this);
 	}
 
 	private void initListView() {
 		ListView v = (ListView) findViewById(R.id.listMain);
 		//v.setOnItemClickListener(this);
 		//v.setOnItemLongClickListener(this);
+		
+
+		_jukeboxMovieLayoutAdapter = new MovieLayoutAdapter(this);
+		v.setAdapter(_jukeboxMovieLayoutAdapter);
+
+		Model.get().addEventListener(this);		
 	}
 	
 	@Override
