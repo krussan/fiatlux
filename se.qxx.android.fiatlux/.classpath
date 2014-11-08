@@ -5,8 +5,9 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/se.qxx.fiatlux.domain"/>
-	<classpathentry kind="lib" path="/home/ubuntu/workspace/fiatlux/lib/protobuf-2.4.1.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/se.qxx.fiatlux.domain"/>
 	<classpathentry kind="lib" path="/home/ubuntu/workspace/fiatlux/lib/protobuf-socket-rpc-2.0.jar"/>
+	<classpathentry kind="lib" path="/home/ubuntu/workspace/lib/android-tools-0.1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/ubuntu/workspace/fiatlux/lib/protobuf-java-2.6.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -71,11 +71,11 @@
 	            <expandproperties />
 	        </filterchain>
 	    </loadfile>
-	    
+	     
 	    <echo file="${script.file}" message="${script.template}" />	    
 	    
 	</target>
-	
+	  
 	<target name="createrunscript">
 	    <antcall target="createscript">
 	        <param name="script.class" value="${main-class}" />
