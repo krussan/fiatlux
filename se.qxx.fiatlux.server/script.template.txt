@@ -5,4 +5,4 @@ else
    LD_LIBRARY_PATH=$PWD
 fi
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-java -cp 'jna.jar:${jar.file}:protobuf-2.4.1.jar:commons-lang3-3.1.jar:protobuf-socket-rpc-2.0.jar' ${script.class} ${1+"$@"} &
+java -D:jna.boot.library.path=${jna.boot.library.path} -cp 'jna.jar:${jar.file}:protobuf-java-2.6.1.jar:commons-lang3-3.1.jar:protobuf-socket-rpc-2.0.jar' ${script.class} ${1+"$@"} &

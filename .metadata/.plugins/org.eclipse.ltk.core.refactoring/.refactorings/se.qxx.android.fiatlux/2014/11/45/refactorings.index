@@ -3,3 +3,5 @@
 1415478762153	Encapsulate field 'devices'
 1415478917357	Extract method 'assertInitialized'
 1415479087016	Encapsulate field 'context'
+1415481926462	Encapsulate field 'deviceLayoutAdapter'
+1415487995861	Delete element

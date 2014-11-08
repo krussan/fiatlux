@@ -6,4 +6,5 @@
 	<property name="fiatlux.root.dir" value="/home/ubuntu/workspace/fiatlux" />
 	<property name="fiatlux.key.file" value="/home/ubuntu/keys/ubuntudev_rsa" />
 	<property name="fiatlux.key.file.pass" value="hawaii" />
+	<property name="jna.boot.library.path" value="/usr/lib/jni" />
 </project>
