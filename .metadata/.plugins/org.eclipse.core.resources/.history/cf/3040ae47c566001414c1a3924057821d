@@ -1,7 +1,0 @@
-package se.qxx.fiatlux.server;
-
-import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
-
-public class FiatLuxServer extends FiatLuxService {
-
-}
