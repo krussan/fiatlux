@@ -1,9 +1,11 @@
 package se.qxx.android.fiatlux.client;
 
 import se.qxx.fiatlux.domain.FiatluxComm;
+import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import se.qxx.fiatlux.domain.FiatluxComm.Empty;
 import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
 import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
+import se.qxx.fiatlux.domain.FiatluxComm.Success;
 
 import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
@@ -50,9 +52,59 @@ public class FiatluxConnectionHandler {
 			}
 		};
 		t.start();
-		
-		
 	}
+	
+	public void turnOn(final Device d) {
+		turnOn(d, null);
+	}
+	
+	public void turnOn(final Device d, final RpcCallback<FiatluxComm.Success> rpcCallback) {
+		final RpcController controller = new SocketRpcController();
+
+		Thread t = new Thread() {
+			public void run() {
+				FiatLuxService service = FiatluxConnectionPool.get().getNonBlockingService();
+				
+				service.turnOn(controller, d, new RpcCallback<FiatluxComm.Success>() {
+					
+					@Override
+					public void run(Success s) {
+						onRequestComplete(controller);
+						if (rpcCallback != null) 				
+							rpcCallback.run(s);							
+					}
+				});
+			
+			}
+		};
+		t.start();
+	}	
+	
+	public void turnOff(final Device d) {
+		turnOff(d, null);
+	}
+	
+	public void turnOff(final Device d, final RpcCallback<FiatluxComm.Success> rpcCallback) {
+		final RpcController controller = new SocketRpcController();
+
+		Thread t = new Thread() {
+			public void run() {
+				FiatLuxService service = FiatluxConnectionPool.get().getNonBlockingService();
+				
+				service.turnOff(controller, d, new RpcCallback<FiatluxComm.Success>() {
+					
+					@Override
+					public void run(Success s) {
+						onRequestComplete(controller);
+						if (rpcCallback != null) 				
+							rpcCallback.run(s);							
+					}
+				});
+			
+			}
+		};
+		t.start();
+	}		
 
 	public FiatluxResponseListener getListener() {
 		return listener;

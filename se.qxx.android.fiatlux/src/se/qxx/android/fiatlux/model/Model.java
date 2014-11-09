@@ -47,16 +47,31 @@ public class Model {
 		
 		return _instance;
 	}
-
-	public void initialize(ListOfDevices dev) {
-		this.setDevices(dev);
-		this.setInitialized(true);
-	}
 	
 	public int countDevices() throws ModelNotInitializedException {
 		assertInitialized(); 
 		
 		return this.getDevices().getDeviceCount();
+	}
+	
+	public void setDevice(int index, Device d) throws ModelNotInitializedException {
+		assertInitialized();
+		
+		ListOfDevices list = ListOfDevices.newBuilder(this.getDevices())
+				.setDevice(index, d)
+				.build();
+		
+		this.setDevices(list);
+	}
+	
+	public void turnOn(int index) throws ModelNotInitializedException {
+		Device d = this.getDevice(index);
+		this.setDevice(index, Device.newBuilder(d).setIsOn(true).build());
+	}
+	
+	public void turnOff(int index) throws ModelNotInitializedException {
+		Device d = this.getDevice(index);
+		this.setDevice(index, Device.newBuilder(d).setIsOn(false).build());
 	}
 
 	public Device getDevice(int index) throws ModelNotInitializedException {
@@ -86,6 +101,10 @@ public class Model {
 
 	public void setDevices(ListOfDevices devices) {
 		this.devices = devices;
+		
+		if (this.devices != null)
+			this.setInitialized(true);
+		
 		this.fireModelUpdatedEvent();
 	}
 }

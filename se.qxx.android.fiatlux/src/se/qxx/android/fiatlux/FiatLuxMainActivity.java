@@ -8,8 +8,10 @@ import se.qxx.android.fiatlux.adapters.DeviceLayoutAdapter;
 import se.qxx.android.fiatlux.client.FiatluxConnectionHandler;
 import se.qxx.android.fiatlux.model.Model;
 import se.qxx.android.fiatlux.model.Model.ModelUpdatedEventListener;
+import se.qxx.android.fiatlux.model.ModelNotInitializedException;
 import se.qxx.android.tools.ProgressDialogHandler;
 import se.qxx.fiatlux.domain.FiatluxComm;
+import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
 import android.app.Activity;
 import android.app.ActionBar;
@@ -22,11 +24,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.os.Build;
 
 public class FiatLuxMainActivity extends Activity 
-	implements ModelUpdatedEventListener {
+	implements ModelUpdatedEventListener, OnItemClickListener {
 	private DeviceLayoutAdapter deviceLayoutAdapter;
 	private FiatluxConnectionHandler handler;
 	
@@ -42,10 +46,13 @@ public class FiatLuxMainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fiat_lux_main);
-			
+		Model.get().addEventListener(this);
+		
 		initConnection();
 		initModel();
 		initListView();
+		
+		
 
 	}
 
@@ -79,14 +86,12 @@ public class FiatLuxMainActivity extends Activity
 			}
 		});
 		t.run();
-		
-		
-		
+
 	}
 
 	private void initListView() {
 		ListView v = (ListView) findViewById(R.id.listMain);
-		//v.setOnItemClickListener(this);
+		v.setOnItemClickListener(this);
 		//v.setOnItemLongClickListener(this);
 		
 
@@ -126,6 +131,70 @@ public class FiatLuxMainActivity extends Activity
 			}
 		});
 		
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+		Device d;
+		try {
+			d = Model.get().getDevice(pos);
+		
+			if (d.getIsOn()) {
+				turnOff(d);
+				Model.get().turnOff(pos);
+			}
+			else {
+				turnOn(d);
+				Model.get().turnOn(pos);
+			}
+		} catch (ModelNotInitializedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void turnOn(final Device d) {
+		final ProgressDialog dg = new ProgressDialog(this);
+		final ProgressDialogHandler h = new ProgressDialogHandler(this,dg);
+		dg.show();
+		
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				handler.turnOn(d);
+				
+				Message msg = new Message();
+				Bundle b = new Bundle();
+				b.putBoolean("success", true);
+				b.putString("message", "success");
+				msg.setData(b);
+				h.sendMessage(msg);
+			}
+		});
+		t.run();
+	}
+	
+	private void turnOff(final Device d) {
+		final ProgressDialog dg = new ProgressDialog(this);
+		final ProgressDialogHandler h = new ProgressDialogHandler(this,dg);
+		dg.show();
+		
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				handler.turnOff(d);
+				
+				Message msg = new Message();
+				Bundle b = new Bundle();
+				b.putBoolean("success", true);
+				b.putString("message", "success");
+				msg.setData(b);
+				h.sendMessage(msg);
+			}
+		});
+		t.run();
 	}
 
 }

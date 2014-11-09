@@ -26,7 +26,7 @@ public class DeviceLayoutAdapter extends DeviceAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-View v = convertView; 
+		View v = convertView; 
 		
 		try {
 			

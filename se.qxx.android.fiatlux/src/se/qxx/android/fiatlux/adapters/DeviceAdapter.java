@@ -18,7 +18,7 @@ public abstract class DeviceAdapter extends BaseAdapter {
 				return Model.get().countDevices();
 			} catch (ModelNotInitializedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 				return 0;
 			}
 		}
