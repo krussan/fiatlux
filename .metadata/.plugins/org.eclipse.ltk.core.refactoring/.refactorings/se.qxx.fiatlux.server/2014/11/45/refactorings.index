@@ -1,5 +1,0 @@
-1415396469114	Rename type 'FiatLuxCommServer'
-1415396506510	Rename type 'FiatLuxServer'
-1415397741078	Encapsulate field 'success'
-1415397766854	Encapsulate field 'port'
-1415400070920	Encapsulate field 'errorMessage'

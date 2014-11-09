@@ -1,4 +1,0 @@
-package se.qxx.fiatlux.domain;
-
-option java_package = "se.qxx.fiatlux.domain";
-option java_generic_services = true;
