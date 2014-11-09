@@ -16,7 +16,7 @@ public class Arguments {
 		Arguments.get().setup(commandargs);
 	}
 	
-	private void setup(String commandargs[]) {
+	private void setup(String commandargs[]) { 
 		if (commandargs.length < 1) {
 			this.setErrorMessage("There must be at least one argument on the command line");
 			this.setSuccess(false);

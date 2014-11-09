@@ -25,8 +25,19 @@ public class FiatLuxServerConnection extends FiatLuxService {
 		int nrOfDevices = lib.tdGetNumberOfDevices();
 		for (int i=1;i<=nrOfDevices;i++) {
 			String name = lib.tdGetName(i);
-			list.getDeviceList().add(Device.newBuilder().setDeviceID(i).setName(name).build());
+			int last_cmd = lib.tdLastSentCommand(i, TellstickLibrary.TELLSTICK_TURNON | TellstickLibrary.TELLSTICK_TURNOFF);
+			
+			list.addDevice(Device.newBuilder()
+					.setDeviceID(i)
+					.setName(name)
+					.setIsOn(last_cmd == TellstickLibrary.TELLSTICK_TURNON)
+					.build());
+			
+			
+			
 		}
+		
+		
 
 		done.run(list.build());
 	}
