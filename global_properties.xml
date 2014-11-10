@@ -7,7 +7,7 @@
 	<property name="fiatlux.domain.dir" value="${fiatlux.solution.dir}/se.qxx.fiatlux.domain" />
 	<property name="fiatlux.domain.src.dir" value="${fiatlux.domain.dir}/src" />	
 
-	<property name="fiatlux.deploy.server" value="ULTRA" />
+	<property name="fiatlux.deploy.server" value="192.168.1.120" />
 	<property name="fiatlux.deploy.server.path" value="/c/media/Dev/src/fiatlux" />
 	<property name="fiatlux.deploy.server.path.apk" value="/c/media/Dev/src/jukebox-apk" />
 	<property name="fiatlux.deploy.user" value="chris" />
