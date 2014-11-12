@@ -1,23 +1,27 @@
 package se.qxx.fiatlux.server;
 
+import com.google.protobuf.Service;
+
 public class TcpListener implements Runnable {
 
 	private boolean isRunning = false;
 	private int port;
+	private Class<? extends Service> serviceType;
 	
-	public TcpListener(int port) {
-		this.port = port;
+	public TcpListener(int port, Class<? extends Service> serviceType) {
+		this.setPort(port);
+		this.setServiceType(serviceType);
 	}
 
 	@Override
 	public void run() {
 		isRunning = true;
 		
-		FiatLuxRpcServer server = new FiatLuxRpcServer(port);
-  
+		CommRpcServer server = new CommRpcServer(port);
+
 		//Log.Info(String.format("Starting up RPC server. Listening on port %s",  port), LogType.COMM);
 		try {
-			server.runServer(FiatLuxServerConnection.class);
+			server.runServer(this.getServiceType());
 		
 			while (isRunning) {
 				try {
@@ -29,6 +33,7 @@ public class TcpListener implements Runnable {
 				}				
 			}
 		} catch (InstantiationException | IllegalAccessException ex) {
+			ex.printStackTrace();
 			//Log.Error("Error occured when starting up RPC server", LogType.COMM, ex);
 		}
 
@@ -41,6 +46,20 @@ public class TcpListener implements Runnable {
 		this.isRunning = false;
 	}
 
-	
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	private Class<? extends Service> getServiceType() {
+		return serviceType;
+	}
+
+	private void setServiceType(Class<? extends Service> serviceType) {
+		this.serviceType = serviceType;
+	}	
 	
 }

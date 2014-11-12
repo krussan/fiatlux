@@ -1,5 +1,7 @@
 package se.qxx.android.fiatlux.client;
 
+import se.qxx.android.tools.ResponseListener;
+import se.qxx.android.tools.ResponseMessage;
 import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import se.qxx.fiatlux.domain.FiatluxComm.Empty;
@@ -13,13 +15,13 @@ import com.googlecode.protobuf.socketrpc.SocketRpcController;
 
 public class FiatluxConnectionHandler {
 	
-	private FiatluxResponseListener listener;
+	private ResponseListener listener;
 	
 	public FiatluxConnectionHandler(String serverIPaddress, int port) {
 		FiatluxConnectionPool.setup(serverIPaddress, port);
 	}
 	
-	public FiatluxConnectionHandler(String serverIPaddress, int port, FiatluxResponseListener listener) {
+	public FiatluxConnectionHandler(String serverIPaddress, int port, ResponseListener listener) {
 		FiatluxConnectionPool.setup(serverIPaddress, port);		
 		this.setListener(listener);
 	}
@@ -39,6 +41,7 @@ public class FiatluxConnectionHandler {
 				FiatLuxService service = FiatluxConnectionPool.get().getNonBlockingService();
 				
 				Empty request = Empty.newBuilder().build();
+				
 				service.list(controller, request, new RpcCallback<FiatluxComm.ListOfDevices>() {
 					
 					@Override
@@ -106,20 +109,20 @@ public class FiatluxConnectionHandler {
 		t.start();
 	}		
 
-	public FiatluxResponseListener getListener() {
+	public ResponseListener getListener() {
 		return listener;
 	}
 
-	public void setListener(FiatluxResponseListener listener) {
+	public void setListener(ResponseListener listener) {
 		this.listener = listener;
 	}	
 		
-	private FiatluxConnectionMessage checkResponse(RpcController controller) {
-		return new FiatluxConnectionMessage(!controller.failed(), controller.errorText());		
+	private ResponseMessage checkResponse(RpcController controller) {
+		return new ResponseMessage(!controller.failed(), controller.errorText());		
 	}
 	
 	private void onRequestComplete(RpcController controller) {
-		FiatluxConnectionMessage msg = checkResponse(controller);
+		ResponseMessage msg = checkResponse(controller);
 		
 		if (this.getListener() != null)
 			this.listener.onRequestComplete(msg);		
