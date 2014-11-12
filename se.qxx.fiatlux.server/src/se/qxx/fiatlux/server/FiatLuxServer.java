@@ -19,12 +19,11 @@ public class FiatLuxServer {
 
 	private void initialize() {
 		setupListening();
-		
 	}
 
 	private void setupListening() {
 		try {
-			_listener = new TcpListener(Arguments.get().getPort());
+			_listener = new TcpListener(Arguments.get().getPort(), FiatLuxServerConnection.class);
 			Thread t = new Thread(_listener);
 			t.start();
 		}
@@ -34,6 +33,10 @@ public class FiatLuxServer {
 	}
 
 	public static void printHelp() {
-		System.out.println("HELP!");
+		System.out.println("fiatlux-server");
+		System.out.println("	run.sh [port]");
+		System.out.println("		- port 		Specifices which port the server should listen to");
+		System.out.println("");
+		
 	}
 }

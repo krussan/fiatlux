@@ -1,6 +1,7 @@
 package se.qxx.android.fiatlux;
 
 import java.util.EventObject;
+import java.util.prefs.Preferences;
 
 import com.google.protobuf.RpcCallback;
 
@@ -9,6 +10,7 @@ import se.qxx.android.fiatlux.client.FiatluxConnectionHandler;
 import se.qxx.android.fiatlux.model.Model;
 import se.qxx.android.fiatlux.model.Model.ModelUpdatedEventListener;
 import se.qxx.android.fiatlux.model.ModelNotInitializedException;
+import se.qxx.android.tools.ConnectionProgressDialog;
 import se.qxx.android.tools.ProgressDialogHandler;
 import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
@@ -17,6 +19,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -27,12 +30,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.os.Build;
 
 public class FiatLuxMainActivity extends Activity 
 	implements ModelUpdatedEventListener, OnItemClickListener {
 	private DeviceLayoutAdapter deviceLayoutAdapter;
-	private FiatluxConnectionHandler handler;
 	
 	private DeviceLayoutAdapter getDeviceLayoutAdapter() {
 		return deviceLayoutAdapter;
@@ -46,9 +49,10 @@ public class FiatLuxMainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fiat_lux_main);
+		Settings.init(this);
+		
 		Model.get().addEventListener(this);
 		
-		initConnection();
 		initModel();
 		initListView();
 		
@@ -56,36 +60,24 @@ public class FiatLuxMainActivity extends Activity
 
 	}
 
-	private void initConnection() {
-		handler = new FiatluxConnectionHandler("192.168.1.125", 2151);
+	private FiatluxConnectionHandler getHandler(String message) {
+		return new FiatluxConnectionHandler(
+					Settings.get().getServerIpAddress(),
+					Settings.get().getServerPort(),
+					ConnectionProgressDialog.build(this, message));
+
 	}
 
 	private void initModel() {
-		final ProgressDialog d = new ProgressDialog(this);
-		final ProgressDialogHandler h = new ProgressDialogHandler(this,d);
-		d.show();
-		
-		Thread t = new Thread(new Runnable() {
+		FiatluxConnectionHandler h = getHandler("Getting devices...");
+
+		h.listDevices(new RpcCallback<FiatluxComm.ListOfDevices>() {
 			
 			@Override
-			public void run() {
-				handler.listDevices(new RpcCallback<FiatluxComm.ListOfDevices>() {
-					
-					@Override
-					public void run(ListOfDevices devices) {
-						Model.get().setDevices(devices);
-					}
-				});
-				
-				Message msg = new Message();
-				Bundle b = new Bundle();
-				b.putBoolean("success", true);
-				b.putString("message", "success");
-				msg.setData(b);
-				h.sendMessage(msg);
+			public void run(ListOfDevices devices) {
+				Model.get().setDevices(devices);
 			}
 		});
-		t.run();
 
 	}
 
@@ -116,9 +108,19 @@ public class FiatLuxMainActivity extends Activity
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			showPreferences();
 			return true;
 		}
+		
+		if (id == R.id.action_refresh) {
+			initModel();
+		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void showPreferences() {
+		Intent i = new Intent(this, SettingsActivity.class);
+		startActivity(i);
 	}
 
 	@Override
@@ -154,47 +156,12 @@ public class FiatLuxMainActivity extends Activity
 	}
 	
 	private void turnOn(final Device d) {
-		final ProgressDialog dg = new ProgressDialog(this);
-		final ProgressDialogHandler h = new ProgressDialogHandler(this,dg);
-		dg.show();
-		
-		Thread t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				handler.turnOn(d);
-				
-				Message msg = new Message();
-				Bundle b = new Bundle();
-				b.putBoolean("success", true);
-				b.putString("message", "success");
-				msg.setData(b);
-				h.sendMessage(msg);
-			}
-		});
-		t.run();
+		getHandler("Turning on device...").turnOn(d);
 	}
 	
 	private void turnOff(final Device d) {
-		final ProgressDialog dg = new ProgressDialog(this);
-		final ProgressDialogHandler h = new ProgressDialogHandler(this,dg);
-		dg.show();
-		
-		Thread t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				handler.turnOff(d);
-				
-				Message msg = new Message();
-				Bundle b = new Bundle();
-				b.putBoolean("success", true);
-				b.putString("message", "success");
-				msg.setData(b);
-				h.sendMessage(msg);
-			}
-		});
-		t.run();
+		getHandler("Turning off device...").turnOff(d);
+
 	}
 
 }
