@@ -6,13 +6,14 @@ import java.util.concurrent.Executors;
 import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
 
 import com.google.protobuf.RpcChannel;
+import com.google.protobuf.Service;
 import com.googlecode.protobuf.socketrpc.RpcChannels;
 import com.googlecode.protobuf.socketrpc.RpcConnectionFactory;
 import com.googlecode.protobuf.socketrpc.SocketRpcConnectionFactories;
 
-public class ClientConnectionPool {
+public class ClientConnectionPool<T extends Service> {
 
-	private static ClientConnectionPool instance;
+	private static ClientConnectionPool<? extends Service> instance;
 
 	public String getServerIPaddress() {
 		return serverIPaddress;
@@ -32,32 +33,23 @@ public class ClientConnectionPool {
 
 	private String serverIPaddress;
 	private int port;
-	private FiatLuxService service;
+	private T service;
 	
-	public FiatLuxService getNonBlockingService() {
+	public T getNonBlockingService() {
 		return service;
 	}
 	
-	public void setNonBlockingService(FiatLuxService service) {
+	public void setNonBlockingService(T service) {
 		this.service = service;
 	}	
 
-	private FiatluxConnectionPool() {
+	public ClientConnectionPool(String serverIPaddress, int port) {
+		this.setServerIPaddress(serverIPaddress);
+		this.setPort(port);
+		this.setupNonBlockingService();		
 	}
 	
-	public static void setup(String serverIPaddress, int port){
-		FiatluxConnectionPool.get().setServerIPaddress(serverIPaddress);
-		FiatluxConnectionPool.get().setPort(port);
-		FiatluxConnectionPool.get().setupNonBlockingService();
-	}
-
-	public static FiatluxConnectionPool get() {
-		if (instance == null)
-			instance = new FiatluxConnectionPool();
-		
-		return instance;
-	}
-	
+	@SuppressWarnings("unchecked")
 	private void setupNonBlockingService() {
 		ExecutorService threadPool = Executors.newFixedThreadPool(1);
 		
@@ -67,7 +59,7 @@ public class ClientConnectionPool {
     			
 		RpcChannel channel = RpcChannels.newRpcChannel(connectionFactory, threadPool);
 		
-		this.setNonBlockingService(FiatLuxService.newStub(channel));		
+		this.setNonBlockingService((T) FiatLuxService.newStub(channel));		
 	}
 
 }
