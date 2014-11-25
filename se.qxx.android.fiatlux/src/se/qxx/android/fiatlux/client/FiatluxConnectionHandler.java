@@ -16,13 +16,14 @@ import com.googlecode.protobuf.socketrpc.SocketRpcController;
 public class FiatluxConnectionHandler {
 	
 	private ResponseListener listener;
+	private ClientConnectionPool<FiatLuxService> connection = null;
 	
 	public FiatluxConnectionHandler(String serverIPaddress, int port) {
-		FiatluxConnectionPool.setup(serverIPaddress, port);
+		this.setConnection(new ClientConnectionPool<FiatluxComm.FiatLuxService>(serverIPaddress, port));
 	}
 	
 	public FiatluxConnectionHandler(String serverIPaddress, int port, ResponseListener listener) {
-		FiatluxConnectionPool.setup(serverIPaddress, port);		
+		this.setConnection(new ClientConnectionPool<FiatluxComm.FiatLuxService>(serverIPaddress, port));
 		this.setListener(listener);
 	}
 	
@@ -35,10 +36,11 @@ public class FiatluxConnectionHandler {
 			
 	public void listDevices(final RpcCallback<FiatluxComm.ListOfDevices> rpcCallback) {
 		final RpcController controller = new SocketRpcController();
-
+		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
+		
 		Thread t = new Thread() {
 			public void run() {
-				FiatLuxService service = FiatluxConnectionPool.get().getNonBlockingService();
+				FiatLuxService service = conn.getNonBlockingService();
 				
 				Empty request = Empty.newBuilder().build();
 				
@@ -63,10 +65,11 @@ public class FiatluxConnectionHandler {
 	
 	public void turnOn(final Device d, final RpcCallback<FiatluxComm.Success> rpcCallback) {
 		final RpcController controller = new SocketRpcController();
+		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
 
 		Thread t = new Thread() {
 			public void run() {
-				FiatLuxService service = FiatluxConnectionPool.get().getNonBlockingService();
+				FiatLuxService service = conn.getNonBlockingService();
 				
 				service.turnOn(controller, d, new RpcCallback<FiatluxComm.Success>() {
 					
@@ -89,10 +92,11 @@ public class FiatluxConnectionHandler {
 	
 	public void turnOff(final Device d, final RpcCallback<FiatluxComm.Success> rpcCallback) {
 		final RpcController controller = new SocketRpcController();
+		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
 
 		Thread t = new Thread() {
 			public void run() {
-				FiatLuxService service = FiatluxConnectionPool.get().getNonBlockingService();
+				FiatLuxService service = conn.getNonBlockingService();
 				
 				service.turnOff(controller, d, new RpcCallback<FiatluxComm.Success>() {
 					
@@ -126,6 +130,14 @@ public class FiatluxConnectionHandler {
 		
 		if (this.getListener() != null)
 			this.listener.onRequestComplete(msg);		
+	}
+
+	public ClientConnectionPool<FiatLuxService> getConnection() {
+		return connection;
+	}
+
+	public void setConnection(ClientConnectionPool<FiatLuxService> conn) {
+		this.connection = conn;
 	}
 
 
