@@ -56,6 +56,7 @@ public class FiatLuxServerConnection extends FiatLuxService {
 		System.out.println(String.format("Turning on device %s", deviceID));
 		lib.tdTurnOn(request.getDeviceID());
 		
+		done.run(Success.newBuilder().setSuccess(true).build());
 	}
 
 	@Override
@@ -66,6 +67,8 @@ public class FiatLuxServerConnection extends FiatLuxService {
 		int deviceID = request.getDeviceID();
 		System.out.println(String.format("Turning off device %s", deviceID));
 		lib.tdTurnOff(request.getDeviceID());
+		
+		done.run(Success.newBuilder().setSuccess(true).build());
 		
 	}
 }
