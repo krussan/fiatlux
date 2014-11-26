@@ -114,7 +114,7 @@ public class FiatluxConnectionHandler {
 	}		
 
 	public ResponseListener getListener() {
-		return listener;
+		return this.listener;
 	}
 
 	public void setListener(ResponseListener listener) {
@@ -129,7 +129,7 @@ public class FiatluxConnectionHandler {
 		ResponseMessage msg = checkResponse(controller);
 		
 		if (this.getListener() != null)
-			this.listener.onRequestComplete(msg);		
+			this.getListener().onRequestComplete(msg);		
 	}
 
 	public ClientConnectionPool<FiatLuxService> getConnection() {
