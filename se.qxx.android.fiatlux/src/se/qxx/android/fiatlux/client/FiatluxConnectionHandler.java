@@ -1,9 +1,11 @@
 package se.qxx.android.fiatlux.client;
 
+import se.qxx.android.fiatlux.DimmerActivity;
 import se.qxx.android.tools.ResponseListener;
 import se.qxx.android.tools.ResponseMessage;
 import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
+import se.qxx.fiatlux.domain.FiatluxComm.DimCommand;
 import se.qxx.fiatlux.domain.FiatluxComm.Empty;
 import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
 import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
@@ -99,6 +101,39 @@ public class FiatluxConnectionHandler {
 				FiatLuxService service = conn.getNonBlockingService();
 				
 				service.turnOff(controller, d, new RpcCallback<FiatluxComm.Success>() {
+					
+					@Override
+					public void run(Success s) {
+						onRequestComplete(controller);
+						if (rpcCallback != null) 				
+							rpcCallback.run(s);							
+					}
+				});
+			
+			}
+		};
+		t.start();
+	}
+	
+	public void dim(final Device d, int percentage) {
+		dim(d, percentage, null);
+	}
+	
+	public void dim(final Device d, final int percentage, final RpcCallback<FiatluxComm.Success> rpcCallback) {
+		final RpcController controller = new SocketRpcController();
+		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
+
+		Thread t = new Thread() {
+			public void run() {
+				FiatLuxService service = conn.getNonBlockingService();
+				
+				DimCommand comm = 
+						DimCommand.newBuilder()
+						.setDevice(d)
+						.setDimPercentage(percentage)
+						.build();
+				
+				service.dim(controller, comm, new RpcCallback<FiatluxComm.Success>() {
 					
 					@Override
 					public void run(Success s) {
