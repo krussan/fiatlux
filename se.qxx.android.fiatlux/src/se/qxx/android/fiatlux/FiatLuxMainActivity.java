@@ -14,6 +14,7 @@ import se.qxx.android.tools.ConnectionProgressDialog;
 import se.qxx.android.tools.ProgressDialogHandler;
 import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
+import se.qxx.fiatlux.domain.FiatluxComm.DeviceType;
 import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
 import android.app.Activity;
 import android.app.ActionBar;
@@ -60,16 +61,8 @@ public class FiatLuxMainActivity extends Activity
 
 	}
 
-	private FiatluxConnectionHandler getHandler(String message) {
-		return new FiatluxConnectionHandler(
-					Settings.get().getServerIpAddress(),
-					Settings.get().getServerPort(),
-					ConnectionProgressDialog.build(this, message));
-
-	}
-
 	private void initModel() {
-		FiatluxConnectionHandler h = getHandler("Getting devices...");
+		FiatluxConnectionHandler h = OnOffHandler.getHandler(this, "Getting devices...");
 
 		h.listDevices(new RpcCallback<FiatluxComm.ListOfDevices>() {
 			
@@ -110,10 +103,10 @@ public class FiatLuxMainActivity extends Activity
 		if (id == R.id.action_settings) {
 			showPreferences();
 			return true;
-		}
+		} 
 		
 		if (id == R.id.action_refresh) {
-			initModel();
+			initModel(); 
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -140,28 +133,20 @@ public class FiatLuxMainActivity extends Activity
 		Device d;
 		try {
 			d = Model.get().getDevice(pos);
-		
-			if (d.getIsOn()) {
-				turnOff(d);
-				Model.get().turnOff(pos);
+			
+			if (d.getType() == DeviceType.dimmer) {
+				Intent i = new Intent(this, DimmerActivity.class);
+				i.putExtra("DeviceID", pos);
+				startActivity(i);
 			}
 			else {
-				turnOn(d);
-				Model.get().turnOn(pos);
+				OnOffHandler.handleClick(this, pos);
 			}
 		} catch (ModelNotInitializedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	private void turnOn(final Device d) {
-		getHandler("Turning on device...").turnOn(d);
-	}
-	
-	private void turnOff(final Device d) {
-		getHandler("Turning off device...").turnOff(d);
 
-	}
 
 }

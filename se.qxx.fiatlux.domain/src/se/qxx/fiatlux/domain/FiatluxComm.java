@@ -8,6 +8,75 @@ public final class FiatluxComm {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public enum DeviceType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    onoffswitch(0, 1),
+    dimmer(1, 2),
+    ;
+    
+    public static final int onoffswitch_VALUE = 1;
+    public static final int dimmer_VALUE = 2;
+    
+    
+    public final int getNumber() { return value; }
+    
+    public static DeviceType valueOf(int value) {
+      switch (value) {
+        case 1: return onoffswitch;
+        case 2: return dimmer;
+        default: return null;
+      }
+    }
+    
+    public static com.google.protobuf.Internal.EnumLiteMap<DeviceType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<DeviceType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<DeviceType>() {
+            public DeviceType findValueByNumber(int number) {
+              return DeviceType.valueOf(number);
+            }
+          };
+    
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return se.qxx.fiatlux.domain.FiatluxComm.getDescriptor().getEnumTypes().get(0);
+    }
+    
+    private static final DeviceType[] VALUES = {
+      onoffswitch, dimmer, 
+    };
+    
+    public static DeviceType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+    
+    private final int index;
+    private final int value;
+    
+    private DeviceType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+    
+    // @@protoc_insertion_point(enum_scope:se.qxx.fiatlux.domain.DeviceType)
+  }
+  
   public interface EmptyOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
   }
@@ -644,6 +713,10 @@ public final class FiatluxComm {
     // required bool IsOn = 3;
     boolean hasIsOn();
     boolean getIsOn();
+    
+    // required .se.qxx.fiatlux.domain.DeviceType Type = 4;
+    boolean hasType();
+    se.qxx.fiatlux.domain.FiatluxComm.DeviceType getType();
   }
   public static final class Device extends
       com.google.protobuf.GeneratedMessage
@@ -726,10 +799,21 @@ public final class FiatluxComm {
       return isOn_;
     }
     
+    // required .se.qxx.fiatlux.domain.DeviceType Type = 4;
+    public static final int TYPE_FIELD_NUMBER = 4;
+    private se.qxx.fiatlux.domain.FiatluxComm.DeviceType type_;
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    public se.qxx.fiatlux.domain.FiatluxComm.DeviceType getType() {
+      return type_;
+    }
+    
     private void initFields() {
       deviceID_ = 0;
       name_ = "";
       isOn_ = false;
+      type_ = se.qxx.fiatlux.domain.FiatluxComm.DeviceType.onoffswitch;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -748,6 +832,10 @@ public final class FiatluxComm {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -763,6 +851,9 @@ public final class FiatluxComm {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, isOn_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeEnum(4, type_.getNumber());
       }
       getUnknownFields().writeTo(output);
     }
@@ -784,6 +875,10 @@ public final class FiatluxComm {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, isOn_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, type_.getNumber());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -915,6 +1010,8 @@ public final class FiatluxComm {
         bitField0_ = (bitField0_ & ~0x00000002);
         isOn_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        type_ = se.qxx.fiatlux.domain.FiatluxComm.DeviceType.onoffswitch;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       
@@ -965,6 +1062,10 @@ public final class FiatluxComm {
           to_bitField0_ |= 0x00000004;
         }
         result.isOn_ = isOn_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.type_ = type_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -990,6 +1091,9 @@ public final class FiatluxComm {
         if (other.hasIsOn()) {
           setIsOn(other.getIsOn());
         }
+        if (other.hasType()) {
+          setType(other.getType());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1004,6 +1108,10 @@ public final class FiatluxComm {
           return false;
         }
         if (!hasIsOn()) {
+          
+          return false;
+        }
+        if (!hasType()) {
           
           return false;
         }
@@ -1046,6 +1154,17 @@ public final class FiatluxComm {
             case 24: {
               bitField0_ |= 0x00000004;
               isOn_ = input.readBool();
+              break;
+            }
+            case 32: {
+              int rawValue = input.readEnum();
+              se.qxx.fiatlux.domain.FiatluxComm.DeviceType value = se.qxx.fiatlux.domain.FiatluxComm.DeviceType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(4, rawValue);
+              } else {
+                bitField0_ |= 0x00000008;
+                type_ = value;
+              }
               break;
             }
           }
@@ -1128,6 +1247,30 @@ public final class FiatluxComm {
       public Builder clearIsOn() {
         bitField0_ = (bitField0_ & ~0x00000004);
         isOn_ = false;
+        onChanged();
+        return this;
+      }
+      
+      // required .se.qxx.fiatlux.domain.DeviceType Type = 4;
+      private se.qxx.fiatlux.domain.FiatluxComm.DeviceType type_ = se.qxx.fiatlux.domain.FiatluxComm.DeviceType.onoffswitch;
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public se.qxx.fiatlux.domain.FiatluxComm.DeviceType getType() {
+        return type_;
+      }
+      public Builder setType(se.qxx.fiatlux.domain.FiatluxComm.DeviceType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000008;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        type_ = se.qxx.fiatlux.domain.FiatluxComm.DeviceType.onoffswitch;
         onChanged();
         return this;
       }
@@ -1706,6 +1849,511 @@ public final class FiatluxComm {
     // @@protoc_insertion_point(class_scope:se.qxx.fiatlux.domain.ListOfDevices)
   }
   
+  public interface DimCommandOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // required .se.qxx.fiatlux.domain.Device Device = 1;
+    boolean hasDevice();
+    se.qxx.fiatlux.domain.FiatluxComm.Device getDevice();
+    se.qxx.fiatlux.domain.FiatluxComm.DeviceOrBuilder getDeviceOrBuilder();
+    
+    // required int32 DimPercentage = 2;
+    boolean hasDimPercentage();
+    int getDimPercentage();
+  }
+  public static final class DimCommand extends
+      com.google.protobuf.GeneratedMessage
+      implements DimCommandOrBuilder {
+    // Use DimCommand.newBuilder() to construct.
+    private DimCommand(Builder builder) {
+      super(builder);
+    }
+    private DimCommand(boolean noInit) {}
+    
+    private static final DimCommand defaultInstance;
+    public static DimCommand getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public DimCommand getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return se.qxx.fiatlux.domain.FiatluxComm.internal_static_se_qxx_fiatlux_domain_DimCommand_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return se.qxx.fiatlux.domain.FiatluxComm.internal_static_se_qxx_fiatlux_domain_DimCommand_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // required .se.qxx.fiatlux.domain.Device Device = 1;
+    public static final int DEVICE_FIELD_NUMBER = 1;
+    private se.qxx.fiatlux.domain.FiatluxComm.Device device_;
+    public boolean hasDevice() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public se.qxx.fiatlux.domain.FiatluxComm.Device getDevice() {
+      return device_;
+    }
+    public se.qxx.fiatlux.domain.FiatluxComm.DeviceOrBuilder getDeviceOrBuilder() {
+      return device_;
+    }
+    
+    // required int32 DimPercentage = 2;
+    public static final int DIMPERCENTAGE_FIELD_NUMBER = 2;
+    private int dimPercentage_;
+    public boolean hasDimPercentage() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public int getDimPercentage() {
+      return dimPercentage_;
+    }
+    
+    private void initFields() {
+      device_ = se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance();
+      dimPercentage_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasDevice()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDimPercentage()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getDevice().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, device_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, dimPercentage_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, device_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, dimPercentage_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static se.qxx.fiatlux.domain.FiatluxComm.DimCommand parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(se.qxx.fiatlux.domain.FiatluxComm.DimCommand prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements se.qxx.fiatlux.domain.FiatluxComm.DimCommandOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return se.qxx.fiatlux.domain.FiatluxComm.internal_static_se_qxx_fiatlux_domain_DimCommand_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return se.qxx.fiatlux.domain.FiatluxComm.internal_static_se_qxx_fiatlux_domain_DimCommand_fieldAccessorTable;
+      }
+      
+      // Construct using se.qxx.fiatlux.domain.FiatluxComm.DimCommand.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getDeviceFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        if (deviceBuilder_ == null) {
+          device_ = se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance();
+        } else {
+          deviceBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        dimPercentage_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return se.qxx.fiatlux.domain.FiatluxComm.DimCommand.getDescriptor();
+      }
+      
+      public se.qxx.fiatlux.domain.FiatluxComm.DimCommand getDefaultInstanceForType() {
+        return se.qxx.fiatlux.domain.FiatluxComm.DimCommand.getDefaultInstance();
+      }
+      
+      public se.qxx.fiatlux.domain.FiatluxComm.DimCommand build() {
+        se.qxx.fiatlux.domain.FiatluxComm.DimCommand result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private se.qxx.fiatlux.domain.FiatluxComm.DimCommand buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        se.qxx.fiatlux.domain.FiatluxComm.DimCommand result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public se.qxx.fiatlux.domain.FiatluxComm.DimCommand buildPartial() {
+        se.qxx.fiatlux.domain.FiatluxComm.DimCommand result = new se.qxx.fiatlux.domain.FiatluxComm.DimCommand(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (deviceBuilder_ == null) {
+          result.device_ = device_;
+        } else {
+          result.device_ = deviceBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.dimPercentage_ = dimPercentage_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof se.qxx.fiatlux.domain.FiatluxComm.DimCommand) {
+          return mergeFrom((se.qxx.fiatlux.domain.FiatluxComm.DimCommand)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(se.qxx.fiatlux.domain.FiatluxComm.DimCommand other) {
+        if (other == se.qxx.fiatlux.domain.FiatluxComm.DimCommand.getDefaultInstance()) return this;
+        if (other.hasDevice()) {
+          mergeDevice(other.getDevice());
+        }
+        if (other.hasDimPercentage()) {
+          setDimPercentage(other.getDimPercentage());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasDevice()) {
+          
+          return false;
+        }
+        if (!hasDimPercentage()) {
+          
+          return false;
+        }
+        if (!getDevice().isInitialized()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 10: {
+              se.qxx.fiatlux.domain.FiatluxComm.Device.Builder subBuilder = se.qxx.fiatlux.domain.FiatluxComm.Device.newBuilder();
+              if (hasDevice()) {
+                subBuilder.mergeFrom(getDevice());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setDevice(subBuilder.buildPartial());
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              dimPercentage_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required .se.qxx.fiatlux.domain.Device Device = 1;
+      private se.qxx.fiatlux.domain.FiatluxComm.Device device_ = se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          se.qxx.fiatlux.domain.FiatluxComm.Device, se.qxx.fiatlux.domain.FiatluxComm.Device.Builder, se.qxx.fiatlux.domain.FiatluxComm.DeviceOrBuilder> deviceBuilder_;
+      public boolean hasDevice() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public se.qxx.fiatlux.domain.FiatluxComm.Device getDevice() {
+        if (deviceBuilder_ == null) {
+          return device_;
+        } else {
+          return deviceBuilder_.getMessage();
+        }
+      }
+      public Builder setDevice(se.qxx.fiatlux.domain.FiatluxComm.Device value) {
+        if (deviceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          device_ = value;
+          onChanged();
+        } else {
+          deviceBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder setDevice(
+          se.qxx.fiatlux.domain.FiatluxComm.Device.Builder builderForValue) {
+        if (deviceBuilder_ == null) {
+          device_ = builderForValue.build();
+          onChanged();
+        } else {
+          deviceBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder mergeDevice(se.qxx.fiatlux.domain.FiatluxComm.Device value) {
+        if (deviceBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              device_ != se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance()) {
+            device_ =
+              se.qxx.fiatlux.domain.FiatluxComm.Device.newBuilder(device_).mergeFrom(value).buildPartial();
+          } else {
+            device_ = value;
+          }
+          onChanged();
+        } else {
+          deviceBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder clearDevice() {
+        if (deviceBuilder_ == null) {
+          device_ = se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance();
+          onChanged();
+        } else {
+          deviceBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      public se.qxx.fiatlux.domain.FiatluxComm.Device.Builder getDeviceBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getDeviceFieldBuilder().getBuilder();
+      }
+      public se.qxx.fiatlux.domain.FiatluxComm.DeviceOrBuilder getDeviceOrBuilder() {
+        if (deviceBuilder_ != null) {
+          return deviceBuilder_.getMessageOrBuilder();
+        } else {
+          return device_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          se.qxx.fiatlux.domain.FiatluxComm.Device, se.qxx.fiatlux.domain.FiatluxComm.Device.Builder, se.qxx.fiatlux.domain.FiatluxComm.DeviceOrBuilder> 
+          getDeviceFieldBuilder() {
+        if (deviceBuilder_ == null) {
+          deviceBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              se.qxx.fiatlux.domain.FiatluxComm.Device, se.qxx.fiatlux.domain.FiatluxComm.Device.Builder, se.qxx.fiatlux.domain.FiatluxComm.DeviceOrBuilder>(
+                  device_,
+                  getParentForChildren(),
+                  isClean());
+          device_ = null;
+        }
+        return deviceBuilder_;
+      }
+      
+      // required int32 DimPercentage = 2;
+      private int dimPercentage_ ;
+      public boolean hasDimPercentage() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public int getDimPercentage() {
+        return dimPercentage_;
+      }
+      public Builder setDimPercentage(int value) {
+        bitField0_ |= 0x00000002;
+        dimPercentage_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearDimPercentage() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        dimPercentage_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:se.qxx.fiatlux.domain.DimCommand)
+    }
+    
+    static {
+      defaultInstance = new DimCommand(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:se.qxx.fiatlux.domain.DimCommand)
+  }
+  
   public static abstract class FiatLuxService
       implements com.google.protobuf.Service {
     protected FiatLuxService() {}
@@ -1724,6 +2372,11 @@ public final class FiatluxComm {
       public abstract void turnOff(
           com.google.protobuf.RpcController controller,
           se.qxx.fiatlux.domain.FiatluxComm.Device request,
+          com.google.protobuf.RpcCallback<se.qxx.fiatlux.domain.FiatluxComm.Success> done);
+      
+      public abstract void dim(
+          com.google.protobuf.RpcController controller,
+          se.qxx.fiatlux.domain.FiatluxComm.DimCommand request,
           com.google.protobuf.RpcCallback<se.qxx.fiatlux.domain.FiatluxComm.Success> done);
       
     }
@@ -1755,6 +2408,14 @@ public final class FiatluxComm {
           impl.turnOff(controller, request, done);
         }
         
+        @java.lang.Override
+        public  void dim(
+            com.google.protobuf.RpcController controller,
+            se.qxx.fiatlux.domain.FiatluxComm.DimCommand request,
+            com.google.protobuf.RpcCallback<se.qxx.fiatlux.domain.FiatluxComm.Success> done) {
+          impl.dim(controller, request, done);
+        }
+        
       };
     }
     
@@ -1783,6 +2444,8 @@ public final class FiatluxComm {
               return impl.turnOn(controller, (se.qxx.fiatlux.domain.FiatluxComm.Device)request);
             case 2:
               return impl.turnOff(controller, (se.qxx.fiatlux.domain.FiatluxComm.Device)request);
+            case 3:
+              return impl.dim(controller, (se.qxx.fiatlux.domain.FiatluxComm.DimCommand)request);
             default:
               throw new java.lang.AssertionError("Can't get here.");
           }
@@ -1803,6 +2466,8 @@ public final class FiatluxComm {
               return se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance();
             case 2:
               return se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance();
+            case 3:
+              return se.qxx.fiatlux.domain.FiatluxComm.DimCommand.getDefaultInstance();
             default:
               throw new java.lang.AssertionError("Can't get here.");
           }
@@ -1822,6 +2487,8 @@ public final class FiatluxComm {
             case 1:
               return se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance();
             case 2:
+              return se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance();
+            case 3:
               return se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance();
             default:
               throw new java.lang.AssertionError("Can't get here.");
@@ -1844,6 +2511,11 @@ public final class FiatluxComm {
     public abstract void turnOff(
         com.google.protobuf.RpcController controller,
         se.qxx.fiatlux.domain.FiatluxComm.Device request,
+        com.google.protobuf.RpcCallback<se.qxx.fiatlux.domain.FiatluxComm.Success> done);
+    
+    public abstract void dim(
+        com.google.protobuf.RpcController controller,
+        se.qxx.fiatlux.domain.FiatluxComm.DimCommand request,
         com.google.protobuf.RpcCallback<se.qxx.fiatlux.domain.FiatluxComm.Success> done);
     
     public static final
@@ -1883,6 +2555,11 @@ public final class FiatluxComm {
             com.google.protobuf.RpcUtil.<se.qxx.fiatlux.domain.FiatluxComm.Success>specializeCallback(
               done));
           return;
+        case 3:
+          this.dim(controller, (se.qxx.fiatlux.domain.FiatluxComm.DimCommand)request,
+            com.google.protobuf.RpcUtil.<se.qxx.fiatlux.domain.FiatluxComm.Success>specializeCallback(
+              done));
+          return;
         default:
           throw new java.lang.AssertionError("Can't get here.");
       }
@@ -1903,6 +2580,8 @@ public final class FiatluxComm {
           return se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance();
         case 2:
           return se.qxx.fiatlux.domain.FiatluxComm.Device.getDefaultInstance();
+        case 3:
+          return se.qxx.fiatlux.domain.FiatluxComm.DimCommand.getDefaultInstance();
         default:
           throw new java.lang.AssertionError("Can't get here.");
       }
@@ -1922,6 +2601,8 @@ public final class FiatluxComm {
         case 1:
           return se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance();
         case 2:
+          return se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance();
+        case 3:
           return se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance();
         default:
           throw new java.lang.AssertionError("Can't get here.");
@@ -1988,6 +2669,21 @@ public final class FiatluxComm {
             se.qxx.fiatlux.domain.FiatluxComm.Success.class,
             se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance()));
       }
+      
+      public  void dim(
+          com.google.protobuf.RpcController controller,
+          se.qxx.fiatlux.domain.FiatluxComm.DimCommand request,
+          com.google.protobuf.RpcCallback<se.qxx.fiatlux.domain.FiatluxComm.Success> done) {
+        channel.callMethod(
+          getDescriptor().getMethods().get(3),
+          controller,
+          request,
+          se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance(),
+          com.google.protobuf.RpcUtil.generalizeCallback(
+            done,
+            se.qxx.fiatlux.domain.FiatluxComm.Success.class,
+            se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance()));
+      }
     }
     
     public static BlockingInterface newBlockingStub(
@@ -2009,6 +2705,11 @@ public final class FiatluxComm {
       public se.qxx.fiatlux.domain.FiatluxComm.Success turnOff(
           com.google.protobuf.RpcController controller,
           se.qxx.fiatlux.domain.FiatluxComm.Device request)
+          throws com.google.protobuf.ServiceException;
+      
+      public se.qxx.fiatlux.domain.FiatluxComm.Success dim(
+          com.google.protobuf.RpcController controller,
+          se.qxx.fiatlux.domain.FiatluxComm.DimCommand request)
           throws com.google.protobuf.ServiceException;
     }
     
@@ -2054,6 +2755,18 @@ public final class FiatluxComm {
           se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance());
       }
       
+      
+      public se.qxx.fiatlux.domain.FiatluxComm.Success dim(
+          com.google.protobuf.RpcController controller,
+          se.qxx.fiatlux.domain.FiatluxComm.DimCommand request)
+          throws com.google.protobuf.ServiceException {
+        return (se.qxx.fiatlux.domain.FiatluxComm.Success) channel.callBlockingMethod(
+          getDescriptor().getMethods().get(3),
+          controller,
+          request,
+          se.qxx.fiatlux.domain.FiatluxComm.Success.getDefaultInstance());
+      }
+      
     }
   }
   
@@ -2077,6 +2790,11 @@ public final class FiatluxComm {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_se_qxx_fiatlux_domain_ListOfDevices_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_se_qxx_fiatlux_domain_DimCommand_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_se_qxx_fiatlux_domain_DimCommand_fieldAccessorTable;
   
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2088,16 +2806,22 @@ public final class FiatluxComm {
     java.lang.String[] descriptorData = {
       "\n\021FiatluxComm.proto\022\025se.qxx.fiatlux.doma" +
       "in\"\007\n\005Empty\"\032\n\007Success\022\017\n\007success\030\001 \002(\010\"" +
-      "6\n\006Device\022\020\n\010DeviceID\030\001 \002(\005\022\014\n\004Name\030\002 \002(" +
-      "\t\022\014\n\004IsOn\030\003 \002(\010\">\n\rListOfDevices\022-\n\006devi" +
-      "ce\030\001 \003(\0132\035.se.qxx.fiatlux.domain.Device2" +
-      "\357\001\n\016FiatLuxService\022J\n\004List\022\034.se.qxx.fiat" +
-      "lux.domain.Empty\032$.se.qxx.fiatlux.domain" +
-      ".ListOfDevices\022G\n\006TurnOn\022\035.se.qxx.fiatlu" +
-      "x.domain.Device\032\036.se.qxx.fiatlux.domain." +
-      "Success\022H\n\007TurnOff\022\035.se.qxx.fiatlux.doma",
-      "in.Device\032\036.se.qxx.fiatlux.domain.Succes" +
-      "sB\032\n\025se.qxx.fiatlux.domain\210\001\001"
+      "g\n\006Device\022\020\n\010DeviceID\030\001 \002(\005\022\014\n\004Name\030\002 \002(" +
+      "\t\022\014\n\004IsOn\030\003 \002(\010\022/\n\004Type\030\004 \002(\0162!.se.qxx.f" +
+      "iatlux.domain.DeviceType\">\n\rListOfDevice" +
+      "s\022-\n\006device\030\001 \003(\0132\035.se.qxx.fiatlux.domai" +
+      "n.Device\"R\n\nDimCommand\022-\n\006Device\030\001 \002(\0132\035" +
+      ".se.qxx.fiatlux.domain.Device\022\025\n\rDimPerc" +
+      "entage\030\002 \002(\005*)\n\nDeviceType\022\017\n\013onoffswitc" +
+      "h\020\001\022\n\n\006dimmer\020\0022\271\002\n\016FiatLuxService\022J\n\004Li",
+      "st\022\034.se.qxx.fiatlux.domain.Empty\032$.se.qx" +
+      "x.fiatlux.domain.ListOfDevices\022G\n\006TurnOn" +
+      "\022\035.se.qxx.fiatlux.domain.Device\032\036.se.qxx" +
+      ".fiatlux.domain.Success\022H\n\007TurnOff\022\035.se." +
+      "qxx.fiatlux.domain.Device\032\036.se.qxx.fiatl" +
+      "ux.domain.Success\022H\n\003Dim\022!.se.qxx.fiatlu" +
+      "x.domain.DimCommand\032\036.se.qxx.fiatlux.dom" +
+      "ain.SuccessB\032\n\025se.qxx.fiatlux.domain\210\001\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2125,7 +2849,7 @@ public final class FiatluxComm {
           internal_static_se_qxx_fiatlux_domain_Device_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_se_qxx_fiatlux_domain_Device_descriptor,
-              new java.lang.String[] { "DeviceID", "Name", "IsOn", },
+              new java.lang.String[] { "DeviceID", "Name", "IsOn", "Type", },
               se.qxx.fiatlux.domain.FiatluxComm.Device.class,
               se.qxx.fiatlux.domain.FiatluxComm.Device.Builder.class);
           internal_static_se_qxx_fiatlux_domain_ListOfDevices_descriptor =
@@ -2136,6 +2860,14 @@ public final class FiatluxComm {
               new java.lang.String[] { "Device", },
               se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices.class,
               se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices.Builder.class);
+          internal_static_se_qxx_fiatlux_domain_DimCommand_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_se_qxx_fiatlux_domain_DimCommand_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_se_qxx_fiatlux_domain_DimCommand_descriptor,
+              new java.lang.String[] { "Device", "DimPercentage", },
+              se.qxx.fiatlux.domain.FiatluxComm.DimCommand.class,
+              se.qxx.fiatlux.domain.FiatluxComm.DimCommand.Builder.class);
           return null;
         }
       };

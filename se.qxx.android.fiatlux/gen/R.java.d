@@ -1,5 +1,10 @@
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/gen/se/qxx/android/fiatlux/R.java \
- : /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/menu/fiat_lux_main.xml \
+ : /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/drawable-nodpi/knob.png \
+/home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/drawable-nodpi/stator.png \
+/home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/drawable-nodpi/rotoroff.png \
+/home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/drawable-nodpi/dots.png \
+/home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/drawable-nodpi/rotoron.png \
+/home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/menu/fiat_lux_main.xml \
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/drawable-mdpi/ic_launcher.png \
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/values/strings.xml \
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/values/dimens.xml \
@@ -12,5 +17,6 @@
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/drawable-hdpi/ic_launcher.png \
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/layout/item_fiat_lux_device.xml \
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/layout/activity_fiat_lux_main.xml \
+/home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/layout/dimmeractivity.xml \
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/res/drawable-xhdpi/ic_launcher.png \
 /home/ubuntu/workspace/fiatlux/trunk/se.qxx.android.fiatlux/bin/AndroidManifest.xml \

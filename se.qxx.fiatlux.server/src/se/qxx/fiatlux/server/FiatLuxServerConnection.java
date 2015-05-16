@@ -5,6 +5,8 @@ import com.google.protobuf.RpcController;
 import com.sun.jna.Native;
 
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
+import se.qxx.fiatlux.domain.FiatluxComm.DeviceType;
+import se.qxx.fiatlux.domain.FiatluxComm.DimCommand;
 import se.qxx.fiatlux.domain.FiatluxComm.Empty;
 import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
 import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
@@ -27,10 +29,16 @@ public class FiatLuxServerConnection extends FiatLuxService {
 			String name = lib.tdGetName(i);
 			int last_cmd = lib.tdLastSentCommand(i, TellstickLibrary.TELLSTICK_TURNON | TellstickLibrary.TELLSTICK_TURNOFF);
 			
+			int supportedMethods = TellstickLibrary.TELLSTICK_TURNOFF | TellstickLibrary.TELLSTICK_TURNON | TellstickLibrary.TELLSTICK_DIM;
+			int methods = lib.tdMethods(i, supportedMethods);
+			
+			DeviceType dt = ((methods & TellstickLibrary.TELLSTICK_DIM) == TellstickLibrary.TELLSTICK_DIM) ? DeviceType.dimmer : DeviceType.onoffswitch;
+			
 			list.addDevice(Device.newBuilder()
 					.setDeviceID(i)
 					.setName(name)
 					.setIsOn(last_cmd == TellstickLibrary.TELLSTICK_TURNON)
+					.setType(dt)
 					.build());
 			
 			
@@ -54,7 +62,7 @@ public class FiatLuxServerConnection extends FiatLuxService {
 		
 		int deviceID = request.getDeviceID();
 		System.out.println(String.format("Turning on device %s", deviceID));
-		lib.tdTurnOn(request.getDeviceID());
+		lib.tdTurnOn(deviceID);
 		
 		done.run(Success.newBuilder().setSuccess(true).build());
 	}
@@ -66,9 +74,25 @@ public class FiatLuxServerConnection extends FiatLuxService {
 		
 		int deviceID = request.getDeviceID();
 		System.out.println(String.format("Turning off device %s", deviceID));
-		lib.tdTurnOff(request.getDeviceID());
+		lib.tdTurnOff(deviceID);
 		
 		done.run(Success.newBuilder().setSuccess(true).build());
 		
+	}
+
+	@Override
+	public void dim(RpcController controller, DimCommand request,
+			RpcCallback<Success> done) {
+		
+		initLib();
+		int deviceID = request.getDevice().getDeviceID();
+		int percentage = request.getDimPercentage();
+		int level = 255 * percentage / 100;
+		
+		System.out.println(String.format("Dimming device %s to %s", deviceID, percentage));
+		lib.tdDim(deviceID, level);
+		
+		done.run(Success.newBuilder().setSuccess(true).build());
+
 	}
 }
