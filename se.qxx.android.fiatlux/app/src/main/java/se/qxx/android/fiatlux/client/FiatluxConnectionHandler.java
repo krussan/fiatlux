@@ -1,6 +1,6 @@
 package se.qxx.android.fiatlux.client;
 
-import se.qxx.android.fiatlux.DimmerActivity;
+import se.qxx.android.fiatlux.activities.DimmerActivity;
 import se.qxx.android.tools.ResponseListener;
 import se.qxx.android.tools.ResponseMessage;
 import se.qxx.fiatlux.domain.FiatluxComm;

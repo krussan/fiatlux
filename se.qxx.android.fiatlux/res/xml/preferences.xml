@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="Server settings">
-    <PreferenceCategory>
-        <EditTextPreference android:key="serverIpAddress" android:title="@string/settingServerIpAddressTitle" android:summary="@string/settingServerIpAddressDesc" android:defaultValue="@string/settingServerIpAddress"/>
-        <EditTextPreference android:key="serverPort" android:title="@string/settingServerPortTitle" android:summary="@string/settingServerPortDesc" android:defaultValue="@string/settingServerPort" />
-    </PreferenceCategory>
-</PreferenceScreen>
