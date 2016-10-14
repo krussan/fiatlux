@@ -2,8 +2,6 @@ package se.qxx.fiatlux.server;
 
 import java.util.concurrent.Executors;
 
-import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
-
 import com.google.protobuf.Service;
 import com.googlecode.protobuf.socketrpc.RpcServer;
 import com.googlecode.protobuf.socketrpc.ServerRpcConnectionFactory;
