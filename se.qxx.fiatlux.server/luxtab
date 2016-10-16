@@ -23,6 +23,6 @@ TIMEZONE Europe/Stockholm
 # R/S m h   dom mon dow 	command  			Descr
 # -   0 8   *   *   *   	turnon 1			Turn on device 1 at 08:00 all days of the week 
 # -   45 16 *   *   *		turnoff 1			Turn off device 1 at 16:45 all days of the week
-# R	  * *   *   *   *   	turnon 2			Turn on device 2 at sunrise
-# S   * *   *   *   *   	turnon 1			Turn on device 1 at sunset
+R	  * *   *   *   *   	turnon 2			Turn on device 2 at sunrise
+S   * *   *   *   *   	turnon 1			Turn on device 1 at sunset
 # -   15 6  *   *   1-5   	turnon 4			Turn on device 4 at 06:15 all weekdays
