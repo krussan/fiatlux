@@ -1,7 +1,11 @@
 # First column defines if the command should be issued on sunrise (R) or sunset (S)
-# If set to either of these the minutes and hours of the cron command will be ignored but the rest
-# will be handled
-# If set to other (-) this column is ignored
+# An offset to sunrise/sunset can be defined by setting a minus (-) or a plus (+) sign
+# after the R/S specification. If set to + the command will be issued later than the 
+# sunrise/sunset as specified by the hour/minutes specification of the cron pattern.
+# If set to minus sign (-) the command will be issued earlier by the same specification
+# If omitted the command will be issued at sunrise/sunset
+
+# If the first column is set to set to other (-) this column is ignored
 
 # Rest of the columns is defined as the cron command
 

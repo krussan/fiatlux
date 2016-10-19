@@ -76,6 +76,7 @@ public class FiatLuxServer {
 			logger.error("Error occured while reading file", ioex);
 		}
 		
+		scheduler.start();
 	}
 
 	private void setupListening() {
