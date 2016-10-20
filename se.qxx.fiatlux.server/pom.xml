@@ -4,7 +4,7 @@
 
   <groupId>se.qxx.fiatlux</groupId>
   <artifactId>fiatlux-server</artifactId>
-  <version>0.1.1</version>
+  <version>0.2.32</version>
   <packaging>jar</packaging>
 
   <name>fiatlux-server</name>
@@ -24,7 +24,7 @@
   <repositories>
     <repository>
       <id>krussan</id>
-      <name>protodb</name>
+      <name>krussan maven repo</name>
       <url>https://github.com/krussan/maven-repo/raw/master/</url>
     </repository>
   </repositories>
@@ -96,7 +96,7 @@
     <pluginRepository>
       <id>autoincrement-versions-maven-plugin</id>
       <name>autoincrement-versions-maven-plugin</name>
-      <url>http://autoincrement-versions-maven-plugin.googlecode.com/svn/repo</url>
+      <url>https://github.com/krussan/maven-repo/raw/master/</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
@@ -117,22 +117,6 @@
                 </configuration>
             </plugin>
         
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-install-plugin</artifactId>
-              <executions>
-                <execution>
-                  <phase>install</phase>
-                  <goals>
-                    <goal>install-file</goal>
-                  </goals>
-                  <configuration>
-                  	<localRepositoryPath>${targetRepo}</localRepositoryPath>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin>
-            
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-install-plugin</artifactId>
@@ -177,7 +161,7 @@
                       <goal>increment</goal>
                       <goal>commit</goal>
                     </goals>
-                    <phase>install</phase>
+                    <phase>package</phase>
                     <configuration>
                       <autoIncrementVersion>true</autoIncrementVersion>
                     </configuration>
@@ -208,6 +192,72 @@
 		  </executions>
 		</plugin>
 
+		<plugin>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<dependencies>
+				<dependency>
+				    <groupId>org.apache.ant</groupId>
+				    <artifactId>ant-jsch</artifactId>
+				    <version>1.9.7</version>
+				</dependency>
+			    
+			    <dependency>
+				    <groupId>com.jcraft</groupId>
+				    <artifactId>jsch</artifactId>
+				    <version>0.1.54</version>
+				</dependency>
+
+				<dependency>
+				    <groupId>ant-contrib</groupId>
+				    <artifactId>ant-contrib</artifactId>
+				    <version>1.0b3</version>
+				    <exclusions>
+				        <exclusion>
+				            <groupId>ant</groupId>
+				            <artifactId>ant</artifactId>
+				        </exclusion>
+				    </exclusions>
+				</dependency>
+				
+				<dependency>
+				    <groupId>ant</groupId>
+				    <artifactId>ant-nodeps</artifactId>
+				    <version>1.6.5</version>
+				</dependency>
+			
+			</dependencies>
+			<executions>
+				<execution>
+					<phase>package</phase>
+					<goals>
+						<goal>run</goal>
+					</goals>
+					<configuration>
+						<tasks>
+							<taskdef  resource="net/sf/antcontrib/antcontrib.properties"
+                                        classpathref="maven.plugin.classpath" />
+                                        
+										
+							<echo message="Deploy path :: ${settings.fiatlux.deploy.path}" />
+							<echoproperties />
+							
+							<scp  
+								todir="${settings.fiatlux.deploy.path}" 
+								trust="true"
+								username="${settings.fiatlux.deploy.user}"
+								keyfile="${settings.fiatlux.key.file}"
+								passphrase="${settings.fiatlux.key.file.pass}"
+							>
+		                      	<fileset dir="target">
+		                        	<include name="*.jar" />
+								</fileset>
+							</scp>
+							
+						</tasks>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
     </plugins>
 
   </build>

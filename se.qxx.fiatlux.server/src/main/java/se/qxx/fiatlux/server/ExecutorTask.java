@@ -76,7 +76,12 @@ public class ExecutorTask extends Task{
 		this.setFiatluxScheduler(fiatluxScheduler);
 		this.setSchedulingPattern(schedulingPattern);
 	}
-	
+
+	/***
+	 * Parses a line in and returns the cron pattern adjusted by 
+	 * sunrise and sunset if specifed
+	 * @return
+	 */
 	public String getCronPattern() {
 		String[] splits = this.getSchedulingPattern().split("\\s+");
 		String cronPattern = StringUtils.EMPTY;

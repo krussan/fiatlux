@@ -1,5 +1,8 @@
 package se.qxx.fiatlux.server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
 import com.sun.jna.Native;
@@ -14,14 +17,16 @@ import se.qxx.fiatlux.domain.FiatluxComm.Success;
 
 public class FiatLuxServerConnection extends FiatLuxService {
 	
-	
+    private static final Logger logger = LogManager.getLogger(FiatLuxServerConnection.class);
+
 	@Override
 	public void list(RpcController controller, Empty request,
 			RpcCallback<ListOfDevices> done) {
 		
 		ListOfDevices.Builder list = ListOfDevices.newBuilder();
 		
-		System.out.println("LIST DEVICES");
+		
+		logger.info("LIST DEVICES");
 
 		int nrOfDevices = FiatLuxServer.getNative().tdGetNumberOfDevices();
 		for (int i=1;i<=nrOfDevices;i++) {
@@ -55,7 +60,7 @@ public class FiatLuxServerConnection extends FiatLuxService {
 			RpcCallback<Success> done) {
 		
 		int deviceID = request.getDeviceID();
-		System.out.println(String.format("Turning on device %s", deviceID));
+		logger.info(String.format("Turning on device %s", deviceID));
 		FiatLuxServer.getNative().tdTurnOn(deviceID);
 		
 		done.run(Success.newBuilder().setSuccess(true).build());
@@ -66,7 +71,7 @@ public class FiatLuxServerConnection extends FiatLuxService {
 			RpcCallback<Success> done) {
 		
 		int deviceID = request.getDeviceID();
-		System.out.println(String.format("Turning off device %s", deviceID));
+		logger.info(String.format("Turning off device %s", deviceID));
 		FiatLuxServer.getNative().tdTurnOff(deviceID);
 		
 		done.run(Success.newBuilder().setSuccess(true).build());
@@ -81,7 +86,7 @@ public class FiatLuxServerConnection extends FiatLuxService {
 		int percentage = request.getDimPercentage();
 		int level = 255 * percentage / 100;
 		
-		System.out.println(String.format("Dimming device %s to %s", deviceID, percentage));
+		logger.info(String.format("Dimming device %s to %s", deviceID, percentage));
 		FiatLuxServer.getNative().tdDim(deviceID, level);
 		
 		done.run(Success.newBuilder().setSuccess(true).build());

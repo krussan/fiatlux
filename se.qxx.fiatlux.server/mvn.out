@@ -1,0 +1,188 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building fiatlux-server 0.2.31
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- protobuf-maven-plugin:0.5.0:compile (default) @ fiatlux-server ---
+[INFO] /home/chris/git/fiatlux/se.qxx.fiatlux.server/src/main/proto does not exist. Review the configuration or consider disabling the plugin.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ fiatlux-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.5.1:compile (default-compile) @ fiatlux-server ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- protobuf-maven-plugin:0.5.0:test-compile (default) @ fiatlux-server ---
+[INFO] /home/chris/git/fiatlux/se.qxx.fiatlux.server/src/test/proto does not exist. Review the configuration or consider disabling the plugin.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ fiatlux-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/chris/git/fiatlux/se.qxx.fiatlux.server/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.5.1:testCompile (default-testCompile) @ fiatlux-server ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ fiatlux-server ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ fiatlux-server ---
+[INFO] Building jar: /home/chris/git/fiatlux/se.qxx.fiatlux.server/target/fiatlux-server-0.2.31.jar
+[INFO] 
+[INFO] --- autoincrement-versions-maven-plugin:2.0-SNAPSHOT:increment (update-pom-versions) @ fiatlux-server ---
+[INFO] Searching for local aggregator root...
+[INFO] Local aggregation root: /home/chris/git/fiatlux/se.qxx.fiatlux.server
+[INFO] Processing se.qxx.fiatlux:fiatlux-server
+[INFO]     Updating project se.qxx.fiatlux:fiatlux-server
+[INFO]         from version 0.2.31 to 0.2.32
+[INFO] 
+[INFO] 
+[INFO] --- autoincrement-versions-maven-plugin:2.0-SNAPSHOT:commit (update-pom-versions) @ fiatlux-server ---
+[INFO] Accepting all changes to /home/chris/git/fiatlux/se.qxx.fiatlux.server/pom.xml
+[INFO] 
+[INFO] --- maven-assembly-plugin:2.2-beta-5:single (default) @ fiatlux-server ---
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] com/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] com/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/logging/ already added, skipping
+[INFO] org/apache/logging/log4j/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.logging.log4j/ already added, skipping
+[INFO] Building jar: /home/chris/git/fiatlux/se.qxx.fiatlux.server/target/fiatlux-server-0.2.31-jar-with-dependencies.jar
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] com/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] com/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/apache/ already added, skipping
+[INFO] org/apache/logging/ already added, skipping
+[INFO] org/apache/logging/log4j/ already added, skipping
+[INFO] META-INF/LICENSE already added, skipping
+[INFO] META-INF/NOTICE already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.apache.logging.log4j/ already added, skipping
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.3:run (default) @ fiatlux-server ---
+[INFO] Executing tasks
+     [echo] Deploy path :: ${settings.fiatlux.deploy.path}
+[echoproperties] #Ant properties
+[echoproperties] #Thu Oct 20 14:49:50 CEST 2016
+[echoproperties] java.runtime.name=OpenJDK Runtime Environment
+[echoproperties] sun.boot.library.path=/usr/lib/jvm/java-8-openjdk/jre/lib/amd64
+[echoproperties] java.vm.version=25.102-b14
+[echoproperties] ant.version=Apache Ant version 1.7.1 compiled on June 27 2008
+[echoproperties] ant.java.version=1.6
+[echoproperties] java.vm.vendor=Oracle Corporation
+[echoproperties] maven.multiModuleProjectDirectory=/home/chris/git/fiatlux/se.qxx.fiatlux.server
+[echoproperties] java.vendor.url=http\://java.oracle.com/
+[echoproperties] path.separator=\:
+[echoproperties] guice.disable.misplaced.annotation.check=true
+[echoproperties] java.vm.name=OpenJDK 64-Bit Server VM
+[echoproperties] file.encoding.pkg=sun.io
+[echoproperties] user.country=US
+[echoproperties] sun.java.launcher=SUN_STANDARD
+[echoproperties] sun.os.patch.level=unknown
+[echoproperties] java.vm.specification.name=Java Virtual Machine Specification
+[echoproperties] user.dir=/home/chris/git/fiatlux/se.qxx.fiatlux.server
+[echoproperties] java.runtime.version=1.8.0_102-b14
+[echoproperties] java.awt.graphicsenv=sun.awt.X11GraphicsEnvironment
+[echoproperties] basedir=/home/chris/git/fiatlux/se.qxx.fiatlux.server
+[echoproperties] java.endorsed.dirs=/usr/lib/jvm/java-8-openjdk/jre/lib/endorsed
+[echoproperties] os.arch=amd64
+[echoproperties] java.io.tmpdir=/tmp
+[echoproperties] ant.core.lib=/home/chris/.m2/repository/org/apache/ant/ant/1.7.1/ant-1.7.1.jar
+[echoproperties] line.separator=\n
+[echoproperties] java.vm.specification.vendor=Oracle Corporation
+[echoproperties] os.name=Linux
+[echoproperties] classworlds.conf=/opt/maven/bin/m2.conf
+[echoproperties] ant.project.name=DummyProject
+[echoproperties] sun.jnu.encoding=UTF-8
+[echoproperties] java.library.path=/usr/java/packages/lib/amd64\:/usr/lib64\:/lib64\:/lib\:/usr/lib
+[echoproperties] java.specification.name=Java Platform API Specification
+[echoproperties] java.class.version=52.0
+[echoproperties] sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+[echoproperties] os.version=4.7.6-1-ARCH
+[echoproperties] user.home=/home/chris
+[echoproperties] user.timezone=Europe/Stockholm
+[echoproperties] java.awt.printerjob=sun.print.PSPrinterJob
+[echoproperties] java.specification.version=1.8
+[echoproperties] file.encoding=UTF-8
+[echoproperties] user.name=chris
+[echoproperties] java.class.path=/opt/maven/boot/plexus-classworlds-2.5.2.jar
+[echoproperties] java.vm.specification.version=1.8
+[echoproperties] sun.java.command=org.codehaus.plexus.classworlds.launcher.Launcher package
+[echoproperties] sun.arch.data.model=64
+[echoproperties] java.home=/usr/lib/jvm/java-8-openjdk/jre
+[echoproperties] user.language=en
+[echoproperties] java.specification.vendor=Oracle Corporation
+[echoproperties] awt.toolkit=sun.awt.X11.XToolkit
+[echoproperties] java.vm.info=mixed mode
+[echoproperties] java.version=1.8.0_102
+[echoproperties] java.ext.dirs=/usr/lib/jvm/java-8-openjdk/jre/lib/ext\:/usr/java/packages/lib/ext
+[echoproperties] securerandom.source=file\:/dev/./urandom
+[echoproperties] sun.boot.class.path=/usr/lib/jvm/java-8-openjdk/jre/lib/resources.jar\:/usr/lib/jvm/java-8-openjdk/jre/lib/rt.jar\:/usr/lib/jvm/java-8-openjdk/jre/lib/sunrsasign.jar\:/usr/lib/jvm/java-8-openjdk/jre/lib/jsse.jar\:/usr/lib/jvm/java-8-openjdk/jre/lib/jce.jar\:/usr/lib/jvm/java-8-openjdk/jre/lib/charsets.jar\:/usr/lib/jvm/java-8-openjdk/jre/lib/jfr.jar\:/usr/lib/jvm/java-8-openjdk/jre/classes
+[echoproperties] java.vendor=Oracle Corporation
+[echoproperties] maven.home=/opt/maven
+[echoproperties] file.separator=/
+[echoproperties] java.vendor.url.bug=http\://bugreport.sun.com/bugreport/
+[echoproperties] sun.cpu.endian=little
+[echoproperties] sun.io.unicode.encoding=UnicodeLittle
+[echoproperties] sun.cpu.isalist=
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 11.411 s
+[INFO] Finished at: 2016-10-20T14:49:50+02:00
+[INFO] Final Memory: 19M/194M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-antrun-plugin:1.3:run (default) on project fiatlux-server: An Ant BuildException has occured: 'todir' and 'file' attributes must have syntax like the following: user:password@host:/path -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
