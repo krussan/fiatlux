@@ -39,23 +39,25 @@ public class FiatluxConnectionHandler {
 	public void listDevices(final RpcCallback<FiatluxComm.ListOfDevices> rpcCallback) {
 		final RpcController controller = new SocketRpcController();
 		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
-		
+
 		Thread t = new Thread() {
 			public void run() {
+
 				FiatLuxService service = conn.getNonBlockingService();
-				
+
 				Empty request = Empty.newBuilder().build();
-				
+
+
 				service.list(controller, request, new RpcCallback<FiatluxComm.ListOfDevices>() {
-					
+
 					@Override
 					public void run(ListOfDevices devices) {
 						onRequestComplete(controller);
-						if (rpcCallback != null) 				
-							rpcCallback.run(devices);							
+						if (rpcCallback != null)
+							rpcCallback.run(devices);
 					}
 				});
-			
+
 			}
 		};
 		t.start();
