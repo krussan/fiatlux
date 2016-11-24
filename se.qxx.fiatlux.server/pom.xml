@@ -4,7 +4,7 @@
 
   <groupId>se.qxx.fiatlux</groupId>
   <artifactId>fiatlux-server</artifactId>
-  <version>0.2.39</version>
+  <version>0.2.41</version>
   <packaging>jar</packaging>
 
   <name>fiatlux-server</name>
