@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -115,17 +116,15 @@ public class ExecutorTask extends Task{
 	}
 	
 	private String getSunriseSunsetCronPattern(String[] splits, String first, String cronPattern) {
-		Date d = getNextExecutingDate(cronPattern);
-		
-		Date time = getSunriseSunsetDate(first, d);
+		Date time = getSunriseSunsetDate(first);
 		Calendar c = adjustSunriseSunset(splits, time);
 		
 		logger.debug(String.format("Next expected run time is at %s", c.getTime().toString()));
-		
+			
 		// now we have the time
 		// reconstruct the cron pattern with this info
 		splits[1] = Integer.toString(c.get(Calendar.MINUTE));
-		splits[2] = Integer.toString(c.get(Calendar.HOUR));
+		splits[2] = Integer.toString(c.get(Calendar.HOUR_OF_DAY));
 		cronPattern = constructCronPattern(splits);
 		return cronPattern;
 	}
@@ -157,20 +156,31 @@ public class ExecutorTask extends Task{
 		return c;
 	}
 
-	private Date getSunriseSunsetDate(String first, Date d) {
-		Date sunriseSunset = Calendar.getInstance().getTime();
-	
+	private Date getSunriseSunsetDate(String first) {
+		Date now = Calendar.getInstance().getTime();
+		Date tomorrow = DateUtils.addDays(now, 1);
+		
 		if (StringUtils.startsWithIgnoreCase(first, "R")) {
-			sunriseSunset = getSunrise(d);
-			logger.debug(String.format("Official sunrise at %s", sunriseSunset));
+			Date sunRise = getSunrise(now);
+			logger.debug(String.format("Official sunrise at %s", sunRise));
+			
+			if (sunRise.after(now))
+				return getSunrise(tomorrow);
+			else
+				return sunRise;
 			
 		}
 		else if (StringUtils.startsWithIgnoreCase(first, "S")) {
-			sunriseSunset = getSunset(d);
-			logger.debug(String.format("Official sunset at %s", sunriseSunset));
+			Date sunSet = getSunset(now);
+			logger.debug(String.format("Official sunset at %s", sunSet));
+			
+			if (sunSet.before(now))
+				return getSunset(tomorrow);
+			else
+				return sunSet;
 		}
 		
-		return sunriseSunset;
+		return now;
 	}
 
 	private String constructCronPattern(String[] splits) {

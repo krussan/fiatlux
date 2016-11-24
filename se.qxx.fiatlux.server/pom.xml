@@ -4,7 +4,7 @@
 
   <groupId>se.qxx.fiatlux</groupId>
   <artifactId>fiatlux-server</artifactId>
-  <version>0.2.36</version>
+  <version>0.2.39</version>
   <packaging>jar</packaging>
 
   <name>fiatlux-server</name>
@@ -249,6 +249,7 @@
 							>
 		                      	<fileset dir="target">
 		                        	<include name="*.jar" />
+		                        	<include name="run.sh" />
 								</fileset>
 							</scp>
 							
