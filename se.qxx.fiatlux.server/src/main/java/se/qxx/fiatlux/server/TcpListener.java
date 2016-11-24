@@ -1,9 +1,14 @@
 package se.qxx.fiatlux.server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.protobuf.Service;
 
 public class TcpListener implements Runnable {
 
+	private static final Logger logger = LogManager.getLogger(FiatLuxServer.class);
+	
 	private boolean isRunning = false;
 	private int port;
 	private Class<? extends Service> serviceType;
@@ -19,7 +24,8 @@ public class TcpListener implements Runnable {
 		
 		CommRpcServer server = new CommRpcServer(port);
 
-		//Log.Info(String.format("Starting up RPC server. Listening on port %s",  port), LogType.COMM);
+		logger.info(String.format("Starting up RPC server. Listening on port %s",  port));
+		
 		try {
 			server.runServer(this.getServiceType());
 		
@@ -27,17 +33,16 @@ public class TcpListener implements Runnable {
 				try {
 					Thread.sleep(3000);
 
-				} catch (InterruptedException e) {
-					//Log.Error("RPC service interrupted", LogType.COMM, e);
+				} catch (Exception e) {
+					logger.error("RPC service interrupted", e);
 					this.isRunning = false;
 				}				
 			}
 		} catch (InstantiationException | IllegalAccessException ex) {
-			ex.printStackTrace();
-			//Log.Error("Error occured when starting up RPC server", LogType.COMM, ex);
+			logger.error("Error occured when starting up RPC server", ex);
 		}
 
-		//Log.Info("Stopping RPC server", LogType.COMM);
+		logger.info("Stopping RPC server");
 		server.stopServer();
 	}
 	

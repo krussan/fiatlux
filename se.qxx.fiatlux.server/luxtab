@@ -1,11 +1,7 @@
 # First column defines if the command should be issued on sunrise (R) or sunset (S)
-# An offset to sunrise/sunset can be defined by setting a minus (-) or a plus (+) sign
-# after the R/S specification. If set to + the command will be issued later than the 
-# sunrise/sunset as specified by the hour/minutes specification of the cron pattern.
-# If set to minus sign (-) the command will be issued earlier by the same specification
-# If omitted the command will be issued at sunrise/sunset
-
-# If the first column is set to set to other (-) this column is ignored
+# If set to either of these the minutes and hours of the cron command will be ignored but the rest
+# will be handled
+# If set to other (-) this column is ignored
 
 # Rest of the columns is defined as the cron command
 
@@ -27,6 +23,8 @@ TIMEZONE Europe/Stockholm
 # R/S m h   dom mon dow 	command  			Descr
 # -   0 8   *   *   *   	turnon 1			Turn on device 1 at 08:00 all days of the week 
 # -   45 16 *   *   *		turnoff 1			Turn off device 1 at 16:45 all days of the week
-# R	  * *   *   *   *   	turnon 2			Turn on device 2 at sunrise
-# S   * *   *   *   *   	turnon 1			Turn on device 1 at sunset
+-	30 6	*	*	*		turnon 2			Turn on device 2 at 06:30
+R+	0 1		*	*	*		turnoff 2			Turn off device at sunrise plus 1 hour
+S-   30 0   *   *   *   	turnon 1			Turn on device 1 at sunset minus 1 hour	 	
 # -   15 6  *   *   1-5   	turnon 4			Turn on device 4 at 06:15 all weekdays
+- * * * * * turnon 1
