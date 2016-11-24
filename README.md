@@ -10,7 +10,8 @@ A service for home automation using a Tellstick.
 here: http://elinux.org/R-Pi_Tellstick_core
 4. Set up your receivers in /etc/tellstick.conf.
 5. clone the repo and do "mvn package"
-6. start the service using "run.sh <port>". the port number being the 
+6. start the service using "run.sh &lt;port&gt;". the port number being 
+the 
 port that the android app uses to communicate with the service on the 
 local network.
 7. Download the app and install it on your android phone
