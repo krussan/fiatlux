@@ -198,7 +198,7 @@
 				<dependency>
 				    <groupId>org.apache.ant</groupId>
 				    <artifactId>ant-jsch</artifactId>
-				    <version>1.9.7</version>
+				    <version>1.8.0</version>
 				</dependency>
 			    
 			    <dependency>
@@ -218,12 +218,6 @@
 				        </exclusion>
 				    </exclusions>
 				</dependency>
-				
-				<dependency>
-				    <groupId>ant</groupId>
-				    <artifactId>ant-nodeps</artifactId>
-				    <version>1.6.5</version>
-				</dependency>
 			
 			</dependencies>
 			<executions>
@@ -236,10 +230,30 @@
 						<tasks>
 							<taskdef  resource="net/sf/antcontrib/antcontrib.properties"
                                         classpathref="maven.plugin.classpath" />
-                                        
-										
-							<echo message="Deploy path :: ${fiatluxDeployPath}" />
-							<echoproperties />
+							<taskdef resource="net/sf/antcontrib/antlib.xml"
+                                        classpathref="maven.plugin.classpath" />
+
+							<condition property="doDeploy" else="false">
+								<isset property="fiatluxDeployServer" />
+							</condition>
+
+							<property name="jarFile" value="${project.build.finalName}-jar-with-dependencies.jar" />
+							<property name="build.dir" value="${project.build.directory}" />
+							<property name="base.dir" value="${project.basedir}" />
+							
+							<property name="fiatluxKeyFile" value="${fiatluxKeyFile}" />
+							<property name="fiatluxKeyFilePass" value="${fiatluxKeyFilePass}" />
+							<property name="fiatluxDeployUser" value="${fiatluxDeployUser}" />
+							<property name="fiatluxDeployPath" value="${fiatluxDeployPath}" />
+							<property name="fiatluxDeployServer" value="${fiatluxDeployServer}" />
+							
+
+							<echo message="Jar File :: ${jarFile}" />
+							<echo message="Project directory :: ${project.build.directory}" />
+							<echo message="Do deploy :: ${doDeploy}" />
+							<echo message="Deploy server :: ${fiatluxDeployServer}" />							
+							<ant antfile="build-mvn.xml" target="createrunscript" />							
+							<ant antfile="build-mvn.xml" target="deploy"	/>		
 							
 							<scp  
 								todir="${fiatluxDeployPath}" 
@@ -252,7 +266,7 @@
 		                        	<include name="run.sh" />
 								</fileset>
 							</scp>
-							
+
 						</tasks>
 					</configuration>
 				</execution>
