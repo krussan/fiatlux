@@ -4,7 +4,7 @@
 
   <groupId>se.qxx.fiatlux</groupId>
   <artifactId>fiatlux-server</artifactId>
-  <version>0.2.41</version>
+  <version>0.2.42</version>
   <packaging>jar</packaging>
 
   <name>fiatlux-server</name>
@@ -254,18 +254,6 @@
 							<echo message="Deploy server :: ${fiatluxDeployServer}" />							
 							<ant antfile="build-mvn.xml" target="createrunscript" />							
 							<ant antfile="build-mvn.xml" target="deploy"	/>		
-							
-							<scp  
-								todir="${fiatluxDeployPath}" 
-								trust="true"
-								keyfile="${fiatluxKeyFile}"
-								passphrase="${fiatluxKeyFilePass}"
-							>
-		                      	<fileset dir="target">
-		                        	<include name="*.jar" />
-		                        	<include name="run.sh" />
-								</fileset>
-							</scp>
 
 						</tasks>
 					</configuration>
