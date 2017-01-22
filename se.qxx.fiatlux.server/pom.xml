@@ -4,7 +4,7 @@
 
   <groupId>se.qxx.fiatlux</groupId>
   <artifactId>fiatlux-server</artifactId>
-  <version>0.2.42</version>
+  <version>0.2.45</version>
   <packaging>jar</packaging>
 
   <name>fiatlux-server</name>
@@ -233,10 +233,6 @@
 							<taskdef resource="net/sf/antcontrib/antlib.xml"
                                         classpathref="maven.plugin.classpath" />
 
-							<condition property="doDeploy" else="false">
-								<isset property="fiatluxDeployServer" />
-							</condition>
-
 							<property name="jarFile" value="${project.build.finalName}-jar-with-dependencies.jar" />
 							<property name="build.dir" value="${project.build.directory}" />
 							<property name="base.dir" value="${project.basedir}" />
@@ -247,7 +243,10 @@
 							<property name="fiatluxDeployPath" value="${fiatluxDeployPath}" />
 							<property name="fiatluxDeployServer" value="${fiatluxDeployServer}" />
 							
-
+							<condition property="doDeploy" else="false">
+								<isset property="fiatluxDeployServer" />
+							</condition>
+							
 							<echo message="Jar File :: ${jarFile}" />
 							<echo message="Project directory :: ${project.build.directory}" />
 							<echo message="Do deploy :: ${doDeploy}" />

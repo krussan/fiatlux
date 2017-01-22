@@ -50,7 +50,7 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
 	        
 	        if (d != null) {
                 Date dd = new Date(d.getNextScheduledTime());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
                 GUITools.setTextOnTextview(R.id.lblDeviceName, d.getName(), v);
                 GUITools.setTextOnTextview(R.id.txtNextSchedulingTime, sdf.format(dd), v);
