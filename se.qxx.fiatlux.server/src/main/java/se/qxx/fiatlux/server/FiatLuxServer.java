@@ -17,7 +17,7 @@ public class FiatLuxServer {
 	TcpListener _listener;
 	
     private static final Logger logger = LogManager.getLogger(FiatLuxServer.class);
-	private FiatluxScheduler scheduler;
+	private static FiatluxScheduler scheduler;
     
 	public static void main(String commandargs[]) {
 		Arguments.initialize(commandargs);
@@ -111,7 +111,8 @@ public class FiatLuxServer {
 		return lib;
 	}
 	
-	private void initLib() {
+	public static FiatluxScheduler getScheduler() {
+		return scheduler;
 	}
 
 }

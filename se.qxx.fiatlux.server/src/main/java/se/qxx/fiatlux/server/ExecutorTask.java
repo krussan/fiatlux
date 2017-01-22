@@ -72,6 +72,16 @@ public class ExecutorTask extends Task{
 	public void setFiatluxScheduler(FiatluxScheduler fiatluxScheduler) {
 		this.fiatluxScheduler = fiatluxScheduler;
 	}
+	
+	private long nextSchedulingTime;
+	public long getNextSchedulingTime() {
+		return nextSchedulingTime;
+	}
+
+	private void setNextSchedulingTime(long nextSchedulingTime) {
+		this.nextSchedulingTime = nextSchedulingTime;
+	}
+
 
 	public ExecutorTask(String schedulingPattern, FiatluxScheduler fiatluxScheduler) {
 		this.setFiatluxScheduler(fiatluxScheduler);
@@ -106,11 +116,14 @@ public class ExecutorTask extends Task{
 			//ExecutorTask t = getExecutorTask(this.getSchedulingPattern(), splits[6], splits[7]);
 			setup(splits[6], splits[7]);
 			
+			Predictor p = new Predictor(cronPattern);
+			this.setNextSchedulingTime(p.nextMatchingTime());
+			
 			if (logger.isDebugEnabled()) {
-				Predictor p = new Predictor(cronPattern);
 				logger.debug(String.format("Scheduling task at %s", p.nextMatchingDate().toString()));
 			}	
 		}
+		
 		
 		return cronPattern;
 	}

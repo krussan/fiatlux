@@ -1,27 +1,19 @@
 package se.qxx.fiatlux.server;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
-import com.luckycatlabs.sunrisesunset.dto.Location;
-
-import it.sauronsoftware.cron4j.CronParser;
-import it.sauronsoftware.cron4j.Predictor;
 import it.sauronsoftware.cron4j.Scheduler;
-import it.sauronsoftware.cron4j.SchedulingPattern;
-import it.sauronsoftware.cron4j.TaskTable;
-import se.qxx.fiatlux.server.ExecutorTask.ExecutorType;
 
 public class FiatluxScheduler {
 
     private static final Logger logger = LogManager.getLogger(FiatluxScheduler.class);
-
+    private List<ExecutorTask> listOfTasks = new ArrayList<ExecutorTask>();
+    
 	public Scheduler getScheduler() {
 		return scheduler;
 	}
@@ -78,6 +70,8 @@ public class FiatluxScheduler {
 		if (StringUtils.isNotEmpty(cronPattern)) {
 			String id = scheduler.schedule(cronPattern, t);	
 			t.setExecutingId(id);
+			
+			listOfTasks.add(t);
 		}
 		
 	}
@@ -90,6 +84,20 @@ public class FiatluxScheduler {
 	
 	public void stop() {
 		scheduler.stop();
+	}
+	
+	public long getNextSchedulingTime(int deviceId) {
+		long lowestExecutor = 0; 
+		for (ExecutorTask t : listOfTasks) {
+			int taskDeviceId = t.getDeviceId();
+			if (deviceId == taskDeviceId) {
+				if (lowestExecutor == 0 || t.getNextSchedulingTime() < lowestExecutor) {
+					lowestExecutor = t.getNextSchedulingTime();
+				}
+			}
+		}
+		
+		return lowestExecutor;
 	}
 
 }
