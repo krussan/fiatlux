@@ -27,6 +27,7 @@ message Device {
 	required string Name = 2;
 	required bool IsOn = 3;
 	required DeviceType Type = 4;
+	optional int64 nextScheduledTime = 5;
 }
 
 message ListOfDevices { 

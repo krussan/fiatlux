@@ -38,11 +38,14 @@ public class FiatLuxServerConnection extends FiatLuxService {
 			
 			DeviceType dt = ((methods & TellstickLibrary.TELLSTICK_DIM) == TellstickLibrary.TELLSTICK_DIM) ? DeviceType.dimmer : DeviceType.onoffswitch;
 			
+			long nextScheduling = FiatLuxServer.getScheduler().getNextSchedulingTime(i);
+			
 			list.addDevice(Device.newBuilder()
 					.setDeviceID(i)
 					.setName(name)
 					.setIsOn(last_cmd == TellstickLibrary.TELLSTICK_TURNON)
 					.setType(dt)
+					.setNextScheduledTime(nextScheduling)
 					.build());
 			
 			

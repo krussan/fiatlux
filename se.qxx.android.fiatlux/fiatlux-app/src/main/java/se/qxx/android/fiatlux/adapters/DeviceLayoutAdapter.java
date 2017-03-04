@@ -18,6 +18,9 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton.OnCheckedChangeListener {
 	private Context context;
 	public DeviceLayoutAdapter(Context context) {
@@ -46,7 +49,11 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
 	        Device d = (Device)this.getItem(position);
 	        
 	        if (d != null) {
-	        	GUITools.setTextOnTextview(R.id.lblDeviceName, d.getName(), v);
+                Date dd = new Date(d.getNextScheduledTime());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+                GUITools.setTextOnTextview(R.id.lblDeviceName, d.getName(), v);
+                GUITools.setTextOnTextview(R.id.txtNextSchedulingTime, sdf.format(dd), v);
 
                 Switch toggle = (Switch) v.findViewById(R.id.lblDeviceName);
                 toggle.setChecked(d.getIsOn());

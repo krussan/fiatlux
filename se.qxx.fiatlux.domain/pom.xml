@@ -4,7 +4,7 @@
 
   <groupId>se.qxx.fiatlux</groupId>
   <artifactId>fiatlux-domain</artifactId>
-  <version>0.1.3</version>
+  <version>0.1.4</version>
   <packaging>jar</packaging>
 
   <name>domain-model</name>
