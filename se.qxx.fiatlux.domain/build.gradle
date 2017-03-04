@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+
+group = 'se.qxx.fiatlux'
+version = '0.1.4'
+
+description = """domain-model"""
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+   mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.1'
+    }
+}
+
+dependencies {
+    compile 'com.google.protobuf:protobuf-java:2.4.1'
+    testCompile 'junit:junit:3.8.1'
+}
