@@ -2,6 +2,7 @@ language: android
 sudo: true
 
 before_install:
+  - chmod +x gradlew
   - ./install-protobuf.sh
 
 cache:
