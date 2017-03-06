@@ -1,6 +1,12 @@
 language: android
 sudo: true
 
+android:
+  components:
+    - build-tools-25.0.2
+    - android-24
+    - addon-google_apis-google-24
+
 before_install:
   - chmod +x gradlew
   - ./install-protobuf.sh
