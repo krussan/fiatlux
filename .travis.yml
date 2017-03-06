@@ -14,3 +14,4 @@ before_install:
 cache:
   - $HOME/.m2
   - $HOME/.gradle
+  - $HOME/protobuf-2.4.1
