@@ -3,7 +3,9 @@ sudo: true
 
 android:
   components:
-    - build-tools-23.0.1
+    - tools
+    - tools
+    - build-tools-23.0.2
     - android-24
     - addon-google_apis-google-24
   licenses:
@@ -13,7 +15,14 @@ before_install:
   - chmod +x gradlew
   - ./install-protobuf.sh
 
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
-  - $HOME/.m2
-  - $HOME/.gradle
-  - $TRAVIS_BUILD_DIR/protobuf-2.4.1
+  directories:
+    - $HOME/.m2
+    - $TRAVIS_BUILD_DIR/protobuf-2.4.1
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
