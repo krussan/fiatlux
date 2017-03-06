@@ -5,8 +5,7 @@ allprojects {
         mavenLocal()
         mavenCentral()
         maven {
-            url 
-"https://raw.githubusercontent.com/krussan/maven-repo/master/"
+            url "https://raw.githubusercontent.com/krussan/maven-repo/master/"
         }
     }
 }

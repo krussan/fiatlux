@@ -17,6 +17,8 @@
 # This is done by setting the following line. This must be set before any scheduling rows
 # COORDS <latitude> <longitude>
 
+¤ rename this file (or create a copy) to 'luxtab' to get scheduling up 
+and running
 COORDS 59.888937 19.218736
 TIMEZONE Europe/Stockholm
 
