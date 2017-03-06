@@ -18,3 +18,4 @@ bin
 .settings
 .classpath
 .gradle
+*.iml
