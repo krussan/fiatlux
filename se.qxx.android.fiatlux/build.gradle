@@ -81,7 +81,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile project(':se.qxx.fiatlux.domain')
-    compile 'se.qxx:android-tools:0.1.15'
+    compile 'se.qxx:android-tools:1.0.2'
     compile 'com.google.protobuf:protobuf-java:2.4.1'
     compile 'com.googlecode:protobuf-socket-rpc:2.0'
 }
