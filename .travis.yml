@@ -6,3 +6,4 @@ before_install:
 
 cache:
   - $HOME/.m2
+  - $HOME/.gradle
