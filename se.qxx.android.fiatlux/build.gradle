@@ -32,7 +32,7 @@ android {
 	            storePassword RELEASE_STORE_PASSWORD
 				}
 
-p				if (project.hasProperty("RELEASE_KEY_ALIAS")) {
+				if (project.hasProperty("RELEASE_KEY_ALIAS")) {
 	            keyAlias RELEASE_KEY_ALIAS	
 				}
 
