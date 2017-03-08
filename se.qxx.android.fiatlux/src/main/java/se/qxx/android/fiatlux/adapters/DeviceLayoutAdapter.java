@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,16 +45,16 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
 			
 	        if (v == null) {
 	            LayoutInflater vi = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            v = vi.inflate(R.layout.item_device, null);
+	            v = vi.inflate(R.layout.item_device, parent, false);
 	        }
 	        Device d = (Device)this.getItem(position);
 	        
 	        if (d != null) {
                 Date dd = new Date(d.getNextScheduledTime());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                DateFormat df  = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
                 GUITools.setTextOnTextview(R.id.lblDeviceName, d.getName(), v);
-                GUITools.setTextOnTextview(R.id.txtNextSchedulingTime, sdf.format(dd), v);
+                GUITools.setTextOnTextview(R.id.txtNextSchedulingTime, df.format(dd), v);
 
                 Switch toggle = (Switch) v.findViewById(R.id.lblDeviceName);
                 toggle.setChecked(d.getIsOn());

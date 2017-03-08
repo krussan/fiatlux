@@ -5,9 +5,9 @@ android:
   components:
   - tools
   - tools
-  - build-tools-23.0.2
-  - android-24
-  - addon-google_apis-google-24
+  - build-tools-25.0.0
+  - android-25
+  - addon-google_apis-google-25
 
   licenses:
   - android-sdk-license-.+

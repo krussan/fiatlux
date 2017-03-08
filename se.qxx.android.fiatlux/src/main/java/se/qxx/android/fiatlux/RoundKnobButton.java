@@ -67,6 +67,10 @@ public class RoundKnobButton extends RelativeLayout implements OnGestureListener
 		mState = state;
 		ivRotor.setImageBitmap(state?bmpRotorOn:bmpRotorOff);
 	}
+
+	public RoundKnobButton(Context context) {
+		super(context);
+	}
 	
 	public RoundKnobButton(Context context, int back, int rotoron, int rotoroff, final int w, final int h) {
 		super(context);

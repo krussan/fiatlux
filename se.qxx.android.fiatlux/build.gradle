@@ -5,17 +5,17 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
     }
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "se.qxx.android.fiatlux"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -64,6 +64,10 @@ android {
         }
     }
 
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
+
 }
 
 def publish = project.tasks.create("publishAll");
@@ -88,7 +92,7 @@ if (project.hasProperty("RELEASE_DEPLOY_PATH")) {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.2.0'
     compile project(':se.qxx.fiatlux.domain')
     compile 'se.qxx.android.tools:android-tools:1.0.2'
     compile 'com.google.protobuf:protobuf-java:2.4.1'
