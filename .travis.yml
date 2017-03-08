@@ -3,26 +3,36 @@ sudo: true
 
 android:
   components:
-    - tools
-    - tools
-    - build-tools-23.0.2
-    - android-24
-    - addon-google_apis-google-24
+  - tools
+  - tools
+  - build-tools-23.0.2
+  - android-24
+  - addon-google_apis-google-24
+
   licenses:
-    - 'android-sdk-license-.+'
+  - android-sdk-license-.+
 
 before_install:
-  - chmod +x gradlew
-  - ./install-protobuf.sh
+- chmod +x gradlew
+- "./install-protobuf.sh"
+- "./ci/decrypt_files.sh"
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
-    - $HOME/.m2
-    - $TRAVIS_BUILD_DIR/protobuf-2.4.1
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
+  - "$HOME/.m2"
+  - "$TRAVIS_BUILD_DIR/protobuf-2.4.1"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
+
+env:
+  global:
+  - RELEASE_STORE_FILE=ci/keystore
+  - RELEASE_KEY_ALIAS=android-signing
+  - secure: YS0ECacHnAc9rJS34k71dgTYLARzMNuLE0KpwQo9gA0JfazLjgMKS0+umseamHjmyKYabuS4tnDj6UW0Pm6AUz1yEguUg0WSNBQA3VdweeZtNXZXB04rZNO+rZvdyR2mTGHWa5GlUDmt2HzYLRILzutSZ4X2buZbwhTWzcEgnorO0IIUivekKK8XfJ1MfAG3c+d1Af/Glim5MWK9n3FMl57OT1tVhLfGhXcJGnsjehFegFNo88FuLIloGwoUpJDU3wE+HcSfkrS+wmGT5dfuVpXVdDOjI6+DefaPDfd2664QlDwu71LGTyfQB1Q6kzoEpDNcH6sIjigZS4YXLiErXhermGIYTZD6jJ8wVIUmdDrPAZ3+Wh3JEGigH28rKJV2gQcyYysuoDv4SHvPq+csNVUAfPuIwfa9msKKvzwv9n9KaMaly183s/PVTlMRDs/WbgpiniyBpkqWReYWGF1PWiybrgtNfI5nJorIgbPKpc/Azol9RnI1iRxK3nfwWeUhDS1Q9aeyygcJZOSHu1SfTzZMFVKoggRx6KwOcmId6N66iu7LzGuFrH/9y6WgV97qZMLrjsmk3O2oq24rlH7wAsgQa76EdyTGFL41jGvd3HoCGY5zeYSqVz1meYV/+xnJCXpaE7ETDWM+bBAJIDFh/8TaGFyRjebggT65r7VnwGk=
+  - secure: l6uNk08iVHEBI7neMR4iXvHvys2IT7abxiDD8ingmNm2/w0/wXpLKbiTuMAmzttSgn+cAHeQBNKg1MWay7vf8n+MICnfKKFLNpG6shcyeaH4KgtFzfFk9pfv1RnAEByM5XaCjLLm+yQTqniarLYFkmIN9iDEas/7iw2XkcB7E+roNr8slGRTcU3Xo3iR4b/3OKs7cmgqrXDCzLDjqINi4YHMKVT+lhYf5EoQvQahUVE3YYZsuwj8350XjMe7wFQlcJIHwAb86rG2/g8zNkSSKeC8kbC7j1rh+k1tjwMp+XUY2Yggyi8xLiuplNCgNFZuaggSPzsAgS3i7JK/QILr7f8Wn2ENDmPg51avHS+l2TgM+bftIw7TrK+cfDsjt/ruCNU1QG+M66khtf3HiUwj635F/7nBk1BgSd4dkbHHcxKZEdp0aJwpU941mu+rBIjilX2rejgw7BjoEth+THYE1HZiMKHwCkx9yw14bJmcWSjYWYnxcP9vO3b+lP4925EAsDiNIts5qA5fbxX7U3hWo5uwhEkVzjEIZenPabqyfxOBNSDDzsSIQnhkR/Rph2LSlikabMmKixhs4yaIcpaL/RP9llLQniX8vZtN+7AlU5Z98QMMdeUuKXcb2Wf65Jztjac1D0SlemgCUTtRSppTHUQwJTlGIHcCWJwhl4zbguc=
+  - secure: heGsuClKTtr/WOR8KkRvz/1X0mbnZrWJJpvwMyLf+xgxu6DaSm7V85AxEgDe4YEpTHBeudhGi1uGBaby/HPxMUhrz10EXScBGehJT3D80MDz3t+WlBdk2yWLwNwJ/ApC06f/2fQDQh8KKs8xTqQYiB8/OYz4kx5VJEIpbVosuIfSqwoidDDgnI5NCZeOGyLGHPZmCuK6t8gw9VbAmT4ilddZN2QnzCfM22p3HB4mpwLlJ4KQQnHqEVLusCafPlSevE388V2JBPeosW+OwwH1WiF4zSHqbZ+aKDktofWulCkUCG4PFlssjy/QVQwvtQ40kMjFRQdbtWc/I8qQFQUcI3uQTKsLLRPKioffmzth5OyCLHS9Sjf8A1inzWe0S42NWADnT/L6qVntDiUeMzUCCGDmrSrsVhSI+od6sobR05LgaLIGGnBCqzUusQ4563TOkbqvnTjquEqJeITXakaifHIlev0XaGXSDJfkxEbgYwvs/BOtdg56seBPaOMPluAD8wh1TBRMYx23Os12kQkyfreaBLdcgBIwt9hql2plp8eRISnQpDRCwYb3HL/65Qoc995nXz1lC4PsrnMYuouYMxv5K34A2Wj5Hz4tkWoFmDAt4JCdO+JPcuStfAWIUmUnrCdXxR1ZQbsP9IKwiiKZO84hDAzUhCLLAkkfrcJXjm4=
