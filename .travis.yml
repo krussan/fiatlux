@@ -14,7 +14,7 @@ android:
 
 before_install:
 - chmod +x gradlew
-- chmod +x ci/decrypt_files.sh"
+- chmod +x ci/decrypt_files.sh
 - "./install-protobuf.sh"
 - "./ci/decrypt_files.sh"
 
