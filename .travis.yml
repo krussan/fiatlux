@@ -5,6 +5,7 @@ android:
   components:
   - tools
   - tools
+  - platform-tools
   - build-tools-25.0.0
   - android-25
   - addon-google_apis-google-25
@@ -14,14 +15,16 @@ android:
   - android-sdk-license-.+
 
 before_install:
-- chmod +x gradlew
-- chmod +x ci/decrypt_files.sh
-- "./install-protobuf.sh"
-- "./ci/decrypt_files.sh"
+  - chmod +x gradlew
+  - chmod +x ci/decrypt_files.sh
+  - "./install-protobuf.sh"
+  - "./ci/decrypt_files.sh"
 
 before_cache:
-- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/3.3/classAnalysis/classAnalysis.lock
+  - rm -f  $HOME/.gradle/caches/3.3/jarSnapshots/jarSnapshots.*
 
 cache:
   directories:
