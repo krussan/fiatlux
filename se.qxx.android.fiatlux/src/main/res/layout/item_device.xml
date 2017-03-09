@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lblDeviceName"
+        android:id="@+id/lblDeviceName"
+        android:checked="false"
+        android:padding="16dp"
+        android:textAllCaps="false"/>
+
+    <TextView
+        android:text="@string/txtNextRunDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtNextSchedulingTime"
+        android:textAlignment="textEnd"/>
+
+    <ImageView
+        android:contentDescription="@string/btnOnOffDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/divider_horizontal_textfield"
+        android:id="@+id/imageView"
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="false"/>
+</LinearLayout>

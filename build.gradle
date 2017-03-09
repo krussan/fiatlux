@@ -1,0 +1,15 @@
+ 
+allprojects {
+    repositories {
+        jcenter()
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://raw.githubusercontent.com/krussan/maven-repo/master/"
+        }
+    }
+}
+ 
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

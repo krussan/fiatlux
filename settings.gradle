@@ -1,0 +1,3 @@
+include 'se.qxx.fiatlux.domain'
+include 'se.qxx.fiatlux.server'
+include 'se.qxx.android.fiatlux'

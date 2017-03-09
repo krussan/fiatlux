@@ -17,3 +17,5 @@ bin
 .project
 .settings
 .classpath
+.gradle
+*.iml
