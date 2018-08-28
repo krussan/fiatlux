@@ -19,3 +19,5 @@ bin
 .classpath
 .gradle
 *.iml
+ci/api.json
+ci/keystore

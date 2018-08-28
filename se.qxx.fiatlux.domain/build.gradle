@@ -1,25 +1,22 @@
 apply plugin: 'java'
 apply plugin: 'com.google.protobuf'
+apply plugin: 'idea'
 
 group = 'se.qxx.fiatlux'
-version = '0.1.4'
+version = rootProject.findProperty('version') ?: '1.0'
 
 description = """domain-model"""
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-repositories {
-   mavenCentral()
-}
+def appProtocExec = project.findProperty('protocExec') ?: '/usr/bin/protoc'
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.1'
-    }
+protobuf {
+  // Configure the protoc executable
+  protoc {
+    path = appProtocExec
+  }
 }
 
 dependencies {

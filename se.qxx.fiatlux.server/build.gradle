@@ -1,12 +1,12 @@
 apply plugin: 'java'
 
 group = 'se.qxx.fiatlux'
-version = '0.2.45'
+version = rootProject.findProperty('version') ?: '1.0'
 
 description = 'fiatlux-server'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
