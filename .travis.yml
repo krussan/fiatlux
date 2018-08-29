@@ -16,10 +16,10 @@ android:
 
 before_install:
   - chmod +x gradlew
-  - chmod +x ci/decrypt_files.sh
+  - chmod +x ci/*.sh
   - ./gradlew printversion -q > /dev/null 2> /dev/null
   - export FIATLUX_VERSION=`./gradlew printversion -q`
-  - export FIATLUX_TAG=v$FIATLUX_VERSION-server
+  - export FIATLUX_TAG=v$FIATLUX_VERSION
   - export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/ci:$LD_LIBRARY_PATH
   - unzip ci/protoc.zip -d ci
   - chmod 775 ci/*.sh

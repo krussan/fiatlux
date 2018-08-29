@@ -1,4 +1,4 @@
-rootProject.version = '0.2.47'
+rootProject.version = '0.2.48'
 
 buildscript {
     repositories {
