@@ -20,7 +20,7 @@ fi
 
 if [[ "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" ]];then
    echo Packaging new release ...
-   ./gradlew clean build check connectedCheck assemble packageRelease archiveZip -PprotocExec=${TRAVIS_BUILD_DIR}/ci/protoc
+   ./gradlew clean build check connectedCheck assemble packageRelease archiveZip publishRelease -PprotocExec=${TRAVIS_BUILD_DIR}/ci/protoc
 else 
    echo Running test ...
    ./gradlew clean build check connectedCheck -PprotocExec=${TRAVIS_BUILD_DIR}/ci/protoc
