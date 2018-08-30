@@ -44,7 +44,7 @@ deploy:
   api_key:
     secure: ZCtFWa3m80O/lexHpHscY/8q6DBGS91+NIaWihGxVF1EGctv02tNeFxNS0at4Xn9E/7Tn026w83UBFWSxld2BAv/TaEiuPeaaGyFwlY2jDWwVcG6d1oE6bYrKe3Qb6NHckuC4GfQa6MhamZ1uW3l5/JHaV00LwKFISXvFTdfQs0UNcWebeXddMdj02QFvDbY5mM4QkIFKEdN4dq8faXAwbWzGjjpEaKcg53QlyPdHq+uz7zXmnnbmGM2HRA1Z7/TnzgLPw29WDwdyV+iJr4Mt28OneKanfOqnh3ojHRFQX2sxSVCfotlwA4JiFOWkiE31rGP3fAjcG2oMLrHAEUlGzR9+aF/yWdZc32j7sI4xyjcgh/EicbQ/ehAKi9O8ODPt5PNgJb/h6+w15r6ZuvNMHFxMJpm9d/Q2M/fNZo/xqY9lSCS81YT+SNx8JwcVjDJn1ucEhplGJCBb9P2kp0fYkGAD01i5EnaET7Byv3uptJXU4fXbQoPDdtZK/3+nMRbWTuF6G4h68jjJHOKg7CUIpAUokDNNszouMVjnzkliosnqSJG67mJRCtXF9iQY6MbYSGy7wpUoRbbmVnI8aMnVFdsnaJmhRSE9b9Ct84md0RmAvhszFxedUgaBSxfyAjFf2SeOiHEENA4IMkF/lWh+W4YxwU1968VVwsGZJqeAoQ=
     file_glob: true
-    file: "${TRAVIS_BUILD_DIR}/deploy/*"
+    file: deploy/*
 
   on:
     tags: false
