@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'idea'
 
 group = 'se.qxx.fiatlux'
 version = rootProject.findProperty('version') ?: '1.0'

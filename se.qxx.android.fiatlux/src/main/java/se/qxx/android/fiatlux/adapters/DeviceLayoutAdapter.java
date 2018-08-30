@@ -54,7 +54,10 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
                 DateFormat df  = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
                 GUITools.setTextOnTextview(R.id.lblDeviceName, d.getName(), v);
-                GUITools.setTextOnTextview(R.id.txtNextSchedulingTime, df.format(dd), v);
+                GUITools.setTextOnTextview(
+					R.id.txtNextSchedulingTime,
+					String.format("Turn %s at %s",d.getNextAction(), df.format(dd)),
+					v);
 
                 Switch toggle = (Switch) v.findViewById(R.id.lblDeviceName);
                 toggle.setChecked(d.getIsOn());
