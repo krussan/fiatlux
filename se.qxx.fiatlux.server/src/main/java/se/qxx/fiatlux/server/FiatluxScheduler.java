@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import it.sauronsoftware.cron4j.Scheduler;
+import se.qxx.fiatlux.domain.FiatluxComm;
 
 public class FiatluxScheduler {
 
@@ -86,18 +87,21 @@ public class FiatluxScheduler {
 		scheduler.stop();
 	}
 	
-	public long getNextSchedulingTime(int deviceId) {
-		long lowestExecutor = 0; 
-		for (ExecutorTask t : listOfTasks) {
-			int taskDeviceId = t.getDeviceId();
-			if (deviceId == taskDeviceId) {
-				if (lowestExecutor == 0 || t.getNextSchedulingTime() < lowestExecutor) {
-					lowestExecutor = t.getNextSchedulingTime();
-				}
-			}
-		}
-		
-		return lowestExecutor;
-	}
+	public ExecutorTask getLowestExecutor(int deviceId) {
+        long lowestExecutorTime = 0;
+        ExecutorTask lowestTask = null;
+
+        for (ExecutorTask t : listOfTasks) {
+            int taskDeviceId = t.getDeviceId();
+            if (deviceId == taskDeviceId) {
+                if (lowestExecutorTime == 0 || t.getNextSchedulingTime() < lowestExecutorTime) {
+                    lowestExecutorTime = t.getNextSchedulingTime();
+                    lowestTask = t;
+                }
+            }
+        }
+
+        return lowestTask;
+    }
 
 }

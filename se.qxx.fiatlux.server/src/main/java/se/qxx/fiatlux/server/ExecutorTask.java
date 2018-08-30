@@ -17,13 +17,22 @@ import it.sauronsoftware.cron4j.Scheduler;
 import it.sauronsoftware.cron4j.SchedulingPattern;
 import it.sauronsoftware.cron4j.Task;
 import it.sauronsoftware.cron4j.TaskExecutionContext;
+import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.server.ExecutorTask.ExecutorType;
 
 public class ExecutorTask extends Task{
 
     private static final Logger logger = LogManager.getLogger(ExecutorTask.class);
 
-	public enum ExecutorType {
+    public String updateNextSchedulingTime() {
+        String pattern = this.getCronPattern();
+        Predictor p = new Predictor(pattern);
+        this.setNextSchedulingTime(p.nextMatchingTime());
+
+        return pattern;
+    }
+
+    public enum ExecutorType {
 		TURN_ON,
 		TURN_OFF
 	}
@@ -32,6 +41,12 @@ public class ExecutorTask extends Task{
 	private ExecutorType getType() {
 		return type;
 	}
+	public FiatluxComm.Action getAction() {
+	    if (this.getType() == ExecutorType.TURN_ON)
+	        return FiatluxComm.Action.On;
+	    else
+	        return FiatluxComm.Action.Off;
+    }
 	
 	private void setType(ExecutorType type) {
 		this.type = type;
@@ -78,7 +93,7 @@ public class ExecutorTask extends Task{
 		return nextSchedulingTime;
 	}
 
-	private void setNextSchedulingTime(long nextSchedulingTime) {
+	public void setNextSchedulingTime(long nextSchedulingTime) {
 		this.nextSchedulingTime = nextSchedulingTime;
 	}
 
@@ -259,8 +274,7 @@ public class ExecutorTask extends Task{
 	@Override
 	public void execute(TaskExecutionContext context) throws RuntimeException {
 		logger.debug("Starting executor task ....");
-		
-		
+
 		try {
 			if (this.getType() == ExecutorType.TURN_ON) {
 				logger.debug(String.format("Turning on device %s", this.getDeviceId()));

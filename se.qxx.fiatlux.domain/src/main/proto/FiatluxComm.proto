@@ -11,6 +11,11 @@ enum DeviceType {
 	onoffswitch = 1;
 	dimmer = 2;
 }
+
+enum Action {
+    On = 1;
+    Off = 2;
+}
   
 //---------------------------------------------------------------------------------------
 //---------------------------- ------------------------------------------- Objects
@@ -28,6 +33,7 @@ message Device {
 	required bool IsOn = 3;
 	required DeviceType Type = 4;
 	optional int64 nextScheduledTime = 5;
+	optional Action nextAction = 6;
 }
 
 message ListOfDevices { 

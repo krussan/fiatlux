@@ -21,3 +21,5 @@ bin
 *.iml
 ci/api.json
 ci/keystore
+local.properties
+.idea/

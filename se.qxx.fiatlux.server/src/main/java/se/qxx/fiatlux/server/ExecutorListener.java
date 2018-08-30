@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.sauronsoftware.cron4j.Predictor;
 import it.sauronsoftware.cron4j.SchedulerListener;
 import it.sauronsoftware.cron4j.TaskExecutor;
 
@@ -25,8 +26,10 @@ public class ExecutorListener implements SchedulerListener {
 	@Override
 	public void taskSucceeded(TaskExecutor executor) {
 		ExecutorTask task = (ExecutorTask)executor.getTask();
-		
-		String reschedulePattern = task.getCronPattern();
+
+        // re-assign the next scheduling time
+		String reschedulePattern = task.updateNextSchedulingTime();
+
 		if (StringUtils.isNotEmpty(reschedulePattern)) {
 			executor
 				.getScheduler()

@@ -7,6 +7,7 @@ import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
 import com.sun.jna.Native;
 
+import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import se.qxx.fiatlux.domain.FiatluxComm.DeviceType;
 import se.qxx.fiatlux.domain.FiatluxComm.DimCommand;
@@ -37,16 +38,23 @@ public class FiatLuxServerConnection extends FiatLuxService {
 			int methods = FiatLuxServer.getNative().tdMethods(i, supportedMethods);
 			
 			DeviceType dt = ((methods & TellstickLibrary.TELLSTICK_DIM) == TellstickLibrary.TELLSTICK_DIM) ? DeviceType.dimmer : DeviceType.onoffswitch;
-			
-			long nextScheduling = FiatLuxServer.getScheduler().getNextSchedulingTime(i);
-			
-			list.addDevice(Device.newBuilder()
-					.setDeviceID(i)
-					.setName(name)
-					.setIsOn(last_cmd == TellstickLibrary.TELLSTICK_TURNON)
-					.setType(dt)
-					.setNextScheduledTime(nextScheduling)
-					.build());
+
+			ExecutorTask task = FiatLuxServer.getScheduler().getLowestExecutor(i);
+
+			Device.Builder builder = Device.newBuilder()
+                    .setDeviceID(i)
+                    .setName(name)
+                    .setIsOn(last_cmd == TellstickLibrary.TELLSTICK_TURNON)
+                    .setType(dt);
+
+			if (task != null) {
+                builder
+                    .setNextScheduledTime(task.getNextSchedulingTime())
+                    .setNextAction(task.getAction());
+            }
+
+
+			list.addDevice(builder.build());
 			
 			
 			
