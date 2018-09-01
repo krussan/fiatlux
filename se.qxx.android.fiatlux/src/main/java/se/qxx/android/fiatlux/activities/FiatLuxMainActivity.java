@@ -1,9 +1,11 @@
 package se.qxx.android.fiatlux.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,35 +16,33 @@ import com.google.protobuf.RpcCallback;
 
 import java.util.EventObject;
 
+import se.qxx.android.fiatlux.DeviceUpdatedListener;
 import se.qxx.android.fiatlux.activities.DimmerActivity;
 import se.qxx.android.fiatlux.OnOffHandler;
-import se.qxx.android.fiatlux.activities.SettingsActivity;
-import se.qxx.android.fiatlux.adapters.DeviceAdapter;
 import se.qxx.android.fiatlux.adapters.DeviceLayoutAdapter;
 import se.qxx.android.fiatlux.client.FiatluxConnectionHandler;
-import se.qxx.android.fiatlux.model.ModelNotInitializedException;
 import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import se.qxx.fiatlux.domain.FiatluxComm.DeviceType;
 import se.qxx.android.fiatlux.Settings;
-import se.qxx.android.fiatlux.model.Model;
-import se.qxx.android.fiatlux.model.Model.ModelUpdatedEventListener;
 import android.widget.AdapterView.OnItemClickListener;
 import se.qxx.android.fiatlux.R;
 
 public class FiatLuxMainActivity extends AppCompatActivity
-        implements ModelUpdatedEventListener, OnItemClickListener {
+        implements OnItemClickListener, DeviceUpdatedListener {
 
     private DeviceLayoutAdapter deviceLayoutAdapter;
 
-    private DeviceLayoutAdapter getDeviceLayoutAdapter() {
-        return deviceLayoutAdapter;
+    public OnOffHandler getHandler() {
+        return handler;
     }
 
-    private void setDeviceLayoutAdapter(DeviceLayoutAdapter deviceLayoutAdapter) {
-        this.deviceLayoutAdapter = deviceLayoutAdapter;
+    public void setHandler(OnOffHandler handler) {
+        this.handler = handler;
     }
+
+    private OnOffHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,36 +50,40 @@ public class FiatLuxMainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Settings.init(this);
+        this.setHandler(new OnOffHandler(this));
 
-        Model.get().addEventListener(this);
 
         initModel();
         initListView();
+
     }
 
     private void initModel() {
-        FiatluxConnectionHandler h = OnOffHandler.getHandler(this, "Getting devices...");
+        FiatluxConnectionHandler h = this.getHandler().getHandler(this, "Getting devices...");
 
+        getApplicationContext();
         h.listDevices(new RpcCallback<FiatluxComm.ListOfDevices>() {
 
             @Override
-            public void run(ListOfDevices devices) {
-                Model.get().setDevices(devices);
+            public void run(final ListOfDevices devices) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ListView v = findViewById(R.id.listMain);
+                        deviceLayoutAdapter = new DeviceLayoutAdapter(
+                                FiatLuxMainActivity.this,
+                                devices.getDeviceList(),
+                                getHandler());
+                        v.setAdapter(deviceLayoutAdapter);
+                    }
+                });
             }
         });
-
     }
 
     private void initListView() {
-        ListView v = (ListView) findViewById(R.id.listMain);
+        ListView v = findViewById(R.id.listMain);
         v.setOnItemClickListener(this);
-        //v.setOnItemLongClickListener(this);
-
-
-        this.setDeviceLayoutAdapter(new DeviceLayoutAdapter(this));
-        v.setAdapter(this.getDeviceLayoutAdapter());
-
-        //Model.get().addEventListener(this);
     }
 
     @Override
@@ -115,34 +119,30 @@ public class FiatLuxMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void handleModelUpdatedEventListener(EventObject e) {
-        runOnUiThread(new Runnable() {
+    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 
+        if (deviceLayoutAdapter != null) {
+            Device d = (Device) deviceLayoutAdapter.getItem(pos);
+
+            if (d != null) {
+                if (d.getType() == DeviceType.dimmer) {
+                    Intent i = new Intent(this, DimmerActivity.class);
+                    i.putExtra("Device", d);
+                    startActivity(i);
+                } else {
+                    this.getHandler().handleClick(this, d);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void dataChanged() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 deviceLayoutAdapter.notifyDataSetChanged();
             }
         });
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-        Device d;
-        try {
-            d = Model.get().getDevice(pos);
-
-            if (d.getType() == DeviceType.dimmer) {
-                Intent i = new Intent(this, DimmerActivity.class);
-                i.putExtra("DeviceID", pos);
-                startActivity(i);
-            }
-            else {
-                OnOffHandler.handleClick(this, pos);
-            }
-        } catch (ModelNotInitializedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 }

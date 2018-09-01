@@ -15,16 +15,6 @@ import se.qxx.fiatlux.domain.FiatluxComm;
  */
 public class DeviceToggleSwitchListener implements View.OnClickListener
 {
-    public int getDevicePosition() {
-        return devicePosition;
-    }
-
-    public void setDevicePosition(int devicePosition) {
-        this.devicePosition = devicePosition;
-    }
-
-    private int devicePosition;
-
     public FiatluxComm.Device getDevice() {
         return device;
     }
@@ -45,27 +35,32 @@ public class DeviceToggleSwitchListener implements View.OnClickListener
 
     private Context context;
 
+    private OnOffHandler onOffHandler;
 
-    public DeviceToggleSwitchListener(Context context, FiatluxComm.Device device, int position) {
+
+    public DeviceToggleSwitchListener(Context context, FiatluxComm.Device device, OnOffHandler handler) {
         this.setDevice(device);
         this.setContext(context);
-        this.setDevicePosition(position);
+        this.setOnOffHandler(handler);
     }
-
-//    @Override
-//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//    }
 
     @Override
     public void onClick(View v) {
         if (this.getDevice().getType() == FiatluxComm.DeviceType.dimmer) {
             Intent i = new Intent(getContext(), DimmerActivity.class);
-            i.putExtra("DeviceID", this.getDevicePosition());
+            i.putExtra("Device", this.getDevice());
             getContext().startActivity(i);
         }
         else {
-            OnOffHandler.handleClick((Activity)getContext(), this.getDevicePosition());
+            this.getOnOffHandler().handleClick((Activity)getContext(), this.getDevice());
         }
+    }
+
+    public OnOffHandler getOnOffHandler() {
+        return onOffHandler;
+    }
+
+    public void setOnOffHandler(OnOffHandler onOffHandler) {
+        this.onOffHandler = onOffHandler;
     }
 }

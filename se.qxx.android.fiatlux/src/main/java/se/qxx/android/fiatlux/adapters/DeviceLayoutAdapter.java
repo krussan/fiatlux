@@ -21,12 +21,16 @@ import android.widget.ToggleButton;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton.OnCheckedChangeListener {
 	private Context context;
-	public DeviceLayoutAdapter(Context context) {
-		super();
+	private OnOffHandler handler;
+
+	public DeviceLayoutAdapter(Context context, List<Device> devices, OnOffHandler handler) {
+		super(devices);
 		this.setContext(context);
+		this.setHandler(handler);
 	}
 	
 	private Context getContext() {
@@ -62,7 +66,7 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
                 Switch toggle = (Switch) v.findViewById(R.id.lblDeviceName);
                 toggle.setChecked(d.getIsOn());
 
-                DeviceToggleSwitchListener listener = new DeviceToggleSwitchListener(getContext(), d, position);
+                DeviceToggleSwitchListener listener = new DeviceToggleSwitchListener(getContext(), d, this.getHandler());
                 toggle.setOnClickListener(listener);
 	    	}
 		}
@@ -76,7 +80,13 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
 
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+    }
 
+    public OnOffHandler getHandler() {
+        return handler;
+    }
 
+    public void setHandler(OnOffHandler handler) {
+        this.handler = handler;
     }
 }
