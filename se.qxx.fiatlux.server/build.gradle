@@ -6,9 +6,6 @@ version = rootProject.findProperty('version') ?: '1.0'
 
 description = 'fiatlux-server'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -49,6 +46,11 @@ build {
 
 		archiveZip
 	}
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 }
 
 jar {

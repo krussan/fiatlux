@@ -9,9 +9,10 @@ def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:3.1.2'
     }
 }
 
@@ -74,6 +75,10 @@ android {
         disable 'GoogleAppIndexingWarning'
     }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 def publish = project.tasks.create("publishAll");

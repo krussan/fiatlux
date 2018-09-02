@@ -7,8 +7,8 @@
 	<string name="settingServerIpAddressTitle">IP address</string>
 	
 	<string name="settingServerPort">2151</string>
-	<string name="settingServerPortDesc">The IP address of the jukebox server</string>
-	<string name="settingServerPortTitle">The port of the fiatlux server</string>
+	<string name="settingServerPortDesc">The port of the fiatlux server</string>
+	<string name="settingServerPortTitle">Port</string>
 	<string name="action_refresh">Refresh</string>
 
 	<string name="btnOnOffDescription">On/off switch</string>
