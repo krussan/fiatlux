@@ -6,9 +6,6 @@ def appVersionName = rootProject.findProperty('version') ?: '1.0'
 def appVersionCode = Integer.valueOf(System.env.TRAVIS_BUILD_NUMBER ?: project.findProperty('versionCode') ?: 1)
 def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 buildscript {
     repositories {
         jcenter()
@@ -78,6 +75,10 @@ android {
         disable 'GoogleAppIndexingWarning'
     }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 def publish = project.tasks.create("publishAll");

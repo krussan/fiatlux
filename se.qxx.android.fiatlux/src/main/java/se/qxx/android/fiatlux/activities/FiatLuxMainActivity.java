@@ -62,23 +62,14 @@ public class FiatLuxMainActivity extends AppCompatActivity
         FiatluxConnectionHandler h = this.getHandler().getHandler(this, "Getting devices...");
 
         getApplicationContext();
-        h.listDevices(new RpcCallback<FiatluxComm.ListOfDevices>() {
-
-            @Override
-            public void run(final ListOfDevices devices) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ListView v = findViewById(R.id.listMain);
-                        deviceLayoutAdapter = new DeviceLayoutAdapter(
-                                FiatLuxMainActivity.this,
-                                devices.getDeviceList(),
-                                getHandler());
-                        v.setAdapter(deviceLayoutAdapter);
-                    }
-                });
-            }
-        });
+        h.listDevices(devices -> runOnUiThread(() -> {
+            ListView v = findViewById(R.id.listMain);
+            deviceLayoutAdapter = new DeviceLayoutAdapter(
+                    FiatLuxMainActivity.this,
+                    devices.getDeviceList(),
+                    getHandler());
+            v.setAdapter(deviceLayoutAdapter);
+        }));
     }
 
     private void initListView() {
@@ -137,12 +128,9 @@ public class FiatLuxMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void dataChanged() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                deviceLayoutAdapter.notifyDataSetChanged();
-            }
+    public void dataChanged(final Device device) {
+        runOnUiThread(() -> {
+            deviceLayoutAdapter.updateDevice(device);
         });
     }
 }

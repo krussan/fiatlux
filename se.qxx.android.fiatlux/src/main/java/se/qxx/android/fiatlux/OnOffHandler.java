@@ -21,12 +21,12 @@ public class OnOffHandler {
                 turnOff(activity, device);
                 device = FiatluxComm.Device.newBuilder(device).setIsOn(false).build();
                 if (listener != null)
-                    listener.dataChanged();
+                    listener.dataChanged(device);
             } else {
                 turnOn(activity, device);
                 device = FiatluxComm.Device.newBuilder(device).setIsOn(true).build();
                 if (listener != null)
-                    listener.dataChanged();
+                    listener.dataChanged(device);
             }
         }
 

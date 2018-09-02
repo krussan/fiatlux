@@ -1,9 +1,11 @@
 package se.qxx.android.fiatlux.activities;
 
+import se.qxx.android.fiatlux.DeviceUpdatedListener;
 import se.qxx.android.fiatlux.OnOffHandler;
 import se.qxx.android.fiatlux.R;
 import se.qxx.android.fiatlux.RoundKnobButton;
 import se.qxx.android.fiatlux.RoundKnobButton.RoundKnobButtonListener;
+import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import android.app.Activity;
 import android.content.Intent;
@@ -14,8 +16,8 @@ import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class DimmerActivity extends AppCompatActivity {
-	int m_deviceID = -1;
+public class DimmerActivity extends AppCompatActivity implements DeviceUpdatedListener {
+    Device device;
 	long latestTriggerTimestamp = System.currentTimeMillis();
 	
 	public static final long TRIGGER_MILLIS = 800;
@@ -26,13 +28,13 @@ public class DimmerActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-
-		this.setHandler(new OnOffHandler(null));
-
-        Device device = getDevice();
+		this.setHandler(new OnOffHandler(this));
 
 		RelativeLayout panel = new RelativeLayout(this);
         setContentView(panel);
+
+        this.setDevice((Device)getIntent()
+            .getSerializableExtra("Device"));
 
         RoundKnobButton rv = new RoundKnobButton(this, R.drawable.stator, R.drawable.rotoron, R.drawable.rotoroff,
         		Scale(250, this), Scale(250, this));
@@ -93,11 +95,6 @@ public class DimmerActivity extends AppCompatActivity {
 		return rs;
 	}
 
-	public Device getDevice() {
-		Intent intent = getIntent();
-		Device d = (Device)intent.getSerializableExtra("Device");
-		return d;
-	}
 
     public OnOffHandler getHandler() {
         return handler;
@@ -106,4 +103,18 @@ public class DimmerActivity extends AppCompatActivity {
     public void setHandler(OnOffHandler handler) {
         this.handler = handler;
     }
+
+    @Override
+    public void dataChanged(Device device) {
+	    this.setDevice(device);
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
 }

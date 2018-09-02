@@ -48,15 +48,11 @@ public class FiatluxConnectionHandler {
 				Empty request = Empty.newBuilder().build();
 
 
-				service.list(controller, request, new RpcCallback<FiatluxComm.ListOfDevices>() {
-
-					@Override
-					public void run(ListOfDevices devices) {
-						onRequestComplete(controller);
-						if (rpcCallback != null)
-							rpcCallback.run(devices);
-					}
-				});
+				service.list(controller, request, devices -> {
+                    onRequestComplete(controller);
+                    if (rpcCallback != null)
+                        rpcCallback.run(devices);
+                });
 
 			}
 		};
@@ -75,15 +71,11 @@ public class FiatluxConnectionHandler {
 			public void run() {
 				FiatLuxService service = conn.getNonBlockingService();
 				
-				service.turnOn(controller, d, new RpcCallback<FiatluxComm.Success>() {
-					
-					@Override
-					public void run(Success s) {
-						onRequestComplete(controller);
-						if (rpcCallback != null) 				
-							rpcCallback.run(s);							
-					}
-				});
+				service.turnOn(controller, d, s -> {
+                    onRequestComplete(controller);
+                    if (rpcCallback != null)
+                        rpcCallback.run(s);
+                });
 			
 			}
 		};
@@ -102,15 +94,11 @@ public class FiatluxConnectionHandler {
 			public void run() {
 				FiatLuxService service = conn.getNonBlockingService();
 				
-				service.turnOff(controller, d, new RpcCallback<FiatluxComm.Success>() {
-					
-					@Override
-					public void run(Success s) {
-						onRequestComplete(controller);
-						if (rpcCallback != null) 				
-							rpcCallback.run(s);							
-					}
-				});
+				service.turnOff(controller, d, s -> {
+                    onRequestComplete(controller);
+                    if (rpcCallback != null)
+                        rpcCallback.run(s);
+                });
 			
 			}
 		};
@@ -135,15 +123,11 @@ public class FiatluxConnectionHandler {
 						.setDimPercentage(percentage)
 						.build();
 				
-				service.dim(controller, comm, new RpcCallback<FiatluxComm.Success>() {
-					
-					@Override
-					public void run(Success s) {
-						onRequestComplete(controller);
-						if (rpcCallback != null) 				
-							rpcCallback.run(s);							
-					}
-				});
+				service.dim(controller, comm, s -> {
+                    onRequestComplete(controller);
+                    if (rpcCallback != null)
+                        rpcCallback.run(s);
+                });
 			
 			}
 		};

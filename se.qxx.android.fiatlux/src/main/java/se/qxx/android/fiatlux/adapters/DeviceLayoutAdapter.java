@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
@@ -63,11 +64,12 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
 					String.format("Turn %s at %s",d.getNextAction(), df.format(dd)),
 					v);
 
-                Switch toggle = (Switch) v.findViewById(R.id.lblDeviceName);
+                Switch toggle = v.findViewById(R.id.lblDeviceName);
                 toggle.setChecked(d.getIsOn());
 
                 DeviceToggleSwitchListener listener = new DeviceToggleSwitchListener(getContext(), d, this.getHandler());
                 toggle.setOnClickListener(listener);
+
 	    	}
 		}
 		catch (Exception e) {
@@ -88,5 +90,15 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
 
     public void setHandler(OnOffHandler handler) {
         this.handler = handler;
+    }
+
+    public void updateDevice(Device device) {
+        for (int i = 0; i < this.getDevices().size(); i++) {
+            if (this.getDevices().get(i).getDeviceID() == device.getDeviceID()) {
+                this.getDevices().set(i, device);
+                notifyDataSetChanged();
+                break;
+            }
+        }
     }
 }

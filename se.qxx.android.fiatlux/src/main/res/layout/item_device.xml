@@ -30,5 +30,5 @@
         android:id="@+id/imageView"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
-        android:adjustViewBounds="false"/>
+        android:adjustViewBounds="false"/>*
 </LinearLayout>

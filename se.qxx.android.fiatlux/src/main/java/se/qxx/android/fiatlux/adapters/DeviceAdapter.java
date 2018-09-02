@@ -7,18 +7,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class DeviceAdapter extends BaseAdapter {
 
-	private List<FiatluxComm.Device> devices = new ArrayList<FiatluxComm.Device>();
+	private List<FiatluxComm.Device> devices = new ArrayList<>();
 
     public List<FiatluxComm.Device> getDevices() {
         return devices;
     }
 
     public void setDevices(List<FiatluxComm.Device> devices) {
-        this.devices = devices;
+        // replace with a linked list to support modifications
+        this.devices = new LinkedList<>(devices);
     }
 
     public DeviceAdapter(List<FiatluxComm.Device> devices) {
