@@ -63,12 +63,14 @@ public class FiatLuxMainActivity extends AppCompatActivity
 
         getApplicationContext();
         h.listDevices(devices -> runOnUiThread(() -> {
-            ListView v = findViewById(R.id.listMain);
-            deviceLayoutAdapter = new DeviceLayoutAdapter(
-                    FiatLuxMainActivity.this,
-                    devices.getDeviceList(),
-                    getHandler());
-            v.setAdapter(deviceLayoutAdapter);
+            if (devices != null) {
+                ListView v = findViewById(R.id.listMain);
+                deviceLayoutAdapter = new DeviceLayoutAdapter(
+                        FiatLuxMainActivity.this,
+                        devices.getDeviceList(),
+                        getHandler());
+                v.setAdapter(deviceLayoutAdapter);
+            }
         }));
     }
 
