@@ -102,7 +102,7 @@ if (project.hasProperty("RELEASE_DEPLOY_PATH")) {
 }
 
 play {
-    track = "alpha"
+    track = "internal"
     jsonFile = file(appJsonFile)
 }
 
