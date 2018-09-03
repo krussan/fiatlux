@@ -1,6 +1,10 @@
 package se.qxx.android.fiatlux;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import se.qxx.android.fiatlux.client.FiatluxConnectionHandler;
 import se.qxx.android.tools.ConnectionProgressDialog;
@@ -9,21 +13,30 @@ import se.qxx.fiatlux.domain.FiatluxComm;
 public class OnOffHandler {
 
     private DeviceUpdatedListener listener;
+    private Activity activity;
 
-    public OnOffHandler(DeviceUpdatedListener listener) {
+    public OnOffHandler(Activity activity, DeviceUpdatedListener listener) {
+        this.setActivity(activity);
         this.setListener(listener);
     }
 
-    public void handleClick(Activity activity, FiatluxComm.Device device) {
+    public void handleClick(FiatluxComm.Device device) {
+
+        if (!isConnected()) {
+            this.getActivity().runOnUiThread(() -> {
+                Toast.makeText(getActivity(), R.string.noWifiConnection, Toast.LENGTH_SHORT);
+            });
+            return;
+        }
 
         if (device != null) {
             if (device.getIsOn()) {
-                turnOff(activity, device);
+                turnOff(device);
                 device = FiatluxComm.Device.newBuilder(device).setIsOn(false).build();
                 if (listener != null)
                     listener.dataChanged(device);
             } else {
-                turnOn(activity, device);
+                turnOn(device);
                 device = FiatluxComm.Device.newBuilder(device).setIsOn(true).build();
                 if (listener != null)
                     listener.dataChanged(device);
@@ -33,20 +46,20 @@ public class OnOffHandler {
     }
 
 
-    private void turnOn(Activity activity, FiatluxComm.Device d) {
-        getHandler(activity, "Turning on device...").turnOn(d);
+    private void turnOn(FiatluxComm.Device d) {
+        getHandler("Turning on device...").turnOn(d);
     }
 
-    private void turnOff(Activity activity, FiatluxComm.Device d) {
-        getHandler(activity, "Turning off device...").turnOff(d);
+    private void turnOff(FiatluxComm.Device d) {
+        getHandler("Turning off device...").turnOff(d);
     }
 
 
-    public FiatluxConnectionHandler getHandler(Activity activity, String message) {
+    public FiatluxConnectionHandler getHandler(String message) {
         return new FiatluxConnectionHandler(
                 Settings.get().getServerIpAddress(),
                 Settings.get().getServerPort(),
-                ConnectionProgressDialog.build(activity, message));
+                ConnectionProgressDialog.build(this.getActivity(), message));
     }
 
     public FiatluxConnectionHandler getNonMessageHandler(Activity activity, String message) {
@@ -63,4 +76,24 @@ public class OnOffHandler {
         this.listener = listener;
     }
 
+
+    public boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting() &&
+                (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_ETHERNET);
+
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 }

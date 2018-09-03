@@ -1,37 +1,31 @@
 package se.qxx.android.fiatlux.activities;
 
-import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.protobuf.RpcCallback;
-
-import java.util.EventObject;
-
 import se.qxx.android.fiatlux.DeviceUpdatedListener;
-import se.qxx.android.fiatlux.activities.DimmerActivity;
 import se.qxx.android.fiatlux.OnOffHandler;
 import se.qxx.android.fiatlux.adapters.DeviceLayoutAdapter;
 import se.qxx.android.fiatlux.client.FiatluxConnectionHandler;
-import se.qxx.fiatlux.domain.FiatluxComm;
-import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
-import se.qxx.fiatlux.domain.FiatluxComm.DeviceType;
 import se.qxx.android.fiatlux.Settings;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
+
 import se.qxx.android.fiatlux.R;
 
 public class FiatLuxMainActivity extends AppCompatActivity
-        implements OnItemClickListener, DeviceUpdatedListener {
+        implements DeviceUpdatedListener {
 
+    private BroadcastReceiver receiver;
     private DeviceLayoutAdapter deviceLayoutAdapter;
 
     public OnOffHandler getHandler() {
@@ -50,16 +44,14 @@ public class FiatLuxMainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Settings.init(this);
-        this.setHandler(new OnOffHandler(this));
+        this.setHandler(new OnOffHandler(this, this));
 
-
-        initModel();
-        initListView();
+        registerReceiver();
 
     }
 
     private void initModel() {
-        FiatluxConnectionHandler h = this.getHandler().getHandler(this, "Getting devices...");
+        FiatluxConnectionHandler h = this.getHandler().getHandler("Getting devices...");
 
         getApplicationContext();
         h.listDevices(devices -> runOnUiThread(() -> {
@@ -72,11 +64,6 @@ public class FiatLuxMainActivity extends AppCompatActivity
                 v.setAdapter(deviceLayoutAdapter);
             }
         }));
-    }
-
-    private void initListView() {
-        ListView v = findViewById(R.id.listMain);
-        v.setOnItemClickListener(this);
     }
 
     @Override
@@ -99,7 +86,10 @@ public class FiatLuxMainActivity extends AppCompatActivity
         }
 
         if (id == R.id.action_refresh) {
-            initModel();
+            if (getHandler().isConnected())
+                initModel();
+            else
+                Toast.makeText(this, R.string.noWifiConnection, Toast.LENGTH_SHORT);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -112,27 +102,32 @@ public class FiatLuxMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-
-        if (deviceLayoutAdapter != null) {
-            Device d = (Device) deviceLayoutAdapter.getItem(pos);
-
-            if (d != null) {
-                if (d.getType() == DeviceType.dimmer) {
-                    Intent i = new Intent(this, DimmerActivity.class);
-                    i.putExtra("Device", d);
-                    startActivity(i);
-                } else {
-                    this.getHandler().handleClick(this, d);
-                }
-            }
-        }
-    }
-
-    @Override
     public void dataChanged(final Device device) {
         runOnUiThread(() -> {
             deviceLayoutAdapter.updateDevice(device);
         });
+    }
+
+    public void registerReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (getHandler().isConnected())
+                    initModel();
+            }
+        };
+        registerReceiver(receiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+            receiver = null;
+        }
+        super.onDestroy();
     }
 }
