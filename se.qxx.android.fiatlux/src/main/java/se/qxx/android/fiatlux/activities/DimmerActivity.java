@@ -28,7 +28,7 @@ public class DimmerActivity extends AppCompatActivity implements DeviceUpdatedLi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.setHandler(new OnOffHandler(this));
+		this.setHandler(new OnOffHandler(this, this));
 
 		RelativeLayout panel = new RelativeLayout(this);
         setContentView(panel);
@@ -45,7 +45,7 @@ public class DimmerActivity extends AppCompatActivity implements DeviceUpdatedLi
         rv.setRotorPercentage(100);
         rv.SetListener(new RoundKnobButtonListener() {
 			public void onStateChange(boolean newstate) {
-				getHandler().handleClick(DimmerActivity.this, getDevice());
+				getHandler().handleClick(getDevice());
 			}
 			
 			public void onRotate(final int percentage) {

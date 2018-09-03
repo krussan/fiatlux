@@ -52,7 +52,7 @@ public class DeviceToggleSwitchListener implements View.OnClickListener
             getContext().startActivity(i);
         }
         else {
-            this.getOnOffHandler().handleClick((Activity)getContext(), this.getDevice());
+            this.getOnOffHandler().handleClick(this.getDevice());
         }
     }
 
