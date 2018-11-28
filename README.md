@@ -14,7 +14,7 @@ here: http://elinux.org/R-Pi_Tellstick_core
 the 
 port that the android app uses to communicate with the service on the 
 local network.
-7. Download the app and install it on your android phone
+7. Download the app and install it on your android phone (https://play.google.com/store/apps/details?id=se.qxx.android.fiatlux)
 8. In the app setup the IP and port number to the service
 
 ## Scheduling
