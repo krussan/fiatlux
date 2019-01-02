@@ -40,7 +40,7 @@ public class FiatLuxServer {
 	private void setupScheduling() {
 		scheduler = new FiatluxScheduler();
 				
-		try (BufferedReader br = new BufferedReader(new FileReader("luxtab"))){ 
+		try (BufferedReader br = new BufferedReader(new FileReader(Arguments.get().getTabFile()))){
 			String line = br.readLine();
 			logger.debug(String.format("Parsing line :: %s", line));
 			

@@ -7,6 +7,7 @@ public class Arguments {
 	private int port = 2151;
 	private static Arguments _instance = null;
 	private String errorMessage = StringUtils.EMPTY;
+	private String tabFile = "luxtab";
 	
 	private Arguments() {
 		
@@ -28,6 +29,10 @@ public class Arguments {
 		else {
 			this.setPort(Integer.parseInt(commandargs[0]));
 			this.setSuccess(true);
+
+			if (commandargs.length > 1) {
+			    this.setTabFile(commandargs[1]);
+            }
 		}		
 	}
 	
@@ -61,4 +66,12 @@ public class Arguments {
 	private void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
+
+    public String getTabFile() {
+        return tabFile;
+    }
+
+    public void setTabFile(String tabFile) {
+        this.tabFile = tabFile;
+    }
 }
