@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.5.1'
     }
 }
 
@@ -113,8 +113,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation project(':se.qxx.fiatlux.domain')
     implementation 'se.qxx.android.tools:android-tools:1.0.2'
-    implementation 'com.google.protobuf:protobuf-java:2.4.1'
-    implementation 'com.googlecode:protobuf-socket-rpc:2.0'
+    implementation 'com.google.protobuf:protobuf-java:3.9.0'
 }
 
 

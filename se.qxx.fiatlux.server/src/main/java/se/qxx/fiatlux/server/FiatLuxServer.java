@@ -1,5 +1,7 @@
 package se.qxx.fiatlux.server;
 
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
 import org.apache.logging.log4j.Logger;
 
 import com.sun.jna.Native;
@@ -14,17 +16,20 @@ import org.apache.logging.log4j.LogManager;
 public class FiatLuxServer {
 	private static TellstickLibrary lib;
 	
-	TcpListener _listener;
-	
     private static final Logger logger = LogManager.getLogger(FiatLuxServer.class);
 	private static FiatluxScheduler scheduler;
-    
+	private Server server;
+
 	public static void main(String commandargs[]) {
 		Arguments.initialize(commandargs);
 		
 		if (Arguments.get().isSuccess()) {
 			FiatLuxServer s = new FiatLuxServer();
-			s.initialize();
+			try {
+				s.initialize();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		else {
 			System.out.println(Arguments.get().getErrorMessage());
@@ -32,9 +37,11 @@ public class FiatLuxServer {
 		}		
 	}
 
-	private void initialize() {
+	private void initialize() throws InterruptedException {
 		setupListening();
 		setupScheduling();
+
+		server.awaitTermination();
 	}
 
 	private void setupScheduling() {
@@ -82,11 +89,10 @@ public class FiatLuxServer {
 	private void setupListening() {
 		try {
 			logger.debug("Starting up");
-			
-			_listener = new TcpListener(Arguments.get().getPort(), FiatLuxServerConnection.class);
-			Thread t = new Thread(_listener);
-			t.start();
-			
+			server = ServerBuilder.forPort(Arguments.get().getPort())
+					.addService(new FiatLuxServerConnection()).build();
+
+			server.start();
 		}
 		catch (Exception e) {
 			logger.error("Error in main", e);
