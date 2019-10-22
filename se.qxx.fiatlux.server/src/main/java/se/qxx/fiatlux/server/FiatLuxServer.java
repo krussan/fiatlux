@@ -2,6 +2,10 @@ package se.qxx.fiatlux.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 import org.apache.logging.log4j.Logger;
 
 import com.sun.jna.Native;
@@ -23,18 +27,12 @@ public class FiatLuxServer {
 	public static void main(String commandargs[]) {
 		Arguments.initialize(commandargs);
 		
-		if (Arguments.get().isSuccess()) {
-			FiatLuxServer s = new FiatLuxServer();
-			try {
-				s.initialize();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		FiatLuxServer s = new FiatLuxServer();
+		try {
+			s.initialize();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		else {
-			System.out.println(Arguments.get().getErrorMessage());
-			printHelp();
-		}		
 	}
 
 	private void initialize() throws InterruptedException {
@@ -101,15 +99,6 @@ public class FiatLuxServer {
 		logger.debug("Exiting ...");
 	}
 
-	public static void printHelp() {
-		System.out.println("fiatlux-server");
-		System.out.println("	run.sh [port] [scheduling-file]");
-		System.out.println("		- port 				Specifices which port the server should listen to");
-		System.out.println("		- scheduling-file 	Specifies where to read the scheduled jobs");
-		System.out.println("");
-		
-	}
-	
 	public static TellstickLibrary getNative() {
 		if (lib == null)
 			lib = (TellstickLibrary)Native.loadLibrary("libtelldus-core.so.2", TellstickLibrary.class);		

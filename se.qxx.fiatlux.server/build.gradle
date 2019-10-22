@@ -83,13 +83,14 @@ artifacts {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.4.0'
+    compile 'com.google.protobuf:protobuf-java:3.9.0'
     compile 'org.apache.commons:commons-lang3:3.7'
     compile 'net.java.dev.jna:jna:4.2.2'
     compile 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
     compile 'it.sauronsoftware.cron4j:cron4j:2.2.5'
     compile 'org.apache.logging.log4j:log4j-api:2.7'
     compile 'org.apache.logging.log4j:log4j-core:2.7'
+    compile 'net.sourceforge.argparse4j:argparse4j:0.8.1'
     compile project(':se.qxx.fiatlux.domain')
     testCompile 'junit:junit:4.12'
 }
