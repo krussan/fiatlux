@@ -6,12 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import se.qxx.android.fiatlux.DeviceUpdatedListener;
 import se.qxx.android.fiatlux.OnOffHandler;
 import se.qxx.android.fiatlux.adapters.DeviceLayoutAdapter;
@@ -41,6 +42,7 @@ public class FiatLuxMainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Settings.init(this);

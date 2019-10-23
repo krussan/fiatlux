@@ -45,7 +45,7 @@ public class FiatLuxServer {
 	private void setupScheduling() {
 		scheduler = new FiatluxScheduler();
 				
-		try (BufferedReader br = new BufferedReader(new FileReader("luxtab"))){ 
+		try (BufferedReader br = new BufferedReader(new FileReader(Arguments.get().getFile()))){
 			String line = br.readLine();
 			logger.debug(String.format("Parsing line :: %s", line));
 			
@@ -100,6 +100,9 @@ public class FiatLuxServer {
 	}
 
 	public static TellstickLibrary getNative() {
+		if (Arguments.get().isMock())
+			return new TellstickLibraryMock();
+
 		if (lib == null)
 			lib = (TellstickLibrary)Native.loadLibrary("libtelldus-core.so.2", TellstickLibrary.class);		
 

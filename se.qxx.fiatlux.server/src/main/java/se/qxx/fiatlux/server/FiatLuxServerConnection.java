@@ -1,21 +1,13 @@
 package se.qxx.fiatlux.server;
 
-import io.grpc.internal.ClientStream;
 import io.grpc.stub.StreamObserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.protobuf.RpcController;
-import com.sun.jna.Native;
-
-import se.qxx.fiatlux.domain.FiatLuxServiceGrpc;
 import se.qxx.fiatlux.domain.FiatLuxServiceGrpc.FiatLuxServiceImplBase;
-import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import se.qxx.fiatlux.domain.FiatluxComm.DeviceType;
 import se.qxx.fiatlux.domain.FiatluxComm.DimCommand;
-import se.qxx.fiatlux.domain.FiatluxComm.Empty;
-import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
 import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
 import se.qxx.fiatlux.domain.FiatluxComm.Success;
 

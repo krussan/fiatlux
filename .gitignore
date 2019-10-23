@@ -23,3 +23,5 @@ ci/api.json
 ci/keystore
 local.properties
 .idea/
+logs/
+*.log

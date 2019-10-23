@@ -1,12 +1,9 @@
 package se.qxx.android.fiatlux.client;
 
 import com.google.common.util.concurrent.FutureCallback;
-import com.google.protobuf.RpcCallback;
-import io.grpc.stub.StreamObserver;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import se.qxx.android.tools.ResponseListener;
 import se.qxx.android.tools.ResponseMessage;
-import se.qxx.fiatlux.domain.FiatluxComm;
 
 public class FiatluxFuture<T> implements FutureCallback<T> {
     private RpcCallback<T> callback;

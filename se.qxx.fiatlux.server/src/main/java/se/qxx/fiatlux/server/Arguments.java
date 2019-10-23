@@ -31,15 +31,20 @@ public class Arguments {
 				.setDefault("luxtab")
 				.help("Sets the scheduling file to read from. Defaults to luxtab");
 		parser.addArgument("-m", "--mock")
+				.setDefault(false)
 				.type(Boolean.class);
 
-		Namespace ns = null;
 		try {
-			ns = parser.parseArgs(commandargs);
+			Namespace ns = parser.parseArgs(commandargs);
+
+			if (ns == null) {
+				parser.printHelp();
+				System.exit(1);
+			}
 
 			this.setPort(ns.getInt("port"));
 			this.setFile(ns.getString("file"));
-			this.setMock(ns.getBoolean(("mock")));
+			this.setMock(ns.getBoolean("mock"));
 		}
 		catch (ArgumentParserException e) {
 			parser.handleError(e);

@@ -1,5 +1,8 @@
 package se.qxx.android.fiatlux.activities;
 
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 import se.qxx.android.fiatlux.DeviceUpdatedListener;
 import se.qxx.android.fiatlux.OnOffHandler;
 import se.qxx.android.fiatlux.R;
@@ -10,7 +13,6 @@ import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.RelativeLayout;
@@ -33,10 +35,14 @@ public class DimmerActivity extends AppCompatActivity implements DeviceUpdatedLi
 		RelativeLayout panel = new RelativeLayout(this);
         setContentView(panel);
 
-        this.setDevice((Device)getIntent()
-            .getSerializableExtra("Device"));
+		try {
+			ByteString v = (ByteString)getIntent().getSerializableExtra("Device");
+			this.setDevice(Device.parseFrom(v));
+		} catch (InvalidProtocolBufferException e) {
+			e.printStackTrace();
+		}
 
-        RoundKnobButton rv = new RoundKnobButton(this, R.drawable.stator, R.drawable.rotoron, R.drawable.rotoroff,
+		RoundKnobButton rv = new RoundKnobButton(this, R.drawable.stator, R.drawable.rotoron, R.drawable.rotoroff,
         		Scale(250, this), Scale(250, this));
         LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lp.addRule(RelativeLayout.CENTER_IN_PARENT);

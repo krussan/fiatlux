@@ -17,7 +17,7 @@ plugins {
 def appVersionName = rootProject.findProperty('version') ?: '1.0'
 def appVersionCode = Integer.valueOf(System.env.TRAVIS_BUILD_NUMBER ?: project.findProperty('versionCode') ?: 1)
 def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
-def grpcVersion = '1.24.0' // CURRENT_GRPC_VERSION
+def appcompat_version = "1.1.0"
 
 android {
     compileSdkVersion 28
@@ -92,6 +92,9 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+        exclude 'META-INF/native-image/**'
     }
 }
 
@@ -122,11 +125,12 @@ play {
 
 dependencies {
     testImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
+
     implementation project(':se.qxx.fiatlux.domain')
     implementation 'se.qxx.android.tools:android-tools:1.0.2'
-    implementation 'com.google.protobuf:protobuf-java:3.9.0'
-    implementation "io.grpc:grpc-netty:${grpcVersion}"
+    implementation "io.grpc:grpc-okhttp:${grpcVersion}"
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
     implementation "io.grpc:grpc-stub:${grpcVersion}"
 

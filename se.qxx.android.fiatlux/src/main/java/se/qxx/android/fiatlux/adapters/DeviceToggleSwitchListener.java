@@ -48,7 +48,7 @@ public class DeviceToggleSwitchListener implements View.OnClickListener
     public void onClick(View v) {
         if (this.getDevice().getType() == FiatluxComm.DeviceType.dimmer) {
             Intent i = new Intent(getContext(), DimmerActivity.class);
-            i.putExtra("Device", this.getDevice());
+            i.putExtra("Device", this.getDevice().toByteString());
             getContext().startActivity(i);
         }
         else {

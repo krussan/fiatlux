@@ -3,7 +3,6 @@ package se.qxx.android.fiatlux.client;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.protobuf.RpcCallback;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import se.qxx.android.tools.ResponseListener;
@@ -24,6 +23,7 @@ public class FiatluxConnectionHandler {
 	public FiatluxConnectionHandler(String serverIPaddress, int port) {
 		ManagedChannel channel = ManagedChannelBuilder
 				.forAddress(serverIPaddress, port)
+				.usePlaintext()
 				.build();
 
 		stub = newFutureStub(channel);
