@@ -16,6 +16,16 @@ enum Action {
     On = 1;
     Off = 2;
 }
+
+enum Protocol {
+    arctech = 1;
+}
+
+enum Model {
+    selflearning_dimmer = 1;
+    selflearning_switch = 2;
+    code_switch = 3;
+}
   
 //---------------------------------------------------------------------------------------
 //---------------------------- ------------------------------------------- Objects
@@ -45,6 +55,14 @@ message DimCommand {
 	required int32 DimPercentage = 2;
 }
 
+message AddDeviceCommand {
+    required string name = 1;
+    required Protocol protocol = 2;
+    required Model model = 3;
+    optional string house = 4;
+    optional string unit = 5;
+}
+
 //---------------------------------------------------------------------------------------
 //----------------------------------------------------------------------- RPC
 //---------------------------------------------------------------------------------------
@@ -54,5 +72,7 @@ service FiatLuxService {
 	rpc TurnOn(Device) returns (Success);
 	rpc TurnOff(Device) returns (Success);
 	rpc Dim(DimCommand) returns (Success);
+	rpc AddDevice(AddDeviceCommand) returns (Device);
+	rpc Learn(Device) returns (Success);
 }
 

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import se.qxx.fiatlux.domain.FiatLuxServiceGrpc.FiatLuxServiceImplBase;
+import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import se.qxx.fiatlux.domain.FiatluxComm.DeviceType;
 import se.qxx.fiatlux.domain.FiatluxComm.DimCommand;
@@ -24,19 +25,19 @@ public class FiatLuxServerConnection extends FiatLuxServiceImplBase {
 		logger.info("LIST DEVICES");
 
 		int nrOfDevices = FiatLuxServer.getNative().tdGetNumberOfDevices();
+		TellstickLibrary lib = FiatLuxServer.getNative();
+
 		for (int i=1;i<=nrOfDevices;i++) {
-			String name = FiatLuxServer.getNative().tdGetName(i);
-			int last_cmd = FiatLuxServer.getNative().tdLastSentCommand(i, TellstickLibrary.TELLSTICK_TURNON | TellstickLibrary.TELLSTICK_TURNOFF);
+			int index = lib.tdGetDeviceId(i);
+			String name = lib.tdGetName(index);
+			int last_cmd = lib.tdLastSentCommand(index, TellstickLibrary.TELLSTICK_TURNON | TellstickLibrary.TELLSTICK_TURNOFF);
 
-			int supportedMethods = TellstickLibrary.TELLSTICK_TURNOFF | TellstickLibrary.TELLSTICK_TURNON | TellstickLibrary.TELLSTICK_DIM;
-			int methods = FiatLuxServer.getNative().tdMethods(i, supportedMethods);
+			DeviceType dt = getDeviceType(index);
 
-			DeviceType dt = ((methods & TellstickLibrary.TELLSTICK_DIM) == TellstickLibrary.TELLSTICK_DIM) ? DeviceType.dimmer : DeviceType.onoffswitch;
-
-			ExecutorTask task = FiatLuxServer.getScheduler().getLowestExecutor(i);
+			ExecutorTask task = FiatLuxServer.getScheduler().getLowestExecutor(index);
 
 			Device.Builder builder = Device.newBuilder()
-                    .setDeviceID(i)
+                    .setDeviceID(index)
                     .setName(name)
                     .setIsOn(last_cmd == TellstickLibrary.TELLSTICK_TURNON)
                     .setType(dt);
@@ -55,6 +56,12 @@ public class FiatLuxServerConnection extends FiatLuxServiceImplBase {
 		responseObserver.onCompleted();
     }
 
+	private DeviceType getDeviceType(int id) {
+		int supportedMethods = TellstickLibrary.TELLSTICK_TURNOFF | TellstickLibrary.TELLSTICK_TURNON | TellstickLibrary.TELLSTICK_DIM;
+		int methods = FiatLuxServer.getNative().tdMethods(id, supportedMethods);
+
+		return ((methods & TellstickLibrary.TELLSTICK_DIM) == TellstickLibrary.TELLSTICK_DIM) ? DeviceType.dimmer : DeviceType.onoffswitch;
+	}
 
 
 	@Override
@@ -96,4 +103,39 @@ public class FiatLuxServerConnection extends FiatLuxServiceImplBase {
 		responeObserver.onNext(Success.newBuilder().setSuccess(true).build());
         responeObserver.onCompleted();
 	}
+
+
+	@Override
+	public void addDevice(FiatluxComm.AddDeviceCommand request,
+						  StreamObserver<Device> responeObserver) {
+    	TellstickLibrary lib = FiatLuxServer.getNative();
+
+    	int id = lib.tdAddDevice();
+    	lib.tdSetName(id, request.getName());
+    	lib.tdSetProtocol(id, request.getProtocol().toString().toLowerCase());
+    	lib.tdSetModel(id, request.getModel().toString().toLowerCase().replace("_", "-"));
+		lib.tdSetDeviceParameter(id, "house", request.getHouse());
+		lib.tdSetDeviceParameter(id, "unit", request.getUnit());
+
+		Device device = Device.newBuilder()
+				.setDeviceID(id)
+				.setName(request.getName())
+				.setIsOn(false)
+				.setType(getDeviceType(id))
+				.build();
+
+		responeObserver.onNext(device);
+		responeObserver.onCompleted();
+	}
+
+
+	@Override
+	public void learn(Device request, StreamObserver<Success> responseObserver) {
+		int result = FiatLuxServer.getNative().tdLearn(request.getDeviceID());
+
+		responseObserver.onNext(Success.newBuilder().setSuccess(result == 0).build());
+		responseObserver.onCompleted();
+
+	}
+	
 }
