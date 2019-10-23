@@ -8,11 +8,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import se.qxx.android.fiatlux.DeviceUpdatedListener;
 import se.qxx.android.fiatlux.OnOffHandler;
 import se.qxx.android.fiatlux.adapters.DeviceLayoutAdapter;
@@ -24,10 +26,11 @@ import android.widget.Toast;
 import se.qxx.android.fiatlux.R;
 
 public class FiatLuxMainActivity extends AppCompatActivity
-        implements DeviceUpdatedListener {
+        implements DeviceUpdatedListener, SwipeRefreshLayout.OnRefreshListener {
 
     private BroadcastReceiver receiver;
     private DeviceLayoutAdapter deviceLayoutAdapter;
+    private SwipeRefreshLayout swipeLayout;
 
     public OnOffHandler getHandler() {
         return handler;
@@ -44,6 +47,8 @@ public class FiatLuxMainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        swipeLayout = findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
 
         Settings.init(this);
         this.setHandler(new OnOffHandler(this, this));
@@ -52,11 +57,17 @@ public class FiatLuxMainActivity extends AppCompatActivity
 
     }
 
-    private void initModel() {
-        FiatluxConnectionHandler h = this.getHandler().getHandler("Getting devices...");
+    @Override
+    public void onRefresh() {
+        initModel();
+    }
 
-        getApplicationContext();
+    private void initModel() {
+        swipeLayout.setRefreshing(true);
+        FiatluxConnectionHandler h = this.getHandler().getNonMessageHandler();
+
         h.listDevices(devices -> runOnUiThread(() -> {
+            //swipeLayout = findViewById(R.id.swipe_container);
             if (devices != null) {
                 ListView v = findViewById(R.id.listMain);
                 deviceLayoutAdapter = new DeviceLayoutAdapter(
@@ -65,6 +76,7 @@ public class FiatLuxMainActivity extends AppCompatActivity
                         getHandler());
                 v.setAdapter(deviceLayoutAdapter);
             }
+            swipeLayout.setRefreshing(false);
         }));
     }
 

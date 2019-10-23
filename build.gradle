@@ -1,4 +1,4 @@
-rootProject.version = '0.3.3'
+rootProject.version = '0.4.0'
 
 buildscript {
     ext.grpcVersion = '1.24.0' // CURRENT_GRPC_VERSION

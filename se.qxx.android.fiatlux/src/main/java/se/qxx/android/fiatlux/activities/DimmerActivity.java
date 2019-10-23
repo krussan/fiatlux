@@ -58,9 +58,7 @@ public class DimmerActivity extends AppCompatActivity implements DeviceUpdatedLi
 				long currentTimestamp = System.currentTimeMillis();
 
 				if (currentTimestamp - latestTriggerTimestamp > TRIGGER_MILLIS) {
-					handler.getNonMessageHandler(
-							DimmerActivity.this,
-							"Dimming...")
+					handler.getNonMessageHandler()
 								.dim(
 									getDevice(),
 										percentage);
@@ -75,9 +73,7 @@ public class DimmerActivity extends AppCompatActivity implements DeviceUpdatedLi
 				Device dev = getDevice();
 
 				if (dev != null)
-					getHandler().getNonMessageHandler(
-						DimmerActivity.this,
-						"Dimming...")
+					getHandler().getNonMessageHandler()
 							.dim(dev, percentage);
 
 			}
