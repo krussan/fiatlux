@@ -1,31 +1,36 @@
 package se.qxx.android.fiatlux.client;
 
-import se.qxx.android.fiatlux.activities.DimmerActivity;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import se.qxx.android.tools.ResponseListener;
-import se.qxx.android.tools.ResponseMessage;
 import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import se.qxx.fiatlux.domain.FiatluxComm.DimCommand;
 import se.qxx.fiatlux.domain.FiatluxComm.Empty;
-import se.qxx.fiatlux.domain.FiatluxComm.FiatLuxService;
 import se.qxx.fiatlux.domain.FiatluxComm.ListOfDevices;
-import se.qxx.fiatlux.domain.FiatluxComm.Success;
 
-import com.google.protobuf.RpcCallback;
-import com.google.protobuf.RpcController;
-import com.googlecode.protobuf.socketrpc.SocketRpcController;
+import static se.qxx.fiatlux.domain.FiatLuxServiceGrpc.FiatLuxServiceFutureStub;
+import static se.qxx.fiatlux.domain.FiatLuxServiceGrpc.newFutureStub;
 
 public class FiatluxConnectionHandler {
 	
 	private ResponseListener listener;
-	private ClientConnectionPool<FiatLuxService> connection = null;
-	
+	FiatLuxServiceFutureStub stub = null;
+
 	public FiatluxConnectionHandler(String serverIPaddress, int port) {
-		this.setConnection(new ClientConnectionPool<FiatluxComm.FiatLuxService>(serverIPaddress, port));
+		ManagedChannel channel = ManagedChannelBuilder
+				.forAddress(serverIPaddress, port)
+				.usePlaintext()
+				.build();
+
+		stub = newFutureStub(channel);
 	}
 	
 	public FiatluxConnectionHandler(String serverIPaddress, int port, ResponseListener listener) {
-		this.setConnection(new ClientConnectionPool<FiatluxComm.FiatLuxService>(serverIPaddress, port));
+		this(serverIPaddress, port);
 		this.setListener(listener);
 	}
 	
@@ -36,27 +41,12 @@ public class FiatluxConnectionHandler {
 		this.listDevices(null);
 	}
 			
-	public void listDevices(final RpcCallback<FiatluxComm.ListOfDevices> rpcCallback) {
-		final RpcController controller = new SocketRpcController();
-		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
+	public void listDevices(final RpcCallback<ListOfDevices> rpcCallback) {
+		Empty request = Empty.newBuilder().build();
+		FiatluxFuture observer = new FiatluxFuture(rpcCallback, this.getListener());
 
-		Thread t = new Thread() {
-			public void run() {
-
-				FiatLuxService service = conn.getNonBlockingService();
-
-				Empty request = Empty.newBuilder().build();
-
-
-				service.list(controller, request, devices -> {
-                    onRequestComplete(controller);
-                    if (rpcCallback != null)
-                        rpcCallback.run(devices);
-                });
-
-			}
-		};
-		t.start();
+		ListenableFuture future = stub.list(request);
+		Futures.addCallback(future, observer, MoreExecutors.directExecutor());
 	}
 	
 	public void turnOn(final Device d) {
@@ -64,45 +54,21 @@ public class FiatluxConnectionHandler {
 	}
 	
 	public void turnOn(final Device d, final RpcCallback<FiatluxComm.Success> rpcCallback) {
-		final RpcController controller = new SocketRpcController();
-		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
+		FiatluxFuture observer = new FiatluxFuture(rpcCallback, this.getListener());
 
-		Thread t = new Thread() {
-			public void run() {
-				FiatLuxService service = conn.getNonBlockingService();
-				
-				service.turnOn(controller, d, s -> {
-                    onRequestComplete(controller);
-                    if (rpcCallback != null)
-                        rpcCallback.run(s);
-                });
-			
-			}
-		};
-		t.start();
-	}	
+		ListenableFuture future = stub.turnOn(d);
+		Futures.addCallback(future, observer, MoreExecutors.directExecutor());
+	}
 	
 	public void turnOff(final Device d) {
 		turnOff(d, null);
 	}
 	
 	public void turnOff(final Device d, final RpcCallback<FiatluxComm.Success> rpcCallback) {
-		final RpcController controller = new SocketRpcController();
-		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
+		FiatluxFuture observer = new FiatluxFuture(rpcCallback, this.getListener());
 
-		Thread t = new Thread() {
-			public void run() {
-				FiatLuxService service = conn.getNonBlockingService();
-				
-				service.turnOff(controller, d, s -> {
-                    onRequestComplete(controller);
-                    if (rpcCallback != null)
-                        rpcCallback.run(s);
-                });
-			
-			}
-		};
-		t.start();
+		ListenableFuture future = stub.turnOff(d);
+		Futures.addCallback(future, observer, MoreExecutors.directExecutor());
 	}
 	
 	public void dim(final Device d, int percentage) {
@@ -110,29 +76,18 @@ public class FiatluxConnectionHandler {
 	}
 	
 	public void dim(final Device d, final int percentage, final RpcCallback<FiatluxComm.Success> rpcCallback) {
-		final RpcController controller = new SocketRpcController();
-		final ClientConnectionPool<FiatLuxService> conn = this.getConnection();
 
-		Thread t = new Thread() {
-			public void run() {
-				FiatLuxService service = conn.getNonBlockingService();
-				
-				DimCommand comm = 
-						DimCommand.newBuilder()
-						.setDevice(d)
-						.setDimPercentage(percentage)
-						.build();
-				
-				service.dim(controller, comm, s -> {
-                    onRequestComplete(controller);
-                    if (rpcCallback != null)
-                        rpcCallback.run(s);
-                });
-			
-			}
-		};
-		t.start();
-	}		
+		DimCommand comm =
+				DimCommand.newBuilder()
+				.setDevice(d)
+				.setDimPercentage(percentage)
+				.build();
+
+		FiatluxFuture observer = new FiatluxFuture(rpcCallback, this.getListener());
+
+		ListenableFuture future = stub.dim(comm);
+		Futures.addCallback(future, observer, MoreExecutors.directExecutor());
+	}
 
 	public ResponseListener getListener() {
 		return this.listener;
@@ -142,24 +97,6 @@ public class FiatluxConnectionHandler {
 		this.listener = listener;
 	}	
 		
-	private ResponseMessage checkResponse(RpcController controller) {
-		return new ResponseMessage(!controller.failed(), controller.errorText());		
-	}
-	
-	private void onRequestComplete(RpcController controller) {
-		ResponseMessage msg = checkResponse(controller);
-		
-		if (this.getListener() != null)
-			this.getListener().onRequestComplete(msg);		
-	}
-
-	public ClientConnectionPool<FiatLuxService> getConnection() {
-		return connection;
-	}
-
-	public void setConnection(ClientConnectionPool<FiatLuxService> conn) {
-		this.connection = conn;
-	}
 
 
 }

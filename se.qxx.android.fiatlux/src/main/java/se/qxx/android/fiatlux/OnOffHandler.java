@@ -62,7 +62,7 @@ public class OnOffHandler {
                 ConnectionProgressDialog.build(this.getActivity(), message));
     }
 
-    public FiatluxConnectionHandler getNonMessageHandler(Activity activity, String message) {
+    public FiatluxConnectionHandler getNonMessageHandler() {
         return new FiatluxConnectionHandler(
                 Settings.get().getServerIpAddress(),
                 Settings.get().getServerPort());

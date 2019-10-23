@@ -1,20 +1,23 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.github.triplet.play'
-apply plugin: 'idea'
-
-def appVersionName = rootProject.findProperty('version') ?: '1.0'
-def appVersionCode = Integer.valueOf(System.env.TRAVIS_BUILD_NUMBER ?: project.findProperty('versionCode') ?: 1)
-def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
-
 buildscript {
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.5.1'
     }
 }
+
+plugins {
+    id 'com.android.application'
+    id 'com.github.triplet.play'
+    id 'idea'
+}
+
+def appVersionName = rootProject.findProperty('version') ?: '1.0'
+def appVersionCode = Integer.valueOf(System.env.TRAVIS_BUILD_NUMBER ?: project.findProperty('versionCode') ?: 1)
+def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
+def appcompat_version = "1.1.0"
 
 android {
     compileSdkVersion 28
@@ -79,6 +82,20 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+        exclude 'META-INF/native-image/**'
+    }
 }
 
 def publish = project.tasks.create("publishAll");
@@ -103,16 +120,22 @@ if (project.hasProperty("RELEASE_DEPLOY_PATH")) {
 
 play {
     track = "internal"
-    jsonFile = file(appJsonFile)
+    serviceAccountCredentials = file(appJsonFile)
 }
 
 dependencies {
     testImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
+
     implementation project(':se.qxx.fiatlux.domain')
     implementation 'se.qxx.android.tools:android-tools:1.0.2'
-    implementation 'com.google.protobuf:protobuf-java:2.4.1'
-    implementation 'com.googlecode:protobuf-socket-rpc:2.0'
+    implementation "io.grpc:grpc-okhttp:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
 }
 
 
