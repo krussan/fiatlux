@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:4.1.1'
     }
 }
 
@@ -17,7 +17,8 @@ plugins {
 def appVersionName = rootProject.findProperty('version') ?: '1.0'
 def appVersionCode = Integer.valueOf(System.env.TRAVIS_BUILD_NUMBER ?: project.findProperty('versionCode') ?: 1)
 def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
-def appcompat_version = "1.1.0"
+def appCompatVersion = "1.2.0"
+def designSupportVersion = "1.0.0"
 
 android {
     compileSdkVersion 28
@@ -26,7 +27,7 @@ android {
     defaultConfig {
         applicationId "se.qxx.android.fiatlux"
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode appVersionCode
         versionName appVersionName
         setProperty("archivesBaseName", "fiatlux-$versionName")
@@ -79,8 +80,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 
     packagingOptions {
@@ -125,8 +126,8 @@ play {
 
 dependencies {
     testImplementation 'junit:junit:4.12'
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.appcompat:appcompat-resources:$appCompatVersion"
 
     implementation project(':se.qxx.fiatlux.domain')
     implementation 'se.qxx.android.tools:android-tools:1.0.2'
@@ -134,7 +135,7 @@ dependencies {
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
     implementation "io.grpc:grpc-stub:${grpcVersion}"
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 }
 

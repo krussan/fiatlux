@@ -6,9 +6,9 @@ android:
   - tools
   - tools
   - platform-tools
-  - build-tools-28.0.3
-  - android-28
-  - addon-google_apis-google-28
+  - build-tools-30.0.3
+  - android-29
+  - addon-google_apis-google-29
   - extra-android-m2repository
 
   licenses:
@@ -42,7 +42,7 @@ deploy:
   provider: releases
 
   api_key:
-    secure: ZCtFWa3m80O/lexHpHscY/8q6DBGS91+NIaWihGxVF1EGctv02tNeFxNS0at4Xn9E/7Tn026w83UBFWSxld2BAv/TaEiuPeaaGyFwlY2jDWwVcG6d1oE6bYrKe3Qb6NHckuC4GfQa6MhamZ1uW3l5/JHaV00LwKFISXvFTdfQs0UNcWebeXddMdj02QFvDbY5mM4QkIFKEdN4dq8faXAwbWzGjjpEaKcg53QlyPdHq+uz7zXmnnbmGM2HRA1Z7/TnzgLPw29WDwdyV+iJr4Mt28OneKanfOqnh3ojHRFQX2sxSVCfotlwA4JiFOWkiE31rGP3fAjcG2oMLrHAEUlGzR9+aF/yWdZc32j7sI4xyjcgh/EicbQ/ehAKi9O8ODPt5PNgJb/h6+w15r6ZuvNMHFxMJpm9d/Q2M/fNZo/xqY9lSCS81YT+SNx8JwcVjDJn1ucEhplGJCBb9P2kp0fYkGAD01i5EnaET7Byv3uptJXU4fXbQoPDdtZK/3+nMRbWTuF6G4h68jjJHOKg7CUIpAUokDNNszouMVjnzkliosnqSJG67mJRCtXF9iQY6MbYSGy7wpUoRbbmVnI8aMnVFdsnaJmhRSE9b9Ct84md0RmAvhszFxedUgaBSxfyAjFf2SeOiHEENA4IMkF/lWh+W4YxwU1968VVwsGZJqeAoQ=
+    secure: IertdmAxWPzwSnrNgl0JHQd2FTXnHoTyhiwU0MPwMKwPOTpU97pn3GxXD4BpMhiDR6nhbHb+BYrYwIvO2rMTy5XADXcQ70L8xqOs2e5SAAsOLWCQYd4KwhBdtfSKlyeZomKXwzS7yOuT6+Yt0HqeuHNhuQKzcdV0vLGWk5g38B2/C3akkhMV1m/jEMKtz97Jf9ExOGk3zdlShU7Pw/bxSSoUCk2hmZGT/u887HugHiU29Izi2k/fbvMERRUObW2FlfGJtYLK3DjMPtnJ7K871ycH8oKnIAU5Ue0Q2jq1jr0Ud8qvEAAZLEHAG3DKSf5Igkn3wo9zcu8zg3epQFUUx2a90ylVZngectWWjII84AIT+YgrKWYm5vmlf9CjH2C5nyORbIphWsp6xGU0IOasDcrHtlCMm/5I0FDtL1tVFcuUlL6ytwxMTcglP10RQUpBf7+RV04CNoxHGw87F42kg5/3MSkL/a9sQTHZ52mp5JyrZcJXwzSmdK+lP8hh93sxcETfYwvpBDd/jZOqWTfXZwM7u93S9vG4VG13JO2mM/kcGSuAEPPd2BihTr8Cia5dwz1U7jXO3j019OZGLnFJc5aYQ8IA30mSZGDrk3beBprqBvRi/Um5FiZqaKAHAZPZYaFvowjXbrToMD+M5OhxXRneVnORTOuOw/UiTc550OU=
 
   file_glob: true
   file: deploy/*
