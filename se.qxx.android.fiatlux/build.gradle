@@ -21,7 +21,7 @@ def appCompatVersion = "1.2.0"
 def designSupportVersion = "1.0.0"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     // buildToolsVersion '27.0.3'
 
     defaultConfig {
