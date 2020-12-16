@@ -137,5 +137,5 @@ public class FiatLuxServerConnection extends FiatLuxServiceImplBase {
 		responseObserver.onCompleted();
 
 	}
-	
+
 }

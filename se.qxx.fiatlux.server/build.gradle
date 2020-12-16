@@ -49,8 +49,8 @@ build {
 }
 
 compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 }
 
 jar {
@@ -84,7 +84,7 @@ artifacts {
 
 dependencies {
     compile 'com.google.protobuf:protobuf-java:3.9.0'
-    compile 'org.apache.commons:commons-lang3:3.7'
+    compile 'org.apache.commons:commons-lang3:3.9'
     compile 'net.java.dev.jna:jna:4.2.2'
     compile 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
     compile 'it.sauronsoftware.cron4j:cron4j:2.2.5'

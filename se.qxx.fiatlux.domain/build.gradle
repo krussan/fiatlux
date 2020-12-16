@@ -6,8 +6,10 @@ version = rootProject.findProperty('version') ?: '1.0'
 
 description = """domain-model"""
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+compileJava {
+    sourceCompatibility = 11
+    targetCompatibility = 11
+}
 
 def appProtocExec = project.findProperty('protocExec') ?: '/usr/bin/protoc'
 def nettyTcNativeVersion = '2.0.7.Final'
