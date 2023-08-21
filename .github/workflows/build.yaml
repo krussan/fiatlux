@@ -48,7 +48,7 @@ jobs:
 
       - name: Build the app
         env:
-          RELEASE_STORE_FILE: ci/keystore2
+          RELEASE_STORE_FILE: ../ci/keystore2
           RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
           RELEASE_KEY_ALIAS: android-signing
