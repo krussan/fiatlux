@@ -53,3 +53,15 @@ jobs:
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
           RELEASE_KEY_ALIAS: android-signing
         run: ./ci/build.sh
+
+      - name: Create tag
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/{{ env.FIATLUX_TAG }}',
+              sha: context.sha
+            })

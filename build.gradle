@@ -1,10 +1,10 @@
-rootProject.version = '0.4.2'
+rootProject.version = '0.4.3'
 
 buildscript {
     ext.grpcVersion = '1.26.0' // CURRENT_GRPC_VERSION
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
@@ -17,7 +17,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         mavenLocal()
         mavenCentral()
        maven {
