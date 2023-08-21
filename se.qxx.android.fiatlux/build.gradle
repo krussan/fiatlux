@@ -14,7 +14,7 @@ plugins {
     id 'idea'
 }
 
-def migrationCommitCount = 110
+def migrationCommitCount = 115
 def travisMigrationBuildNumber = 137
 def appVersionName = rootProject.findProperty('version') ?: '1.0'
 def appVersionCode = Integer.valueOf(System.env.BUILD_NUMBER ?: project.findProperty('versionCode') ?: 1) - migrationCommitCount + travisMigrationBuildNumber
