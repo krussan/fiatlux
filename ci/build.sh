@@ -19,7 +19,7 @@ if [[ "$GITHUB_BASE_REF" == "master" ]];then
    fi
 fi
 
-if [[ "$GITHUB_EVENT_NAME" == "push" ]] && [[ "$GITHUB_BASE_REF" == "master" ]];then
+if [[ "$GITHUB_EVENT_NAME" == "push" ]] && [[ "$GITHUB_REF_NAME" == "master" ]];then
    echo Packaging new release ...
    ./gradlew clean build check connectedCheck assemble packageRelease archiveZip publishRelease -PprotocExec=${GITHUB_WORKSPACE}/ci/protoc
 else 
