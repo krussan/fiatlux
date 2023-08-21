@@ -1,0 +1,49 @@
+# The name of our workflow
+name: Build
+
+on:
+  # Trigger on every pull request and on push
+  # to the `main` branch.
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Change script permissions
+        run: chmod +x ./*.sh
+
+      - name: Print version
+        run: ./gradlew printversion -q > /dev/null 2> /dev/null
+
+      - name: Set version
+        run: export FIATLUX_VERSION=`./gradlew printversion -q`
+
+      - name: Set version tag
+        run: export FIATLUX_TAG=v$FIATLUX_VERSION
+
+      - name: Set linking library path
+        run: export LD_LIBRARY_PATH=$GITHUB_WORKSPACE/ci:$LD_LIBRARY_PATH
+
+      - name: Unpack protoc
+        run: unzip ci/protoc.zip -d ci
+
+      - name: Change script permissions
+        run: chmod 775 ci/*.sh
+
+      - name: Build the app
+        run: ./ci/build.sh
