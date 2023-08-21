@@ -31,7 +31,7 @@ jobs:
         run: |
           ./gradlew printversion -q > /dev/null 2> /dev/null
           VERSION=$(./gradlew printversion -q)
-          NUM_COMMITS=$(git rev-list --count master)
+          NUM_COMMITS=$(git rev-list --count refs/heads/master)
           echo "FIATLUX_VERSION=$VERSION" >> $GITHUB_ENV
           echo "FIATLUX_TAG=v$VERSION" >> $GITHUB_ENV
           echo "LD_LIBRARY_PATH=$GITHUB_WORKSPACE/ci:$LD_LIBRARY_PATH" >> $GITHUB_ENV
