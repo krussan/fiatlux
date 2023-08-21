@@ -4,12 +4,13 @@ echo Initiating build ...
 echo
 echo -----------------------------------------------------
 echo VERSION :: $FIATLUX_VERSION
-echo TRAVIS_PULL_REQUEST :: $TRAVIS_PULL_REQUEST
-echo TRAVIS_BRANCH :: $TRAVIS_BRANCH
+echo BASE_REF :: $GITHUB_BASE_REF
+echo BRANCH :: $GITHUB_REF_NAME
+echo EVENT :: $GITHUB_EVENT_NAME
 echo -----------------------------------------------------
 echo
 
-if [[ "$TRAVIS_BRANCH" == "master" ]];then
+if [[ "$GITHUB_BASE_REF" == "master" ]];then
    echo Checking that the resulting tag does not exist
 
    if git rev-parse -q --verify "refs/tags/$FIATLUX_TAG" >/dev/null; then
@@ -18,11 +19,11 @@ if [[ "$TRAVIS_BRANCH" == "master" ]];then
    fi
 fi
 
-if [[ "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" ]];then
+if [[ "$GITHUB_EVENT_NAME" == "push" ]] && [[ "$GITHUB_BASE_REF" == "master" ]];then
    echo Packaging new release ...
-   ./gradlew clean build check connectedCheck assemble packageRelease archiveZip publishRelease -PprotocExec=${TRAVIS_BUILD_DIR}/ci/protoc
+   ./gradlew clean build check connectedCheck assemble packageRelease archiveZip publishRelease -PprotocExec=${GITHUB_WORKSPACE}/ci/protoc
 else 
    echo Running test ...
-   ./gradlew clean build check connectedCheck -PprotocExec=${TRAVIS_BUILD_DIR}/ci/protoc
+   ./gradlew clean build check connectedCheck -PprotocExec=${GITHUB_WORKSPACE}/ci/protoc
 fi
 

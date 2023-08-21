@@ -3,6 +3,7 @@
 -dontnote com.google.android.gms.internal.zzlh
 
 -dontwarn android.support.**
+-dontwarn java.lang.ClassValue
 
 -keep class se.qxx.fiatlux.domain.** { *; }
 -keep class se.qxx.fiatlux.domain.FiatluxComm.** { *; }
