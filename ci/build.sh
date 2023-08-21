@@ -5,11 +5,12 @@ echo
 echo -----------------------------------------------------
 echo VERSION :: $FIATLUX_VERSION
 echo BASE_REF :: $GITHUB_BASE_REF
-echo BRANCHF :: $GITHUB_REF_NAME
+echo BRANCH :: $GITHUB_REF_NAME
+echo EVENT :: $GITHUB_EVENT_NAME
 echo -----------------------------------------------------
 echo
 
-if [[ "$GITHUB_REF_NAME" == "master" ]];then
+if [[ "$GITHUB_BASE_REF" == "master" ]];then
    echo Checking that the resulting tag does not exist
 
    if git rev-parse -q --verify "refs/tags/$FIATLUX_TAG" >/dev/null; then
