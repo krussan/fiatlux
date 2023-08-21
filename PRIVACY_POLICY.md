@@ -1,4 +1,4 @@
-## TazMo: Privacy policy
+## Fiatlux: Privacy policy
 
 Welcome to the Fiatlux Android app and server implementation!
 
