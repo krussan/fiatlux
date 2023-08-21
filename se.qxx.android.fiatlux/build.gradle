@@ -14,10 +14,9 @@ plugins {
     id 'idea'
 }
 
-def migrationCommitCount = 115
-def travisMigrationBuildNumber = 137
 def appVersionName = rootProject.findProperty('version') ?: '1.0'
-def appVersionCode = Integer.valueOf(System.env.BUILD_NUMBER ?: project.findProperty('versionCode') ?: 1) - migrationCommitCount + travisMigrationBuildNumber
+def appVersionParts = appVersionName.split(".")
+def appVersionCode = Integer.valueOf(appVersionParts[0]) * 10000 + Integer.valueOf(appVersionParts[1]) * 100 + Integer.valueOf(appVersionParts[2])
 def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
 def appCompatVersion = "1.2.0"
 def designSupportVersion = "1.0.0"
