@@ -31,9 +31,11 @@ jobs:
         run: |
           ./gradlew printversion -q > /dev/null 2> /dev/null
           VERSION=$(./gradlew printversion -q)
+          NUM_COMMITS=$(git rev-list --count master)
           echo "FIATLUX_VERSION=$VERSION" >> $GITHUB_ENV
           echo "FIATLUX_TAG=v$VERSION" >> $GITHUB_ENV
           echo "LD_LIBRARY_PATH=$GITHUB_WORKSPACE/ci:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=$NUM_COMMITS" >> $GITHUB_ENV
 
       - name: Unpack protoc
         run: unzip ci/protoc.zip -d ci
