@@ -12,14 +12,14 @@ tasks.withType(JavaCompile) {
 
 repositories {       
     maven { url "https://github.com/krussan/maven-repo/raw/master/" }
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 task archiveZip(type: Zip, dependsOn: 'build') {
-	baseName = 'fiatlux-server'
-	from "$libsDir"
-	destinationDir = new File("$buildDir")
-   include "**/*"
+    baseName("fiatlux-server")
+    from("$libsDirectory")
+    destinationDir(new File("$buildDir"))
+    include "**/*"
 }
 
 build {
@@ -83,16 +83,21 @@ artifacts {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.12.0'
-    compile 'org.apache.commons:commons-lang3:3.9'
-    compile 'net.java.dev.jna:jna:4.2.2'
-    compile 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
-    compile 'it.sauronsoftware.cron4j:cron4j:2.2.5'
-    compile 'org.apache.logging.log4j:log4j-api:2.13.3'
-    compile 'org.apache.logging.log4j:log4j-core:2.13.3'
-    compile 'net.sourceforge.argparse4j:argparse4j:0.8.1'
-    compile "io.grpc:grpc-netty-shaded:${grpcVersion}"
-    compile project(':se.qxx.fiatlux.domain')
-    testCompile 'junit:junit:4.12'
+    implementation 'com.google.protobuf:protobuf-java:3.12.0'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'net.java.dev.jna:jna:4.2.2'
+    implementation 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
+    implementation 'it.sauronsoftware.cron4j:cron4j:2.2.5'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.1'
+    annotationProcessor 'org.apache.logging.log4j:log4j-core:2.17.1'
+    implementation 'net.sourceforge.argparse4j:argparse4j:0.8.1'
+    implementation "io.grpc:grpc-netty-shaded:${grpcVersion}"
+    implementation project(':se.qxx.fiatlux.domain')
+    testImplementation 'junit:junit:4.12'
 }
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
