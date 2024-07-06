@@ -16,10 +16,9 @@ repositories {
 }
 
 task archiveZip(type: Zip, dependsOn: 'build') {
-	getArchiveBase = 'fiatlux-server'
-    from("$libsDirectory")
-    destinationDir(new File("$buildDir"))
-    include "**/*"
+    archiveBaseName = 'fiatlux-server'
+    destinationDirectory = buildDir
+    into ('.') { from('.') { include '**/*' } }
 }
 
 build {
