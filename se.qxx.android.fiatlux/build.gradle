@@ -15,19 +15,20 @@ plugins {
 }
 
 def appVersionName = rootProject.findProperty('version') ?: '1.0'
-def appVersionCode = Integer.valueOf(System.env.TRAVIS_BUILD_NUMBER ?: project.findProperty('versionCode') ?: 1)
+def appVersionParts = appVersionName.split("\\.")
+def appVersionCode = Integer.valueOf(appVersionParts[0]) * 10000 + Integer.valueOf(appVersionParts[1]) * 100 + Integer.valueOf(appVersionParts[2])
 def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
 def appCompatVersion = "1.2.0"
 def designSupportVersion = "1.0.0"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     // buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "se.qxx.android.fiatlux"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode appVersionCode
         versionName appVersionName
         setProperty("archivesBaseName", "fiatlux-$versionName")
