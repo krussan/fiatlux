@@ -66,6 +66,7 @@ task fatJar(type: Jar) {
   manifest.from jar.manifest
   archiveClassifier = 'all'
   archiveBaseName = 'fiatlux-server'
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
   from {
     configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
