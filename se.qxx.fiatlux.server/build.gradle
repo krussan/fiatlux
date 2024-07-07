@@ -15,16 +15,16 @@ repositories {
     maven { url "https://repo.maven.apache.org/maven2" }
 }
 
-task archiveZip(type: Zip, dependsOn: 'build') {
+tasks.register('archiveZip', Zip) {
+    dependsOn 'build'
     archiveBaseName = 'fiatlux-server'
     destinationDirectory = base.distsDirectory
-    into ('.') { from('.') { include '**/*' } }
+    into('.') { from('.') { include '**/*' } }
 }
 
 build {
 	doLast {
-      def filename = "${ base.distsDirectory }/run.sh"
-      def runFile = new File(filename)
+      def runFile = base.distsDirectory.file("run.sh").get().asFile
       runFile.withWriter('UTF-8') { writer ->
 			writer.writeLine('#!/bin/sh')
 			writer.writeLine('if [ -n "$LD_LIBRARY_PATH" ]')
