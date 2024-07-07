@@ -17,13 +17,14 @@ repositories {
 
 task archiveZip(type: Zip, dependsOn: 'build') {
     archiveBaseName = 'fiatlux-server'
-    destinationDirectory = buildDir
+    destinationDirectory = base.distsDirectory
     into ('.') { from('.') { include '**/*' } }
 }
 
 build {
 	doLast {
-      def runFile=new File("${ base.distsDirectory }/run.sh")
+      def filename = "${ base.distsDirectory }/run.sh"
+      def runFile = new File(filename)
       runFile.withWriter('UTF-8') { writer ->
 			writer.writeLine('#!/bin/sh')
 			writer.writeLine('if [ -n "$LD_LIBRARY_PATH" ]')
