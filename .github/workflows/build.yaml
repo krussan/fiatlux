@@ -66,3 +66,11 @@ jobs:
               ref: 'refs/tags/${{ env.FIATLUX_TAG }}',
               sha: context.sha
             })
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            se.qxx.fiatlux.server/build/*.zip
+            se.qxx.android.fiatlux/build/outputs/apk/release/*.apk
