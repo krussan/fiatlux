@@ -1,4 +1,4 @@
-rootProject.version = '0.4.8'
+rootProject.version = '0.4.9'
 
 buildscript {
     ext.grpcVersion = '1.65.0' // CURRENT_GRPC_VERSION
@@ -25,6 +25,6 @@ allprojects {
     }
 }
 
-task outputVersion {
+tasks.register('outputVersion') {
     new File(projectDir, "version.txt").text = "$rootProject.version"
 }
