@@ -24,7 +24,11 @@ tasks.register('archiveZip', Zip) {
 
 build {
 	doLast {
-      def runFile = base.distsDirectory.file("run.sh").get().asFile
+      def libsDir = base.libsDirectory.get()
+      def runFile = libsDir.file("run.sh").asFile
+      def jarFile = fatJar.archiveFileName.get()
+      println(runFile)
+
       runFile.withWriter('UTF-8') { writer ->
 			writer.writeLine('#!/bin/sh')
 			writer.writeLine('if [ -n "$LD_LIBRARY_PATH" ]')
@@ -34,12 +38,12 @@ build {
 			writer.writeLine('   LD_LIBRARY_PATH=$PWD')
 			writer.writeLine('fi')
 			writer.writeLine('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH')
-			writer.writeLine("java -jar $fatJar.archiveName" + ' ${1+"$@"} &')
+			writer.writeLine("java -jar $jarFile" + ' ${1+"$@"} &')
 		}
 
 		copy {
 			from "$projectDir"
-			into "$base.distsDirectory"
+			into "$libsDir"
 			include 'stop.sh'
 			include 'cron-example'
 		}
