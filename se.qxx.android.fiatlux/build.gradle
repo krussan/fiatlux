@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:7.0.4'
     }
 }
 
@@ -21,7 +21,20 @@ def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
 def appCompatVersion = "1.2.0"
 def designSupportVersion = "1.0.0"
 
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                if (namespace == null) {
+                    namespace = 'se.qxx.android.fiatlux'
+                }
+            }
+        }
+    }
+}
+
 android {
+    namespace = 'se.qxx.android.fiatlux'
     compileSdkVersion 33
     // buildToolsVersion '27.0.3'
 
@@ -81,8 +94,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
     }
 
     packagingOptions {
@@ -126,7 +139,7 @@ play {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.appcompat:appcompat-resources:$appCompatVersion"
 

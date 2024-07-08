@@ -12,19 +12,23 @@ tasks.withType(JavaCompile) {
 
 repositories {       
     maven { url "https://github.com/krussan/maven-repo/raw/master/" }
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://repo.maven.apache.org/maven2" }
 }
 
-task archiveZip(type: Zip, dependsOn: 'build') {
-	baseName = 'fiatlux-server'
-	from "$libsDir"
-	destinationDir = new File("$buildDir")
-   include "**/*"
+tasks.register('archiveZip', Zip) {
+    dependsOn 'build'
+    archiveBaseName = 'fiatlux-server'
+    destinationDirectory = base.distsDirectory
+    into('.') { from('.') { include '**/*' } }
 }
 
 build {
 	doLast {
-		def runFile=new File("$libsDir/run.sh")
+      def libsDir = base.libsDirectory.get()
+      def runFile = libsDir.file("run.sh").asFile
+      def jarFile = fatJar.archiveFileName.get()
+      println(runFile)
+
       runFile.withWriter('UTF-8') { writer ->
 			writer.writeLine('#!/bin/sh')
 			writer.writeLine('if [ -n "$LD_LIBRARY_PATH" ]')
@@ -34,7 +38,7 @@ build {
 			writer.writeLine('   LD_LIBRARY_PATH=$PWD')
 			writer.writeLine('fi')
 			writer.writeLine('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH')
-			writer.writeLine("java -jar $fatJar.archiveName" + ' ${1+"$@"} &')
+			writer.writeLine("java -jar $jarFile" + ' ${1+"$@"} &')
 		}
 
 		copy {
@@ -49,12 +53,12 @@ build {
 }
 
 compileJava {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {
-  baseName 'fiatlux-server'
+  archiveBaseName = 'fiatlux-server'
 
   manifest {
     attributes(
@@ -65,11 +69,12 @@ jar {
 
 task fatJar(type: Jar) {
   manifest.from jar.manifest
-  classifier = 'all'
-  baseName 'fiatlux-server'
+  archiveClassifier = 'all'
+  archiveBaseName = 'fiatlux-server'
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
   from {
-    configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+    configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   } {
     exclude "META-INF/*.SF"
     exclude "META-INF/*.DSA"
@@ -83,16 +88,22 @@ artifacts {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.12.0'
-    compile 'org.apache.commons:commons-lang3:3.9'
-    compile 'net.java.dev.jna:jna:4.2.2'
-    compile 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
-    compile 'it.sauronsoftware.cron4j:cron4j:2.2.5'
-    compile 'org.apache.logging.log4j:log4j-api:2.13.3'
-    compile 'org.apache.logging.log4j:log4j-core:2.13.3'
-    compile 'net.sourceforge.argparse4j:argparse4j:0.8.1'
-    compile "io.grpc:grpc-netty-shaded:${grpcVersion}"
-    compile project(':se.qxx.fiatlux.domain')
-    testCompile 'junit:junit:4.12'
+    implementation 'com.google.protobuf:protobuf-java:3.25.3'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'net.java.dev.jna:jna:4.2.2'
+    implementation 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
+    implementation 'it.sauronsoftware.cron4j:cron4j:2.2.5'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.1'
+    annotationProcessor 'org.apache.logging.log4j:log4j-core:2.17.1'
+    implementation 'net.sourceforge.argparse4j:argparse4j:0.8.1'
+    implementation "io.grpc:grpc-netty-shaded:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation project(':se.qxx.fiatlux.domain')
+    testImplementation 'junit:junit:4.13.1'
 }
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}

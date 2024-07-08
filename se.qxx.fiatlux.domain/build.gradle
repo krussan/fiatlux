@@ -6,18 +6,12 @@ version = rootProject.findProperty('version') ?: '1.0'
 
 description = """domain-model"""
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-def appProtocExec = project.findProperty('protocExec') ?: '/usr/bin/protoc'
-def nettyTcNativeVersion = '2.0.7.Final'
-
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:3.9.0'
-    compile "io.grpc:grpc-protobuf:${grpcVersion}"
-    compile "io.grpc:grpc-stub:${grpcVersion}"
-    compile "javax.annotation:javax.annotation-api:1.3.1"
-    testCompile 'junit:junit:4.12'
+    implementation 'com.google.protobuf:protobuf-java:3.25.3'
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation "javax.annotation:javax.annotation-api:1.3.1"
+    testImplementation 'junit:junit:4.13.1'
 }
 
 sourceSets {

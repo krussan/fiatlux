@@ -1,7 +1,7 @@
 package se.qxx.android.fiatlux.client;
 
 import com.google.common.util.concurrent.FutureCallback;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import se.qxx.android.tools.ResponseListener;
 import se.qxx.android.tools.ResponseMessage;
 
@@ -36,7 +36,7 @@ public class FiatluxFuture<T> implements FutureCallback<T> {
     }
 
     @Override
-    public void onSuccess(@NullableDecl T result) {
+    public void onSuccess(@Nullable T result) {
         if (callback != null)
             callback.run(result);
 

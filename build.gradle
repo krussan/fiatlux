@@ -1,14 +1,14 @@
-rootProject.version = '0.4.5'
+rootProject.version = '0.4.6'
 
 buildscript {
-    ext.grpcVersion = '1.26.0' // CURRENT_GRPC_VERSION
+    ext.grpcVersion = '1.65.0' // CURRENT_GRPC_VERSION
     repositories {
         google()
         mavenCentral()
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:8.5.0'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.14'
         classpath 'com.github.triplet.gradle:play-publisher:2.8.1'
     }
@@ -17,7 +17,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
         mavenLocal()
         mavenCentral()
        maven {
@@ -26,6 +25,6 @@ allprojects {
     }
 }
 
-task printVersion {
-  println rootProject.version
+task outputVersion {
+    new File(projectDir, "version.txt").text = "$rootProject.version"
 }
