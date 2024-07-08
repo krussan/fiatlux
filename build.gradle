@@ -25,6 +25,6 @@ allprojects {
     }
 }
 
-task outputVersion {
+tasks.register('outputVersion') {
     new File(projectDir, "version.txt").text = "$rootProject.version"
 }
