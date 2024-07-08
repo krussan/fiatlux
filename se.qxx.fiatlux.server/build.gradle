@@ -18,8 +18,17 @@ repositories {
 tasks.register('archiveZip', Zip) {
     dependsOn 'build'
     archiveBaseName = 'fiatlux-server'
-    destinationDirectory = base.distsDirectory
-    into('.') { from('.') { include '**/*' } }
+    into('.') {
+        from('.') {
+            include '**/*'
+            exclude '.gradle/**'
+            exclude 'build/classes/**'
+            exclude 'build/distributions/**'
+            exclude 'build/resouces/**'
+            exclude 'build/tmp/**'
+            exclude 'build/generated/**'
+        }
+    }
 }
 
 build {

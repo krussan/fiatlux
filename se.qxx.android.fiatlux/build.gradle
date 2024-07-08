@@ -35,13 +35,14 @@ subprojects {
 
 android {
     namespace = 'se.qxx.android.fiatlux'
-    compileSdkVersion 33
+
     // buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "se.qxx.android.fiatlux"
+        compileSdk 34
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode appVersionCode
         versionName appVersionName
         setProperty("archivesBaseName", "fiatlux-$versionName")
@@ -49,18 +50,18 @@ android {
 
     signingConfigs {
         release {
-			if (System.env['RELEASE_STORE_FILE'] != null)
-	            storeFile file(System.env['RELEASE_STORE_FILE'])
+			if (System.getenv('RELEASE_STORE_FILE') != null)
+	            storeFile file(System.getenv('RELEASE_STORE_FILE'))
 
-			if (System.env["RELEASE_STORE_PASSWORD"] != null)
-	            storePassword System.env["RELEASE_STORE_PASSWORD"]
+			if (System.getenv("RELEASE_STORE_PASSWORD") != null)
+	            storePassword System.getenv("RELEASE_STORE_PASSWORD")
 		
-			if (System.env["RELEASE_KEY_ALIAS"] != null)
-	            keyAlias System.env["RELEASE_KEY_ALIAS"]
+			if (System.getenv("RELEASE_KEY_ALIAS") != null)
+	            keyAlias System.getenv("RELEASE_KEY_ALIAS")
 		
-			if (System.env["RELEASE_KEY_PASSWORD"] != null)
-	            keyPassword System.env["RELEASE_KEY_PASSWORD"]
-			
+			if (System.getenv("RELEASE_KEY_PASSWORD") != null)
+	            keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+
 			if (project.hasProperty("RELEASE_STORE_FILE"))
 	            storeFile file(RELEASE_STORE_FILE)
 
