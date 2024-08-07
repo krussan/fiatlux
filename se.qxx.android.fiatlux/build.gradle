@@ -19,7 +19,6 @@ def appVersionParts = appVersionName.split("\\.")
 def appVersionCode = Integer.valueOf(appVersionParts[0]) * 10000 + Integer.valueOf(appVersionParts[1]) * 100 + Integer.valueOf(appVersionParts[2])
 def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
 def appCompatVersion = "1.2.0"
-def designSupportVersion = "1.0.0"
 
 subprojects {
     afterEvaluate { project ->
