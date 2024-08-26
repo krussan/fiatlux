@@ -97,7 +97,7 @@ artifacts {
 }
 
 dependencies {
-    implementation 'com.google.protobuf:protobuf-java:3.25.3'
+    implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'net.java.dev.jna:jna:4.2.2'
     implementation 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
@@ -107,6 +107,7 @@ dependencies {
     implementation 'net.sourceforge.argparse4j:argparse4j:0.8.1'
     implementation "io.grpc:grpc-netty-shaded:${grpcVersion}"
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf-lite:${grpcVersion}"
     implementation "io.grpc:grpc-stub:${grpcVersion}"
     implementation project(':se.qxx.fiatlux.domain')
     testImplementation 'junit:junit:4.13.1'

@@ -1,7 +1,8 @@
 rootProject.version = '0.4.10'
 
 buildscript {
-    ext.grpcVersion = '1.65.0' // CURRENT_GRPC_VERSION
+    ext.protobufVersion = '3.25.3'
+    ext.grpcVersion = '1.66.0'
     repositories {
         google()
         mavenCentral()
