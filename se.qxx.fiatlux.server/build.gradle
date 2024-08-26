@@ -48,6 +48,7 @@ build {
 			writer.writeLine('fi')
 			writer.writeLine('export LD_LIBRARY_PATH=$LD_LIBRARY_PATH')
 			writer.writeLine("java -jar $jarFile" + ' ${1+"$@"} &')
+            writer.writeLine("echo \$! > fiatlux.pid")
 		}
 
 		copy {
@@ -102,8 +103,9 @@ dependencies {
     implementation 'net.java.dev.jna:jna:4.2.2'
     implementation 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
     implementation 'it.sauronsoftware.cron4j:cron4j:2.2.5'
-    implementation 'org.apache.logging.log4j:log4j-api:2.17.1'
-    annotationProcessor 'org.apache.logging.log4j:log4j-core:2.17.1'
+    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    implementation 'io.perfmark:perfmark-api:0.27.0'
     implementation 'net.sourceforge.argparse4j:argparse4j:0.8.1'
     implementation "io.grpc:grpc-netty-shaded:${grpcVersion}"
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
