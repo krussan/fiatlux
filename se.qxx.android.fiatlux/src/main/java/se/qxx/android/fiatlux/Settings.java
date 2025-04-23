@@ -22,7 +22,11 @@ public class Settings extends SettingsBase {
 	}
 
 	public int getServerPort() {
-		return Integer.parseInt(preferences.getString(SERVER_PORT, "2150"));
+		try {
+			return Integer.parseInt(preferences.getString(SERVER_PORT, "2150"));
+		} catch(NumberFormatException ex) {
+			return 2150
+		}
 	}
 
 	public void setServerPort(int _serverPort) {
