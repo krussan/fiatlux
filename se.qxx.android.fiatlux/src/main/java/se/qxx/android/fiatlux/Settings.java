@@ -25,7 +25,7 @@ public class Settings extends SettingsBase {
 		try {
 			return Integer.parseInt(preferences.getString(SERVER_PORT, "2150"));
 		} catch(NumberFormatException ex) {
-			return 2150
+			return 2150;
 		}
 	}
 
