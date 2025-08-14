@@ -39,9 +39,9 @@ android {
 
     defaultConfig {
         applicationId "se.qxx.android.fiatlux"
-        compileSdk 34
+        compileSdk 35
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode appVersionCode
         versionName appVersionName
         setProperty("archivesBaseName", "fiatlux-$versionName")

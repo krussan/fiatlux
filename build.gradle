@@ -1,4 +1,4 @@
-rootProject.version = '0.4.12'
+rootProject.version = '0.4.13'
 
 buildscript {
     ext {
@@ -14,9 +14,9 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.0'
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.9.4'
-        classpath 'com.github.triplet.gradle:play-publisher:3.10.1'
+        classpath 'com.android.tools.build:gradle:8.12.0'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.9.5'
+        classpath 'com.github.triplet.gradle:play-publisher:3.12.1'
     }
 }
 
