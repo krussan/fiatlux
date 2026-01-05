@@ -8,10 +8,8 @@ import se.qxx.android.fiatlux.OnOffHandler;
 import se.qxx.android.fiatlux.R;
 import se.qxx.android.fiatlux.RoundKnobButton;
 import se.qxx.android.fiatlux.RoundKnobButton.RoundKnobButtonListener;
-import se.qxx.fiatlux.domain.FiatluxComm;
 import se.qxx.fiatlux.domain.FiatluxComm.Device;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -89,9 +87,9 @@ public class DimmerActivity extends AppCompatActivity implements DeviceUpdatedLi
 		Log.d("DimmerActivity", String.format("width :: %s", dm.widthPixels));
 		Log.d("DimmerActivity", String.format("fFrameS :: %s", fFrameS));
 				
-		float s = (float)v * fFrameS; 
-		
-		int rs = 0;
+		float s = (float)v * fFrameS;
+
+		int rs;
 		if (s - (int)s >= 0.5) rs= ((int)s)+1; else rs= (int)s;
 		
 		return rs;

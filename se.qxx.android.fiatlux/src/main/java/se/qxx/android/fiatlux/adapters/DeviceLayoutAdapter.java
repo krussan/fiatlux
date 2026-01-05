@@ -17,7 +17,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -53,22 +56,40 @@ public class DeviceLayoutAdapter extends DeviceAdapter implements CompoundButton
 	            v = vi.inflate(R.layout.item_device, parent, false);
 	        }
 	        Device d = (Device)this.getItem(position);
-	        
+
 	        if (d != null) {
                 Date dd = new Date(d.getNextScheduledTime());
                 DateFormat df  = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
-                GUITools.setTextOnTextview(R.id.lblDeviceName, d.getName(), v);
-                GUITools.setTextOnTextview(
+				SwitchCompat toggle = v.findViewById(R.id.toggleDevice);
+				TextView txtDevice = v.findViewById(R.id.txtDeviceName);
+
+				GUITools.setTextOnTextview(
 					R.id.txtNextSchedulingTime,
 					String.format("Turn %s at %s",d.getNextAction(), df.format(dd)),
 					v);
 
-                Switch toggle = v.findViewById(R.id.lblDeviceName);
-                toggle.setChecked(d.getIsOn());
+				DeviceToggleSwitchListener listener = new DeviceToggleSwitchListener(getContext(), d, this.getHandler());
 
-                DeviceToggleSwitchListener listener = new DeviceToggleSwitchListener(getContext(), d, this.getHandler());
-                toggle.setOnClickListener(listener);
+				if (d.getType() == FiatluxComm.DeviceType.dimmer) {
+					toggle.setVisibility(View.GONE);
+					txtDevice.setVisibility(View.VISIBLE);
+					GUITools.setTextOnTextview(R.id.txtDeviceName, d.getName(), v);
+
+					txtDevice.setOnClickListener(listener);
+				}
+				else {
+					toggle.setVisibility(View.VISIBLE);
+					txtDevice.setVisibility(View.GONE);
+
+					GUITools.setTextOnTextview(R.id.toggleDevice, d.getName(), v);
+					toggle.setChecked(d.getIsOn());
+
+					toggle.setOnClickListener(listener);
+				}
+
+
+
 
 	    	}
 		}

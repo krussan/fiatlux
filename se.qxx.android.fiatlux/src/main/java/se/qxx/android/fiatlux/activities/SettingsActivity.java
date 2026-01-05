@@ -1,6 +1,5 @@
 package se.qxx.android.fiatlux.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
