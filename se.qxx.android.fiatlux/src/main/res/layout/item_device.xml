@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/lblDeviceName"
-        android:id="@+id/lblDeviceName"
+        android:id="@+id/toggleDevice"
         android:checked="false"
         android:padding="16dp"
         android:textAllCaps="false"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lblDeviceName"
+        android:id="@+id/txtDeviceName"
+        android:checked="false"
+        android:padding="16dp"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:text="@string/txtNextRunDate"

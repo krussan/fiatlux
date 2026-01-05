@@ -4,11 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -49,6 +46,7 @@ public class FiatLuxMainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         swipeLayout = findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setProgressViewOffset(false, 0, 100);
 
         Settings.init(this);
         this.setHandler(new OnOffHandler(this, this));
@@ -103,7 +101,7 @@ public class FiatLuxMainActivity extends AppCompatActivity
             if (getHandler().isConnected())
                 initModel();
             else
-                Toast.makeText(this, R.string.noWifiConnection, Toast.LENGTH_SHORT);
+                Toast.makeText(this, R.string.noWifiConnection, Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -117,9 +115,7 @@ public class FiatLuxMainActivity extends AppCompatActivity
 
     @Override
     public void dataChanged(final Device device) {
-        runOnUiThread(() -> {
-            deviceLayoutAdapter.updateDevice(device);
-        });
+        runOnUiThread(() -> deviceLayoutAdapter.updateDevice(device));
     }
 
     public void registerReceiver() {
