@@ -25,9 +25,6 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
-      - name: Change script permissions
-        run: chmod +x ./*.sh
-
       - name: Set version and variables
         run: |
           ./gradlew outputVersion
@@ -35,9 +32,6 @@ jobs:
           echo "FIATLUX_VERSION=$VERSION" >> $GITHUB_ENV
           echo "FIATLUX_TAG=v$VERSION" >> $GITHUB_ENV
           echo "LD_LIBRARY_PATH=$GITHUB_WORKSPACE/ci:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-
-      - name: Unpack protoc
-        run: unzip ci/protoc.zip -d ci
 
       - name: Change script permissions
         run: chmod 775 ci/*.sh

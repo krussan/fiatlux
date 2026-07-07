@@ -1,7 +1,8 @@
 package se.qxx.android.fiatlux.client;
 
 import com.google.common.util.concurrent.FutureCallback;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import javax.annotation.Nullable;
+
 import se.qxx.android.tools.ResponseListener;
 import se.qxx.android.tools.ResponseMessage;
 

@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath "com.android.tools.build:gradle:${gradlePluginVersion}"
     }
 }
 
@@ -18,7 +18,7 @@ def appVersionName = rootProject.findProperty('version') ?: '1.0'
 def appVersionParts = appVersionName.split("\\.")
 def appVersionCode = Integer.valueOf(appVersionParts[0]) * 10000 + Integer.valueOf(appVersionParts[1]) * 100 + Integer.valueOf(appVersionParts[2])
 def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
-def appCompatVersion = "1.2.0"
+def appCompatVersion = "1.7.1"
 
 subprojects {
     afterEvaluate { project ->
@@ -39,12 +39,11 @@ android {
 
     defaultConfig {
         applicationId "se.qxx.android.fiatlux"
-        compileSdk 35
+        compileSdk 36
         minSdkVersion 23
-        targetSdkVersion 35
+        targetSdkVersion 37
         versionCode appVersionCode
         versionName appVersionName
-        setProperty("archivesBaseName", "fiatlux-$versionName")
     }
 
     signingConfigs {
@@ -89,31 +88,30 @@ android {
         }
     }
 
-    lintOptions {
-        disable 'GoogleAppIndexingWarning'
-    }
 
     compileOptions {
         targetCompatibility JavaVersion.VERSION_17
         sourceCompatibility JavaVersion.VERSION_17
     }
-
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/ASL2.0'
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'META-INF/io.netty.versions.properties'
-        exclude 'META-INF/native-image/**'
+        jniLibs {
+            excludes += ['META-INF/native-image/**']
+        }
+        resources {
+            excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/license.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/notice.txt', 'META-INF/ASL2.0', 'META-INF/INDEX.LIST', 'META-INF/io.netty.versions.properties', 'META-INF/native-image/**']
+        }
     }
+    lint {
+        disable 'GoogleAppIndexingWarning'
+    }
+
 }
 
-def publish = project.tasks.create("publishAll");
+base {
+    archivesName = "fiatlux-$appVersionName"
+}
+
+def publish = project.tasks.register("publishAll");
 if (project.hasProperty("RELEASE_DEPLOY_PATH")) {
     def deployPath = project.properties["RELEASE_DEPLOY_PATH"];
     def folder = new File(deployPath)
@@ -121,7 +119,7 @@ if (project.hasProperty("RELEASE_DEPLOY_PATH")) {
     if (folder.exists()) {
         android.applicationVariants.all { variant ->
             variant.outputs.each { output ->
-                def task = project.tasks.create("publish" + variant.name.capitalize() + "Apk", Copy)
+                def task = project.tasks.register("publish" + variant.name.capitalize() + "Apk", Copy)
 
                 task.from(output.outputFile)
                 task.into(folder)
@@ -139,7 +137,7 @@ play {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.appcompat:appcompat-resources:$appCompatVersion"
 
@@ -149,7 +147,7 @@ dependencies {
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
     implementation "io.grpc:grpc-stub:${grpcVersion}"
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0"
 
 }
 
