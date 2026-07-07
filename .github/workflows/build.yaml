@@ -25,9 +25,6 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
-      - name: Change script permissions
-        run: chmod +x ./*.sh
-
       - name: Set version and variables
         run: |
           ./gradlew outputVersion
