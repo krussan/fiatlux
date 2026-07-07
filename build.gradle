@@ -1,4 +1,4 @@
-rootProject.version = '0.4.14'
+rootProject.version = '0.4.15'
 
 buildscript {
     ext {
