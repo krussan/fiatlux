@@ -1,4 +1,4 @@
-rootProject.version = '0.4.16'
+rootProject.version = '0.4.17'
 
 buildscript {
     ext {
@@ -16,7 +16,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${gradlePluginVersion}"
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.10.0'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.10.1'
         classpath 'com.github.triplet.gradle:play-publisher:3.13.0'
     }
 }
