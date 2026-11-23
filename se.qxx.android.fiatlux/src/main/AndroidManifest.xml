@@ -18,7 +18,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:theme="@style/AppTheme.Settings"
+        />
         <activity android:name=".activities.DimmerActivity" />
 
     </application>

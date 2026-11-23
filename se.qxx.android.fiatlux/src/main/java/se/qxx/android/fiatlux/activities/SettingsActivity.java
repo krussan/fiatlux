@@ -7,12 +7,10 @@ public class SettingsActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-	  // TODO Auto-generated method stub
-	  super.onCreate(savedInstanceState);
-	  
-	  getFragmentManager().beginTransaction()
-  		.replace(android.R.id.content, new SettingsFragment())
-  		.commit();		
-	}
+		super.onCreate(savedInstanceState);
 
+		getSupportFragmentManager().beginTransaction()
+				.replace(android.R.id.content, new SettingsFragment())
+				.commit();
+	}
 }

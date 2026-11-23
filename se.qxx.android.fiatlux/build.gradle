@@ -18,7 +18,7 @@ def appVersionName = rootProject.findProperty('version') ?: '1.0'
 def appVersionParts = appVersionName.split("\\.")
 def appVersionCode = Integer.valueOf(appVersionParts[0]) * 10000 + Integer.valueOf(appVersionParts[1]) * 100 + Integer.valueOf(appVersionParts[2])
 def appJsonFile = project.findProperty('apiJsonFile') ?: '../ci/api.json'
-def appCompatVersion = "1.7.1"
+def appCompatVersion = "1.8.0"
 
 subprojects {
     afterEvaluate { project ->
@@ -149,7 +149,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0"
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.3.0"
-
+    implementation "androidx.preference:preference:1.2.1"
 }
 
 
