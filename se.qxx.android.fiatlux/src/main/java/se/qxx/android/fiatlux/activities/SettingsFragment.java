@@ -1,16 +1,20 @@
 package se.qxx.android.fiatlux.activities;
 
+import android.view.View;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+import androidx.preference.PreferenceFragmentCompat;
 
 import se.qxx.android.fiatlux.R;
 
-public class SettingsFragment extends PreferenceFragment {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+public class SettingsFragment extends PreferenceFragmentCompat {
 
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
+    @Override
+    public void onCreatePreferences(
+            Bundle savedInstanceState,
+            String rootKey) {
+
+        setPreferencesFromResource(
+                R.xml.preferences, rootKey
+        );
     }
 }
