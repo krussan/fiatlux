@@ -39,7 +39,7 @@ android {
 
     defaultConfig {
         applicationId "se.qxx.android.fiatlux"
-        compileSdk 36
+        compileSdk 37
         minSdkVersion 23
         targetSdkVersion 37
         versionCode appVersionCode
@@ -104,6 +104,7 @@ android {
     lint {
         disable 'GoogleAppIndexingWarning'
     }
+    compileSdkVersion 'android-37.1'
 
 }
 

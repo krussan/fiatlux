@@ -1,16 +1,24 @@
 package se.qxx.android.fiatlux.activities;
 
+import android.Manifest;
+import android.app.Activity;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import se.qxx.android.fiatlux.DeviceUpdatedListener;
 import se.qxx.android.fiatlux.OnOffHandler;
@@ -39,6 +47,21 @@ public class FiatLuxMainActivity extends AppCompatActivity
 
     private OnOffHandler handler;
 
+    private final ActivityResultLauncher<String> localNetworkPermissionLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    isGranted -> {
+                        if (isGranted) {
+                            initializeApp();
+                        } else {
+                            Toast.makeText(this,
+                                    "Local network permission is required",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+            );
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +71,35 @@ public class FiatLuxMainActivity extends AppCompatActivity
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setProgressViewOffset(false, 0, 100);
 
+        checkLocalNetworkPermission();
+
+    }
+
+    private void checkLocalNetworkPermission() {
+
+        // Permission is only required when running Android 17
+        // with target SDK 37 or higher.
+        if (Build.VERSION.SDK_INT >= 37 &&
+                getApplicationInfo().targetSdkVersion >= 37) {
+
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_LOCAL_NETWORK)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                localNetworkPermissionLauncher.launch(
+                        Manifest.permission.ACCESS_LOCAL_NETWORK);
+                return;
+            }
+        }
+
+        initializeApp();
+    }
+
+    private void initializeApp() {
         Settings.init(this);
         this.setHandler(new OnOffHandler(this, this));
-
         registerReceiver();
-
     }
 
     @Override
